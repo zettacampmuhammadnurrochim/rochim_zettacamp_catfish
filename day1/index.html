@@ -6,51 +6,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zettacamp - day 1</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
+
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav>
         <div class="container">
-            <a class="navbar-brand" href="#">My Biodata</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            
+            <ul id="navbar-list">
+                <li>
+                    <a class="navbar-content active" href="/index.html">Home</a>
+                </li>
+                <li>
+                    <a class="navbar-content" href="../content/about.html">About</a>
+                </li>
+                <li>
+                    <a class="navbar-content" href="../content/contact.html">Contact</a>
+                </li>
+            </ul>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-md-3">
-                <img src="foto.jpg" width="200" alt="">
+
+    <div class="container relative content">
+        <ul class="breadcrumb">
+            <li><a href="javascript:void(0)">my web</a></li>
+            <li><a href="#">home</a></li>
+        </ul>
+
+        <h1 class="heading">home</h1>
+        <div class="flex-container">
+            <div class="flex-item-left">
+                <div class="card">
+                    <img src="foto.jpg" width="100%" alt="">
+                    <div class="container">
+                      <h4><b>Muhammad Nur Rochim</b></h4>
+                      <p>Back-End Enginer & System Analyst</p>
+                    </div>
+                  </div>
+                
             </div>
-            <div class="col-md-9" class="" style="text-align: justify;text-justify: inter-word;color:black">
-                Hobby: coding, gaming, traveling
-                Capability (skills and your technology): Laravel framework, mysql, API, firebase cloud messaging, c,
-                c++, html,
-                css, php, kotlin, visual basic, java, javascript, node.js, mongodb
-                Short introduction:
-                I entered the University of Amikom Yogyakarta majoring in information systems in 2018 and graduated in
-                2022. I
-                am very happy with the world of coding maybe it is my passion and i hope to join zettabyte.
-                Reasons of joining Zettacamp: Honestly the reason is because zettacamp is held by a multi-national
-                company from
-                singapore I hope to get a valuable lesson here. I follow zettacamp because I want to be part of the
-                zettabyte
-                company. I am interested in following zettacamp because I want to learn no sql (unstructured database)
-                using
-                node js and mongo db
+            <div class="flex-item-right" style="text-align: justify;text-justify: inter-word;color:black">
+                halo perkenalkan nama aku muhammad nur rochim aku sekarang sedang mengikuti kegiatan bootcamp dari zettabyte yaitu zettacamp. pada penugasan kali ini aku diharuskan untuk membuat
+                web html dengan beberapa hal yang harus diperhatikan untuk mengimplementasikan dari apa yang sudah dipelajari kemarin.
+                <br>
+                <br>
 
                 <table class="table table-bordered table-striped mt-4">
                     <thead>
@@ -80,7 +81,14 @@
                 </table>
             </div>
         </div>
+        <footer>
+            <p>Author: muhammad nur rochim<br>
+                <a href="mailto:muhammad.rochim@zettacamp.sg">muhammad.rochim@zettacamp.sg</a></p>
+        </footer>
+
     </div>
+
+    
 </body>
 
 
