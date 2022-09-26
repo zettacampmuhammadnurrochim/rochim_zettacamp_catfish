@@ -1,0 +1,68 @@
+/* // X-Small devices (portrait phones, less than 576px) */
+/* // No media query for `xs` since this is the default in Bootstrap */
+
+/* // Small devices (landscape phones, 576px and up) */
+@media screen and (min-width: 576px) {
+    .about{
+        height: auto;
+        overflow: hidden;
+    }
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media screen and (min-width: 768px) {
+    .about{
+        height: 500px;
+        overflow: hidden;
+    }
+}
+
+/* // Large devices (desktops, 992px and up) */
+@media screen and (min-width: 992px) {
+    .section {
+        height: auto;
+        padding-bottom: 30px;
+    }
+    .about{
+        height: 500px;
+        overflow: hidden;
+    }
+    .input-search {
+        width: 300px;
+    }
+
+    .description-header {
+        margin-left: 40px;
+    }
+}
+
+/* // X-Large devices (large desktops, 1200px and up) */
+@media screen and (min-width: 1200px) {}
+
+/* // XX-Large devices (larger desktops, 1400px and up) */
+@media screen and (min-width: 1400px) {}
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+/* // X-Small devices (portrait phones, less than 576px) */
+@media screen and (max-width: 575.98px) {}
+
+/* // Small devices (landscape phones, less than 768px) */
+@media screen and (max-width: 767.98px) {
+    .about{
+        height: 500px;
+        overflow: hidden;
+    }
+}
+
+/* // Medium devices (tablets, less than 992px) */
+@media screen and (max-width: 991.98px) {}
+
+/* // Large devices (desktops, less than 1200px) */
+@media screen and (max-width: 1199.98px) {}
+
+/* // X-Large devices (large desktops, less than 1400px) */
+@media screen and (max-width: 1399.98px) {}
+
+/* // XX-Large devices (larger desktops) */
+/* // No media query since the xxl breakpoint has no upper bound on its width */
