@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zettacamp - day 1</title>
+
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/css/styleproperty.css">
+    <link rel="stylesheet" href="../asset/css/media.css">
+    <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <audio class="audio-control" controls autoplay>
+        <source src="../asset/audio/song.mp3" type="audio/ogg">
+        <source src="../asset/audio/song.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav>
+        <div class="container">
+            <ul id="navbar-list">
+                <li>
+                    <a class="navbar-content active" href="lipindex.html">Home</a>
+                </li>
+                <li>
+                    <a class="navbar-content" href="../content/about.html">About</a>
+                </li>
+                <li>
+                    <a class="navbar-content" href="../content/contact.html">Contact</a>
+                </li>
+            </ul>
+            <div class="navbar-right">
+                <div class="input-search-container">
+                    <a href="../master/assignment-list.html">
+                        <i style="color: #fff; font-size: 18px;margin: 15px;" class="fas fa-regular fa-file"></i>
+                    </a>
+                    <a href="">
+                        <i style="color: #fff; font-size: 18px;" class="fas fa-regular fa-cart-shopping"></i>
+                    </a>
+                    <input placeholder="type here..." type="text" class="input input-search">
+                    <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="second-header">
+        </div>
+    </nav>
+
+
+    <div class="container relative content">
+
+        <section class="section">
+            <h1 class="heading"><i class="fa-regular fa-file"></i> assignment</h1>
+            <div class="container-breadcrumb">
+                <ul class="breadcrumb">
+                    <li><a href="javascript:void(0)">my web</a></li>
+                    <li><a href="#">assignment</a></li>
+                </ul>
+            </div>
+
+            <div class="flex-container">
+                <div class="flex-item-left">
+                    <div id="particles-js" class="relative">
+                        <div class="absolute content-left-header" style="display: flex;">
+                            <div class="description-header">
+                                <h1 style="border-radius: 10px;"><span
+                                        style="color: #00A3FE;font-weight: 800; ">This page,</span> containing
+                                    <span style="font-family: monospace;color:red;font-size: 40px;">the list</span>
+                                    of my assignment</h1>
+                                <p style="font-size: 15px;background-color: rgba(200, 200, 200, 0.4)">coding is my
+                                    passion, so i will learing it every day!</p>
+                                <button class="btn btn-header"> <i class="fas fa-light fa-hand-pointer"></i>
+                                    start</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-item-right" style="text-align: justify;text-justify: inter-word">
+
+                    <p style="font-size: 25px;padding: 0;margin: 0;color: brown;">Assignment List</p>
+                    <section class="box">
+                <ul>
+                    <li><a style="color: #333; text-decoration: none ;" href="index.html">HTML day 1 & day 1 extra</a></li>
+                    <li><a style="color: #333; text-decoration: none ;" href="javascript:void(0)">
+                        create web profile which's describe myself its containt 3 pages : home, about, and contact 
+                    </a></li>
+                    <li><a style="color: #333; text-decoration: none ;" href="day2.html">HTML day 2</a></li>
+                    <li><a style="color: #333; text-decoration: none ;" href="javascript:void(0)">
+                        impelement special character in HTML
+                    </a></li>
+                </ul>
+            </section>
+                    <br>
+                    <br>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <footer>
+        <p>Author: muhammad nur rochim<br>
+            <a href="mailto:muhammad.rochim@zettacamp.sg">muhammad.rochim@zettacamp.sg</a></p>
+    </footer>
+</body>
+
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+<script>
+    particlesJS.load('particles-js', '../asset/js/particlesjs-config.json', function () {
+        console.log('callback - particles.js config loaded');
+    });
+    // alert("disclaimer that this page isn't responsive with screen width transform")
+</script>
+
+</html>
