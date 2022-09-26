@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zettacamp - day 1</title>
+
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/styleproperty.css">
+    <link rel="stylesheet" href="../style/media.css">
+    <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div></div>
+    <nav>
+        <div class="container">
+            <ul id="navbar-list">
+                <li>
+                    <a class="navbar-content" href="../day1/index.html">Home</a>
+                </li>
+                <li>
+                    <a class="navbar-content active" href="about.html">About</a>
+                </li>
+                <li>
+                    <a class="navbar-content" href="contact.html">Contact</a>
+                </li>
+            </ul>
+            <div class="navbar-right">
+                <div class="input-search-container">
+                    <a href="">
+                        <i style="color: #fff; font-size: 18px;" class="fas fa-regular fa-cart-shopping"></i>
+                    </a>
+                    <input placeholder="type here..." type="text" class="input input-search">
+                    <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="second-header">
+        </div>
+    </nav>
+
+
+    <div class="container relative content">
+
+        <section class="section">
+            <h1 class="heading"><i class="fa-regular fa-user"></i> about</h1>
+            <div class="container-breadcrumb">
+                <ul class="breadcrumb">
+                    <li><a href="javascript:void(0)">my web</a></li>
+                    <li><a href="#">about</a></li>
+                </ul>
+            </div>
+
+            <div class="flex-container about">
+                <div class="flex-item-left">
+                    <div id="particles-js" class="relative">
+                        <div class="grid-container-about absolute" style="margin-top: 40px">
+                            <div class="grid-item">
+                                <img src="../day1/foto.jpg" width="200px" alt="">
+                            </div>
+                            <div class="grid-item">
+                                <i class="fas fa-light fa-star"></i>
+                                biodata - nama saya muhammad nur rochim. lahir di Klaten, 2 juni 1999 dan sekarang
+                                berumur 23 tahun, tinggal di jogja lebih tepatnya di dusun caran jalan kaliurang km 11,5
+                                sinduharjo ngaglik sleman yogyakarta
+
+                            </div>
+                            <div class="grid-item">
+                                <i class="fas fa-regular fa-book"></i> pendidikan
+                                <ol>
+                                    <li>SD it Bina Anak Sholeh (BIAS) yogyakarta</li>
+                                    <li>MTs N Babadan Baru</li>
+                                    <li>SMK di SMK N 1 Seyegan</li>
+                                    <li>Universitas Amikom Yogyakarta - S1 Sistem Informasi </li>
+                                </ol>
+
+                            </div>
+                            <div class="grid-item">
+                                <i class="fa-solid fa-computer"></i>
+                                ketertarikan - saya memiliki ketertarikan di bidang komputer terutama pemrograman
+                                diawali ketika saya mengajukan diri menjadi peserta lomba desain web se-provinsi
+                                yogyakarta mewakili smk saya pada tahun 2017. dari saat itu saya menyukai dunia coding
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section bg-about-video">
+            <h1 class="heading">video saya</h1>
+            <div class="flex-container">
+                <div class="flex-item-left">
+                    <iframe style="border-radius: 10px;" width="100%" height="400px" src="https://www.youtube.com/embed/6A9h_TrSGYc">
+                    </iframe>
+                </div>
+                <div class="flex-item-right" style="text-align: justify;text-justify: inter-word">
+                    <h4>deskripsi</h4>
+                </div>
+            </div>
+
+        </section>
+        <main class="grid">
+            <section class="box">
+                <span>
+                    hobi
+                </span>
+                <ul>
+                    <li>menggambar</li>
+                    <li>barmain game</li>
+                    <li>coding</li>
+                    <li>membaca</li>
+                    <li>bernyanyi</li>
+                    <li>mengajar</li>
+                </ul>
+            </section>
+
+            <section class="box">
+                <span>
+                    game
+                </span>
+                <ul>
+                    <li>point blank</li>
+                    <li>cheese universe</li>
+                    <li>grand cheese</li>
+                    <li>homescape</li>
+                </ul>
+            </section>
+            <section class="box">
+                <span>
+                    pemrograman
+                </span>
+
+                <ul>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>Javascript</li>
+                    <li>PHP</li>
+                    <li>Laravel</li>
+                    <li>Java</li>
+                    <li>VisualBasic</li>
+                    <li>kotlin</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+
+    <footer>
+        <p>Author: muhammad nur rochim<br>
+            <a href="mailto:muhammad.rochim@zettacamp.sg">muhammad.rochim@zettacamp.sg</a></p>
+    </footer>
+</body>
+
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+<script>
+    particlesJS.load('particles-js', '../js/particlesjs-config.json', function () {
+        console.log('callback - particles.js config loaded');
+    });
+    // alert("disclaimer that this page isn't responsive with screen width transform")
+</script>
+
+</html>
