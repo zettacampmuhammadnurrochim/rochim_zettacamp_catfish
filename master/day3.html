@@ -149,14 +149,13 @@
                                             alt=""></td>
                                     <td>hoddie keren</td>
                                     <td>
-
                                         <ul>
                                             <li>biru</li>
                                             <li>hijau</li>
                                             <li>ungu</li>
                                         </ul>
                                     </td>
-                                    <td v-on:click="get_rowsData($event)" class="jumlah_item">
+                                    <td v-on:change="get_rowsData($event)" class="jumlah_item">
                                         <input type="number" value="2" min="1" class="input">
                                     </td>
                                     <td>Rp.150.000</td>
@@ -179,7 +178,7 @@
                                             <li>ungu</li>
                                         </ul>
                                     </td>
-                                    <td class="jumlah_item">
+                                    <td v-on:change="get_rowsData($event)" class="jumlah_item">
                                         <input type="number" value="2" min="1" class="input">
                                     </td>
                                     <td>Rp.150.000</td>
@@ -202,7 +201,7 @@
                                             <li>ungu</li>
                                         </ul>
                                     </td>
-                                    <td class="jumlah_item">
+                                    <td v-on:change="get_rowsData($event)" class="jumlah_item">
                                         <input type="number" value="2" min="1" class="input">
                                     </td>
                                     <td>Rp.150.000</td>
@@ -225,7 +224,7 @@
                                             <li>ungu</li>
                                         </ul>
                                     </td>
-                                    <td class="jumlah_item">
+                                    <td v-on:change="get_rowsData($event)" class="jumlah_item">
                                         <input type="number" value="2" min="1" class="input">
                                     </td>
                                     <td>Rp.150.000</td>
@@ -529,6 +528,10 @@
 <script>
     new Vue({
         el: '#template',
+        kuantitas : 0,
+        harga : 0,
+        subtotal : 0,
+        total : 0,
         data: {
             data_table: {}
         },
@@ -546,7 +549,13 @@
                 this.data_table = data;
             },
             get_rowsData : (callback) => {
-                console.log(callback);
+                this.kuantitas = parseFloat(callback.target.value) ;
+                this.harga = callback.target.parentElement.parentElement.cells[5].innerHTML;
+                this.harga = parseFloat(this.harga.replace('Rp.', '').replace('.',''));
+                total = this.kuantitas * this.harga;
+                total = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                draw = callback.target.parentElement.parentElement.cells[7].innerHTML = `Rp.${total}`;
+                console.log(draw);
             }
 
         },
