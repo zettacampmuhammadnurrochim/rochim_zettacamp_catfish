@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zettacamp - day 3</title>
+
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/css/styleproperty.css">
+    <link rel="stylesheet" href="../asset/css/media.css">
+
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.semanticui.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+    <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <audio class="audio-control" controls autoplay>
+        <source src="../asset/audio/song.mp3" type="audio/ogg">
+        <source src="../asset/audio/song.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav>
+        <div class="container">
+            <div class="navbar-right">
+                <div class="input-search-container">
+                    <input placeholder="type here..." type="text" class="input input-search">
+                    <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="second-header">
+        </div>
+    </nav>
+
+
+    <div class="container relative content">
+
+        <section class="section">
+            <h1 class="heading"><i class="fa-solid fa-newspaper"></i> HTML day 3</h1>
+            <div class="container-breadcrumb">
+                <ul class="breadcrumb">
+                    <li><a href="javascript:void(0)">my web</a></li>
+                    <li><a href="#">HTML day 3</a></li>
+                </ul>
+            </div>
+
+            <div class="flex-container">
+                <div class="flex-item-left" style="padding: 0;">
+                    <div id="particles-js" class="relative">
+                        <div class="absolute content-left-header" style="display: flex;">
+
+                            <div class="description-header">
+                                <h1 style="border-radius: 10px;"><span
+                                        style="color: #00A3FE;font-weight: 800; ">It's,</span> my assignment to
+                                    implement
+                                    <span style="font-family: monospace;color:red;font-size: 40px;">&lt;Table&gt;</span>
+                                    list for shopping list</h1>
+                                <p style="font-size: 15px;background-color: rgba(200, 200, 200, 0.4)">so check this out!
+                                </p>
+                                <button class="btn btn-header"> <i class="fas fa-light fa-hand-pointer"></i>
+                                    start</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-item-right" style="text-align: justify;text-justify: inter-word">
+
+                    <p style="font-size: 25px;padding: 0;margin: 0;color: brown;">Assignment</p>
+                    description :
+                    Update your profile page again with changing some of your sections with list and table.
+                    Create new HTML for shopping list which has:
+                    <ul>
+                        <li>Shopping List has to have description list.</li>
+                        <li>Table of the items to buy. It has the name of the item, amount, price and total.</li>
+                        <li>Inside the table, add an image for the items.</li>
+                        <li>Inside the table, add a list for items that have variety. (For example one item has many
+                            flavours)</li>
+                        <li>OPTIONAL : Use Text Formatting to make the shopping list more interesting</li>
+                    </ul>
+                    <br>
+                    <br>
+                    <div class="relative" style="height: 100px;">
+                        <ul class="list-unstyle list-horizontal overflow-visible absolute">
+                            <li>
+                                <a target="_blank" href="https://facebook.com/mamad-anjar">
+                                    <img class="hover-zoom"
+                                        src="https://cdn3.iconfinder.com/data/icons/free-social-icons/67/facebook_circle_color-512.png"
+                                        width="50px" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="https://www.instagram.com/quranan.ajabaa/">
+                                    <img class="hover-zoom"
+                                        src="https://ginio.id/wp-content/uploads/2020/01/instagram-logo.png"
+                                        width="50px" alt="">
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="https://github.com/zettacampmuhammadnurrochim/">
+                                    <img class="hover-zoom"
+                                        src="https://cdn3.iconfinder.com/data/icons/popular-services-brands/512/github-512.png"
+                                        width="50px" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <section class="section" id="template">
+            <div :text="tes"></div>
+            <h1 class="heading"><i style="color: #333; font-size: 30px;" class="fas fa-regular fa-cart-shopping"></i>
+                Shoping Cart</h1>
+            <p style="padding-left: 50px;">
+                your shopping cart, checkout to proceed to payment:
+            </p>
+
+            <div class="content-containier">
+                <div class="flex-container">
+                    <div class="flex-item-left" style="padding: 0;flex: 80%;">
+                        <table id="table_shoping" style="border-radius: 10px;" class="table tbl">
+                            <thead>
+                                <td>no</td>
+                                <td>barang</td>
+                                <td>nama</td>
+                                <td>option</td>
+                                <td>jumlah</td>
+                                <td>harga</td>
+                                <td>description</td>
+                                <td>total</td>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1.</td>
+                                    <td><img style="border-radius: 10px;" width="180px"
+                                            src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQFDHKpi0FenoAyzrYM80KZeJgfTviCN64CE5OfuvXMtnBeYoGNi87bOWDc4g9NN4aCplp47JGVxU_jgcg806nOfv3I76ko_GOGDgheD6I&usqp=CAE"
+                                            alt=""></td>
+                                    <td>hoddie keren</td>
+                                    <td>
+
+                                        <ul>
+                                            <li>biru</li>
+                                            <li>hijau</li>
+                                            <li>ungu</li>
+                                        </ul>
+                                    </td>
+                                    <td v-on:click="get_rowsData($event)" class="jumlah_item">
+                                        <input type="number" value="2" min="1" class="input">
+                                    </td>
+                                    <td>Rp.150.000</td>
+                                    <td>
+                                        barang baru dijamin ori dan bagus
+                                    </td>
+                                    <td>Rp.300.000</td>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td><img style="border-radius: 10px;" width="180px"
+                                            src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQQIlnVAzv5CH1ry1WC4yglDCwx-J6v2g45Eh-3EgSjL2agU2K9vWZdeNQ58c926vesL_w1JNSQlR-MXkd-swi4cCW9ojjbhWjwk59sV3M&usqp=CAE"
+                                            alt=""></td>
+                                    <td>blazer</td>
+                                    <td>
+
+                                        <ul>
+                                            <li>biru</li>
+                                            <li>hijau</li>
+                                            <li>ungu</li>
+                                        </ul>
+                                    </td>
+                                    <td class="jumlah_item">
+                                        <input type="number" value="2" min="1" class="input">
+                                    </td>
+                                    <td>Rp.150.000</td>
+                                    <td>
+                                        barang baru dijamin ori dan bagus
+                                    </td>
+                                    <td>Rp.300.000</td>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td><img style="border-radius: 10px;" width="180px"
+                                            src="https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSHmvlg6gNGib7YY3xBj9DMCfRZpH6f_M2-qQ88LgSig-3X3z7-M5OJrI3JAU579ZSh4T1xtlqJwpBMFvXEW2jJCzFlogdljSUvUgN3QQJ9Aj0whKQV8cDL&usqp=CAE"
+                                            alt=""></td>
+                                    <td>hoddie keren</td>
+                                    <td>
+
+                                        <ul>
+                                            <li>biru</li>
+                                            <li>hijau</li>
+                                            <li>ungu</li>
+                                        </ul>
+                                    </td>
+                                    <td class="jumlah_item">
+                                        <input type="number" value="2" min="1" class="input">
+                                    </td>
+                                    <td>Rp.150.000</td>
+                                    <td>
+                                        barang baru dijamin ori dan bagus
+                                    </td>
+                                    <td>Rp.300.000</td>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td><img style="border-radius: 10px;" width="180px"
+                                            src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSbQbu1YeovaIw3fBw9_NZBgkZpEqtr8nUg8OfPEpXJY8UPOA3GgH52rcgjdeak6oaN_pEeRxf8mVN7JPBEVZfdL2wbCiR8OA&usqp=CAE"
+                                            alt=""></td>
+                                    <td>hoddie keren</td>
+                                    <td>
+
+                                        <ul>
+                                            <li>biru</li>
+                                            <li>hijau</li>
+                                            <li>ungu</li>
+                                        </ul>
+                                    </td>
+                                    <td class="jumlah_item">
+                                        <input type="number" value="2" min="1" class="input">
+                                    </td>
+                                    <td>Rp.150.000</td>
+                                    <td>
+                                        barang baru dijamin ori dan bagus
+                                    </td>
+                                    <td>Rp.300.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="flex-container bg-about-video">
+                            <div class="flex-item-left" style="flex: 50%;">
+
+                                <form action="">
+
+                                    <div class="form-wrapper">
+                                        <label for="">have a cupon ?</label>
+                                        <input name="cupon" class="input" type="text">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="flex-item-right" style="flex: 50%; border: none;">
+                                <h1 class="heading sub-heading">Checkout</h1>
+                                <form action="">
+                                    <div class="checkout-wrapper">
+                                        <span class="checkout-label" for="">total amount</span>
+                                        <div class="total total-amount">400.000</div>
+                                    </div>
+                                    <div class="checkout-wrapper">
+                                        <span class="checkout-label" for="">discount</span>
+                                        <div class="total discount">10%</div>
+                                    </div>
+                                    <div class="checkout-wrapper">
+                                        <span class="checkout-label" for="">total</span>
+                                        <div class="total last-total">Rp.500.000</div>
+                                    </div>
+                                    <div class="form-wrapper form-checkout">
+                                        <label for="">card number</label>
+                                        <input required class="input" type="text">
+                                    </div>
+                                    <div class="bank-list">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/BANK_BRI_logo.svg/1280px-BANK_BRI_logo.svg.png"
+                                            width="70px" alt="">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png"
+                                            width="70px" alt="">
+                                        <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/1200px-BNI_logo.svg.png"
+                                            width="70px" alt="">
+                                        <img src="https://e7.pngegg.com/pngimages/415/124/png-clipart-mastercard-visa-bank-card-payment-mastercard-text-service.png"
+                                            width="70px" alt="">
+                                    </div>
+                                    <div class="text-right">
+                                        <button class="btn btn-checkout">Checkout</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="flex: 20%;" class="flex-item-right">
+                        <div class="card">
+                            <h1 class="heading sub-heading"><i style="font-size: 15px;" class="fa-solid fa-bars"></i>
+                                <span style="font-size: 18px;">Kategori</span></h1>
+                            <ul class="list-kategori">
+                                <li>elektronik
+
+                                    <ul class="collapsed">
+                                        <li>smartphone</li>
+                                        <li>tablet</li>
+                                        <li>televisi</li>
+                                        <li>radio</li>
+                                        <li>komputer</li>
+                                        <li>laptop</li>
+                                        <li>accesorries laptop</li>
+                                    </ul>
+                                </li>
+                                <li>kesehatan
+                                    <ul class="collapsed">
+                                        <li>obat</li>
+                                        <li>susu</li>
+                                        <li>madu</li>
+                                        <li>habatusauda</li>
+                                    </ul>
+                                </li>
+                                <li>kecantikan
+                                    <ul class="collapsed">
+                                        <li>face wash</li>
+                                        <li>foundation</li>
+                                        <li>BB cream</li>
+                                        <li>CC cream</li>
+                                        <li>lip stick</li>
+                                        <li>lip cream</li>
+                                        <li>powder</li>
+                                        <li>blush on</li>
+                                        <li>skin care</li>
+                                        <li>lotion</li>
+                                        <li>lulur</li>
+                                        <li>masker</li>
+                                        <li>serum</li>
+                                        <li>cream</li>
+                                    </ul>
+                                </li>
+                                <li>fashion
+                                    <ul class="collapsed">
+                                        <li>celana</li>
+                                        <li>kemaja</li>
+                                        <li>kaos</li>
+                                        <li>jeans</li>
+                                        <li>outer</li>
+                                        <li>topi</li>
+                                        <li>kacamata</li>
+                                        <li>sepatu</li>
+                                    </ul>
+                                </li>
+                                <li>rumah tangga</li>
+                                <li>pajak & pulsa</li>
+                            </ul>
+                            <h1 class="heading sub-heading"><i style="font-size: 15px;" class="fa-solid fa-filter"></i>
+                                <span style="font-size: 18px;">Filter</span></h1>
+                            <ul>
+                                <li>
+                                    lokasi
+                                    <ul>
+                                        <li>
+                                            <select class="input" name="" id="">
+                                                <option value="">D.I. Yogyakarta</option>
+                                                <option value="">Jakarta</option>
+                                                <option value="">Medan</option>
+                                                <option value="">D.I. Yogyakarta</option>
+                                                <option value="">D.I. Yogyakarta</option>
+                                                <option value="">D.I. Yogyakarta</option>
+                                                <option value="">D.I. Yogyakarta</option>
+                                                <option value="">D.I. Yogyakarta</option>
+                                            </select>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>harga
+
+                                    <ul>
+                                        <li>Tertinggi -> rendah</li>
+                                        <li>Terendah -> tinggi</li>
+                                        <li class="price-boundary">
+                                            <label for="">tetapkan batas</label>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <input type="number" class="input">
+                                                    </td>
+                                                    <td>-</td>
+                                                    <td><input type="number" class="input"></td>
+                                                </tr>
+                                            </table>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                                <li>COD</li>
+                                <li>cicilan
+                                    <ul>
+                                        <li>3-6 bulan</li>
+                                        <li>6-12 bulan</li>
+                                        <li>12-24 bulan</li>
+                                        <li>24-36 bulan</li>
+                                    </ul>
+                                </li>
+                                <li class="penilaian">penilaian
+                                    <ul>
+                                        <li>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            keatas
+                                        </li>
+                                        <li>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            keatas
+                                        </li>
+                                        <li><i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            keatas
+                                        </li>
+                                        <li>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            keatas
+                                        </li>
+                                        <li>
+                                            <i class="fa-sharp fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>keatas
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div  class="content-containier">
+                <h1>Macam-macam list pada HTML</h1>
+                #ordered List di HTML
+                <ol type="1">
+                    <li>item list</li>
+                    <li>item list</li>
+                    <li>item list</li>
+                </ol>
+
+                <ol type="A">
+                    <li>item list</li>
+                    <li>item list</li>
+                    <li>item list</li>
+                </ol>
+
+                <ol type="a">
+                    <li>item list</li>
+                    <li>item list</li>
+                    <li>item list</li>
+                </ol>
+
+                <ol type="I">
+                    <li>item list</li>
+                    <li>item list</li>
+                    <li>item list</li>
+                </ol>
+
+                <ol type="i">
+                    <li>item list</li>
+                    <li>item list</li>
+                    <li>item list</li>
+                </ol>
+
+                #Unordered List di HTML
+
+                <ul>
+                    <li>list item</li>
+                    <li>list item</li>
+                    <li>list item</li>
+                </ul>
+                <dd>
+                    <dl>
+                        item list
+                    </dl>                        
+                    <dl>
+                        item list
+                    </dl>                        
+                    <dl>
+                        item list
+                    </dl>                        
+                </dd>
+            </div>
+
+
+
+
+        </section>
+    </div>
+
+
+    <footer>
+        <p>Author: muhammad nur rochim<br>
+            <a href="mailto:muhammad.rochim@zettacamp.sg">muhammad.rochim@zettacamp.sg</a></p>
+    </footer>
+</body>
+
+<script src="/asset/js/jquery.js"></script>
+
+<script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+<script>
+    particlesJS.load('particles-js', '../asset/js/particlesjs-config.json', function () {
+        console.log('callback - particles.js config loaded');
+    });
+    // alert("disclaimer that this page isn't responsive with screen width transform")
+    $(document).ready(function () {
+        $('.table').DataTable({
+            paging: false,
+            ordering: true,
+            info: true,
+        });
+    });
+</script>
+
+<script>
+    new Vue({
+        el: '#template',
+        data: {
+            data_table: {}
+        },
+        mounted: function () {
+            console.log(this.grab_data())
+        },
+        methods: {
+            grab_data: function () {
+                let data = Array.from(document.getElementById('table_shoping').rows);
+                console.log(data.map(item => {
+                    return item.innerHTML
+                }).filter(data => {
+                    return data;
+                }));
+                this.data_table = data;
+            },
+            get_rowsData : (callback) => {
+                console.log(callback);
+            }
+
+        },
+    });
+</script>
+
+</html>
