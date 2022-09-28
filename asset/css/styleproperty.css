@@ -123,10 +123,11 @@ td {
     flex-wrap: wrap;
     align-items: stretch;
 }
-.form-checkout
-{
+
+.form-checkout {
     padding: 20px;
 }
+
 .checkout-wrapper {
     width: 100%;
     height: 30px;
@@ -134,11 +135,12 @@ td {
     padding: 20px;
 }
 
-.checkout-label{
+.checkout-label {
     width: auto;
     float: left;
 }
-.total{
+
+.total {
     font-size: 25px;
     color: #222;
     float: right;
@@ -154,12 +156,14 @@ td {
     margin: 0;
     border: solid 1px rgba(0, 0, 0, 0.2);
     flex: auto;
-    
+
 }
-.jumlah_item input{
+
+.jumlah_item input {
     border: solid 1px rgba(0, 0, 0, 0.2);
     width: 50px;
 }
+
 .btn-checkout {
     background-color: #0093E9;
     background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
@@ -169,6 +173,40 @@ td {
     padding-left: 15px;
     padding-right: 15px;
 }
-.text-right{
+
+.text-right {
     text-align: right;
+}
+
+.form-row {
+    display: flex;
+}
+
+.form-row div:nth-child(even) {
+    padding-left: 20px;
+}
+
+#form-register div {
+    margin-top: 5px;
+}
+
+.button-submit {
+    padding: 10px 15px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+}
+
+.button-reset {
+    margin: 0 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    background-color: #FBAB7E;
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
+
 }
