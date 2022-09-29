@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zettacamp - day 4</title>
+
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/css/styleproperty.css">
+    <link rel="stylesheet" href="../asset/css/media.css">
+
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.semanticui.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+    <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="container">
+                <div class="navbar-right">
+                    <div class="input-search-container">
+                        <input placeholder="type here..." type="text" class="input input-search">
+                        <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="second-header">
+            </div>
+        </nav>
+    </header>
+    <div id="template">
+
+
+        <section class="container relative content">
+            <div class="section">
+                <h1 class="heading"><i class="fa-solid fa-registered"></i>
+                    Register</h1>
+                <p style="padding-left: 50px;">
+                    register if you want to upload videos :
+                </p>
+
+                <div class="content-containier">
+                    {{form}}
+                    <form action="#" id="form" autocomplete="off">
+                        <div class="flex-container" style="text-align: left;">
+                            <div id="form-register" class="flex-item-left" style="padding: 0;flex: 60%;">
+                                <div class="form-row">
+                                    <div class="form-wrapper" style="flex: 40%;">
+                                        <label class="required" for="">first name</label>
+                                        <input v-model="form.name" id="name" class="input" type="text">
+                                    </div>
+                                    <div class="form-wrapper">
+                                        <label class="required" for="">last name</label>
+                                        <input v-model="form.last_name" id="last_name" class="input" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-wrapper" style="flex: 30%;">
+                                        <label class="required" for="">brithday</label>
+                                        <input v-model="form.brithday" id="brithday" class="input" type="date">
+                                    </div>
+                                    <div class="form-wrapper" style="flex: 30%;">
+                                        <label class="required" for="">age</label>
+                                        <input v-model="form.age" id="age" class="input" type="number">
+                                    </div>
+                                    <div class="form-wrapper">
+                                        <label class="required" for="">gender</label>
+                                        <select v-model="form.gender" name="" id="gender" class="input">
+                                            <option value="male">male</option>
+                                            <option value="female">female</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-wrapper" style="flex: 40%;">
+                                    <label class="required" for="">telpon</label>
+                                    <input v-model="form.telpon" id="telpon" class="input" type="number"
+                                        placeholder="08_____">
+                                </div>
+
+                                <div class="form-wrapper">
+                                    <label class="required" for="">email</label>
+                                    <input v-model="form.email" id="email" class="input" type="email">
+                                </div>
+                                <div class="form-wrapper">
+                                    <label class="required" for="">password</label>
+                                    <input v-model="form.password" id="password" class="input" type="password">
+                                </div>
+                                <div class="form-wrapper">
+                                    <label class="required" for="">address</label>
+                                    <textarea v-model="form.address" id="address" class="input" rows="5"
+                                        style="height: auto;"></textarea>
+                                </div>
+
+                                <div class="form-wrapper"
+                                    style="display: flex; flex-wrap: wrap; align-content: center; margin-top: 20px;">
+                                    <label for="" style="margin-bottom: 10px;">what programing language you most
+                                        interest
+                                        :</label>
+                                    <div style="flex: 50%; display: inline-block;">
+                                        <input class="input" value="Pyton" v-model="form.programing" type="checkbox">
+                                        <span class="absolute" style="margin-left: 20px;">Pyton</span>
+                                    </div>
+                                    <div style="flex: 50%; display: inline-block;">
+                                        <input class="input" value="PHP" v-model="form.programing" type="checkbox">
+                                        <span class="absolute" style="margin-left: 20px;">PHP</span>
+                                    </div>
+                                    <div style="flex: 50%; display: inline-block;">
+                                        <input class="input" value="React" v-model="form.programing" type="checkbox">
+                                        <span class="absolute" style="margin-left: 20px;">Rect</span>
+                                    </div>
+                                    <div style="flex: 50%; display: inline-block;">
+                                        <input class="input" value="Vue" v-model="form.programing" type="checkbox">
+                                        <span class="absolute" style="margin-left: 20px;">Vue</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-wrapper" style="margin-top: 30px; justify-content: flex-end;">
+                                    <input type="reset" class="button-reset">
+                                    <input type="submit" class="button-submit">
+                                </div>
+
+                            </div>
+
+
+                            <aside style="flex: 40%;padding: 0 20px; text-align: center;">
+                                <h1>upload you picture</h1>
+                                <div class="drop-zone">
+                                    <span class="drop-zone__prompt">Drop picture here or click to upload</span>
+                                    <input v-on:change="pictureChange" type="file" name="picture"
+                                        class="drop-zone__input">
+                                </div>
+                            </aside>
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="container relative content">
+            <div class="section">
+                <h1 class="heading"><i class="fa-solid fa-registered"></i>
+                    Result</h1>
+                <p style="padding-left: 50px;">
+                    Your submited form :
+                </p>
+
+                <div class="content-containier">
+                    <div class="flex-container">
+                        <div class="flex-item-left" style="flex: 30%;">
+                            <img v-bind:src="result.pictureData" style="width: 100%; height:auto;">
+                        </div>
+                        <div class="flex-item-right" style="border: none;flex:70%">
+                            <div id="form-register" class="flex-item-left result" style="padding: 0;flex: 60%;">
+                                <div class="form-row">
+                                    <div class="form-wrapper result-wrapper" style="flex: 40%;">
+                                        <label for="">first name : </label>
+                                        <span>
+                                            {{result.name}}
+                                        </span>
+                                    </div>
+                                    <div class="form-wrapper result-wrapper">
+                                        <label for="">last name : </label>
+                                        <span>
+                                            {{result.last_name}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-wrapper result-wrapper" style="flex: 30%;">
+                                        <label for="">brithday : </label>
+                                        <span>
+                                            {{result.brithday}}
+                                        </span>
+                                    </div>
+                                    <div class="form-wrapper result-wrapper" style="flex: 30%;">
+                                        <label for="">age : </label>
+                                        <span>
+                                            {{result.age}}
+                                        </span>
+                                    </div>
+                                    <div class="form-wrapper result-wrapper">
+                                        <label for="">gender : </label>
+                                        <span>
+                                            {{result.gender}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-wrapper result-wrapper" style="flex: 40%;">
+                                    <label for="">telpon : </label>
+                                    <span>
+                                        {{result.telpon}}
+                                    </span>
+                                </div>
+
+                                <div class="form-wrapper result-wrapper">
+                                    <label for="">email : </label>
+                                    <span>
+                                        {{result.email}}
+                                    </span>
+                                </div>
+                                <div class="form-wrapper result-wrapper">
+                                    <label for="">password : </label>
+                                    <span>
+                                        {{result.password}}
+                                    </span>
+                                </div>
+                                <div class="form-wrapper result-wrapper">
+                                    <label for="">address : </label>
+                                    <span>
+                                        {{result.address}}
+                                    </span>
+                                </div>
+
+                                <div class="form-wrapper result-wrapper"
+                                    style="display: flex; flex-wrap: wrap; align-content: center; margin-top: 20px;">
+                                    <label for="" style="margin-bottom: 10px;">programing language most interest
+                                        :</label>
+                                    <span>
+                                        {{result.programing}}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-wrapper" style="margin-top: 30px; justify-content: flex-end;">
+                        <a href="day5_2.html" class="button-submit">list</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+    <footer>
+        <p>Author: muhammad nur rochim<br>
+            <a href="mailto:muhammad.rochim@zettacamp.sg">muhammad.rochim@zettacamp.sg</a></p>
+    </footer>
+
+</body>
+
+<script src="../asset/js/jquery.js"></script>
+<script src="../connection.js"></script>
+<script>
+    let vueApp = new Vue({
+        el: '#template',
+        data: {
+            form: {
+                name: 'muhammad',
+                last_name: 'nur rochim',
+                brithday: '2022-09-07',
+                age: '4',
+                telpon: '082215441119',
+                gender: 'male',
+                email: 'muhammad@gmail.com',
+                password: '12381941}:}_+)+Zeradjp',
+                address: 'caran jalan kaliurang km 11,5',
+                programing: [],
+                foto: '',
+            },
+            result: {
+                name: 'muhammad',
+                last_name: 'nur rochim',
+                brithday: '2022-09-07',
+                age: '4',
+                telpon: '082215441119',
+                gender: 'male',
+                email: 'muhammad@gmail.com',
+                password: '12381941}:}_+)+Zeradjp',
+                address: 'caran jalan kaliurang km 11,5',
+                programing: [],
+                pictureData: '',
+            },
+            pictureData: '',
+        },
+        mounted: function () {
+            this.define_form_validate();
+        },
+        methods: {
+            define_form_validate: function () {
+                const validation = new JustValidate('#form');
+                validation
+                    .addField('#name', [{
+                            rule: 'required',
+                            errorMessage: 'Name is required',
+                        },
+                        {
+                            rule: 'minLength',
+                            value: 3,
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 30,
+                        },
+                    ])
+                    .addField('#last_name', [{
+                        rule: 'required',
+                        errorMessage: 'Last Name is required',
+                    }])
+                    .addField('#brithday', [{
+                        rule: 'required',
+                        errorMessage: 'Brithday is required',
+                    }])
+                    .addField('#age', [{
+                            rule: 'required',
+                            errorMessage: 'Age is required',
+                        },
+                        {
+                            rule: 'number',
+                            errorMessage: 'input must number'
+                        }
+                    ])
+                    .addField('#gender', [{
+                        rule: 'required',
+                        errorMessage: 'Gender is required',
+                    }])
+                    .addField('#telpon', [{
+                            rule: 'required',
+                            errorMessage: 'telpon is required',
+                        },
+                        {
+                            rule: 'number',
+                            errorMessage: 'input must number'
+                        }
+                    ])
+                    .addField('#email', [{
+                            rule: 'required',
+                            errorMessage: 'Email is required',
+                        },
+                        {
+                            rule: 'email',
+                            errorMessage: 'Email is invalid!',
+                        },
+                    ])
+                    .addField('#password', [{
+                            rule: 'required',
+                            errorMessage: 'Password is required',
+                        },
+                        {
+                            rule: 'customRegexp',
+                            value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/,
+                            errorMessage: 'Password not Strong',
+                        }
+                    ])
+                    .addField('#address', [{
+                            rule: 'required',
+                            errorMessage: 'address is required',
+                        },
+                        {
+                            rule: 'minLength',
+                            value: 10,
+                        },
+                        {
+                            rule: 'maxLength',
+                            value: 50,
+                        }
+                    ]).onSuccess(event => {
+                        Swal.fire({
+                            title: 'success!',
+                            text: 'data uploaded',
+                            icon: 'success',
+                        })
+                        this.submit();
+                    })
+            },
+            submit: function () {
+                this.result = this.form;
+                this.result.pictureData = this.pictureData;
+                if (localStorage.getItem('zettacamp') !== null) {
+                    let arr = JSON.parse(localStorage.getItem("zettacamp"));
+                    arr.push(this.result);
+                    localStorage.setItem("zettacamp", JSON.stringify(arr));
+
+                } else {
+                    let arr = localStorage.setItem("zettacamp", JSON.stringify([]));
+                    console.log(arr);
+                }
+
+                console.log(arr, this.pictureData);
+                $('.drop-zone__thumb').remove();
+                $('.drop-zone__thumb').css("background-image", "none");
+                this.pictureData = '';
+                this.form = {};
+            },
+            pictureChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length) return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                    vm.pictureData = e.target.result;
+                    console.log(e.target.result);
+                    vm.form.foto = file;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+    });
+</script>
+<script src="../asset/js/upload-drag-drop.js"></script>
+
+</html>

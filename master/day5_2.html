@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zettacamp - day 4</title>
+
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/css/styleproperty.css">
+    <link rel="stylesheet" href="../asset/css/media.css">
+
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.semanticui.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css"> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+    <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="container">
+                <div class="navbar-right">
+                    <div class="input-search-container">
+                        <input placeholder="type here..." type="text" class="input input-search">
+                        <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="second-header">
+            </div>
+        </nav>
+    </header>
+    <div id="template">
+
+
+        <section class="container relative content">
+            <div class="section">
+                <h1 class="heading"><i class="fa-solid fa-registered"></i>
+                    Register Data</h1>
+                <p style="padding-left: 50px;">
+                    list user registered :
+                </p>
+                <div class="content-containier">
+                    {{result}}
+                    <table id="table_shoping" style="border-radius: 10px;" class="table tbl">
+                        <thead>
+                            <tr>
+                                <td>
+                                    No
+                                </td>
+                                <td>
+                                    Foto
+                                </td>
+                                <td>
+                                    f Name
+                                </td>
+                                <td>
+                                    l Name
+                                </td>
+                                <td>
+                                    Brithday
+                                </td>
+                                <td>
+                                    Age
+                                </td>
+                                <td>
+                                    Gender
+                                </td>
+                                <td>
+                                    Telpon
+                                </td>
+                                <td>
+                                    Email
+                                </td>
+                                <td>
+                                    Password
+                                </td>
+                                <td>
+                                    Address
+                                </td>
+                                <td>
+                                    Prog. language
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in result">
+                                <td>
+                                    {{index +1}}. 
+                                </td>
+                                <td>
+                                    <img width="100px" :src="item.pictureData" alt="foto profil" />
+                                </td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.last_name}}</td>
+                                <td>{{item.brithday}}</td>
+                                <td>{{item.age}}</td>
+                                <td>{{item.telpon}}</td>
+                                <td>{{item.gender}}</td>
+                                <td>{{item.email}}</td>
+                                <td>{{item.password}}</td>
+                                <td>{{item.address}}</td>
+                                <td>
+                                    <ul style="list-style: none;">
+                                        <li v-for="(value,index) in item.programing">
+                                            {{index+1}}. {{value}}
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <footer>
+        <p>Author: muhammad nur rochim<br>
+            <a href="mailto:muhammad.rochim@zettacamp.sg">muhammad.rochim@zettacamp.sg</a></p>
+    </footer>
+
+</body>
+<script src="../asset/js/jquery.js"></script>
+<script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="../connection.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.table').DataTable();
+    });
+</script>
+<script>
+    let vueApp = new Vue({
+        el: '#template',
+        data: {
+            result: {},
+            pictureData: '',
+        },
+        mounted: function () {
+            this.getLocalStorage();
+        },
+        methods: {
+            getLocalStorage: function () {
+                let arr = localStorage.getItem("zettacamp");
+                this.result = JSON.parse(arr);
+                console.log(JSON.parse(arr));
+            },
+        },
+    });
+</script>
+
+</html>

@@ -497,8 +497,8 @@ footer a {
 }
 
 .drop-zone {
-  max-width: 200px;
-  height: 200px;
+
+  height: 400px;
   padding: 25px;
   display: flex;
   align-items: center;
@@ -509,7 +509,7 @@ footer a {
   font-size: 20px;
   cursor: pointer;
   color: #cccccc;
-  border: 4px dashed #009578;
+  border: 4px dashed rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
 
@@ -548,4 +548,10 @@ footer a {
 }
 .just-validate-error-field{
     border: red 2px solid;
+}
+.required::after{
+    content: '*';
+    color: red;
+    position: absolute;
+    padding-left: 5px;
 }

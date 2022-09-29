@@ -182,18 +182,37 @@ td {
     display: flex;
 }
 
-.form-row div:nth-child(even) {
+.form-row > div {
     padding-left: 20px;
+}
+.form-row > div:first-child {
+    padding-left: 0px;
 }
 
 #form-register div {
     margin-top: 5px;
 }
 
+.result-wrapper {
+    margin: 0;
+ border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+}
+.result > div:nth-child(even)  {
+ background-color: #f2f2f2;
+}
+.result-wrapper label {
+    color: #000;
+    font-weight: 300;
+    /* width: auto; */
+}
+.result-wrapper span {
+    margin-left: 20px;
+}
+
 .button-submit {
     padding: 10px 15px;
     margin: 0 10px;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 10px;
     color: #fff;
     background-color: #0093E9;
@@ -203,7 +222,7 @@ td {
 .button-reset {
     margin: 0 10px;
     padding: 10px 15px;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 10px;
     color: #fff;
     background-color: #FBAB7E;
