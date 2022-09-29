@@ -388,8 +388,10 @@
                     localStorage.setItem("zettacamp", JSON.stringify(arr));
 
                 } else {
-                    let arr = localStorage.setItem("zettacamp", JSON.stringify([]));
-                    console.log(arr);
+                    localStorage.setItem("zettacamp", JSON.stringify([]));
+                    let arr = JSON.parse(localStorage.getItem("zettacamp"));
+                    arr.push(this.result);
+                    localStorage.setItem("zettacamp", JSON.stringify(arr));
                 }
 
                 console.log(arr, this.pictureData);
