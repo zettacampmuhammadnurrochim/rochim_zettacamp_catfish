@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zettacamp - day 1</title>
+
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/css/styleproperty.css">
+    <link rel="stylesheet" href="../asset/css/media.css">
+    <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <ul id="navbar-list">
+                <li>
+                    <a class="navbar-content active" href="profile/.html">profile</a>
+                </li>
+                <li>
+                    <a class="navbar-content" href="songslist.html">Song List</a>
+                </li>
+                <li>
+                    <a class="navbar-content" href="albumpreview.html">Album preview</a>
+                </li>
+            </ul>
+            <div class="navbar-right">
+                <div class="input-search-container">
+                    <input placeholder="type here..." type="text" class="input input-search">
+                    <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="second-header">
+        </div>
+    </nav>
+
+
+    <div class="container relative content">
+
+        <section class="section">
+            <h1 class="heading"><i class="fa-regular fa-user"></i> profile </h1>
+            <div class="container-breadcrumb">
+                <ul class="breadcrumb">
+                    <li><a href="javascript:void(0)">laguku.com</a></li>
+                    <li><a href="#">profile </a></li>
+                </ul>
+            </div>
+
+            <div class="flex-container about" style="overflow: none;">
+                <div class="flex-item-left">
+                    <div class="relative">
+                        <div class="grid-container-about" style="margin-top: 40px">
+                            <div class="grid-item">
+                                <img src="../asset/img/foto.jpg" width="200px" alt="">
+
+                            </div>
+                            <div class="grid-item">
+                                <h1>recent listening</h1>
+                                <ul class="header-list" style="margin: 0;padding: 0; list-style: none">
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                </ul>
+                            </div>
+                            <div class="grid-item">
+                                <h1>liekd songs</h1>
+                                <ul class="header-list" style="margin: 0;padding: 0; list-style: none">
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                </ul>
+
+                            </div>
+                            <div class="grid-item">
+                                <h1>recent podcast</h1>
+                                <ul class="header-list" style="margin: 0;padding: 0; list-style: none">
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                    <li><i class="fa-solid fa-play"></i> lagu ini</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="content-containier">
+                <div class="flex-container">
+                <div class="flex-item-left" style="flex: 70%;">
+                    <div id="form-register" class="flex-item-left result" style="padding: 0;">
+                        <div class="form-row">
+                            <div class="form-wrapper result-wrapper" style="flex: 40%;">
+                                <label for="">first name : </label>
+                                <span>
+                                    {{result.name}}
+                                </span>
+                            </div>
+                            <div class="form-wrapper result-wrapper">
+                                <label for="">last name : </label>
+                                <span>
+                                    {{result.last_name}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-wrapper result-wrapper">
+                            <label for="">email : </label>
+                            <span>
+                                {{result.email}}
+                            </span>
+                        </div>
+
+                        <div class="form-wrapper result-wrapper"
+                            style="display: flex; flex-wrap: wrap; align-content: center; margin-top: 20px;">
+                            <label for="" style="margin-bottom: 10px;">subs type
+                                :</label>
+                            <span>
+                                {{result.subs}}
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="flex-item-left" style="flex: 30%;">
+                    create play list
+                </div>
+            </div>
+            </div>
+        </section>
+
+    </div>
+
+
+    <footer>
+        <p>Author: muhammad nur rochim<br>
+            <a href="mailto:muhammad.rochim@zettacamp.sg">muhammad.rochim@zettacamp.sg</a></p>
+    </footer>
+</body>
+
+<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+<script>
+    particlesJS.load('particles-js', '../asset/js/particlesjs-config.json', function () {
+        console.log('callback - particles.js config loaded');
+    });
+    // alert("disclaimer that this page isn't responsive with screen width transform")
+</script>
+
+</html>
