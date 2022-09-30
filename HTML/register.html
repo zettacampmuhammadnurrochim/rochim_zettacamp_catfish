@@ -35,21 +35,50 @@
                     </div>
                 </div>
             </div>
-            <div class="second-header">
-            </div>
         </nav>
     </header>
     <div id="template">
-        <section class="container relative content">
-            <div class="section">
+        <section class="container relative content" style="height: 900px; margin-top: 200px;">
+            <div class="section section-register">
                 <h1 class="heading"><i class="fa-solid fa-registered"></i>
                     Register</h1>
                 <p style="padding-left: 50px;">
-                    register if you want to upload videos :
+                    to subscribe our product :
                 </p>
 
                 <div class="content-containier">
+                    <form action="#" id="form" autocomplete="off">
+                        <div class="flex-container" style="text-align: left;">
+                            <div id="form-register" class="flex-item-left" style="padding: 0;flex: 60%;">
+                                <div class="form-row">
+                                    <div class="form-wrapper" style="flex: 40%;">
+                                        <label class="required" for="">first name</label>
+                                        <input v-model="form.name" id="name" class="input" type="text">
+                                    </div>
+                                    <div class="form-wrapper">
+                                        <label class="required" for="">last name</label>
+                                        <input v-model="form.last_name" id="last_name" class="input" type="text">
+                                    </div>
+                                </div>
 
+                                <div class="form-wrapper">
+                                    <label class="required" for="">email</label>
+                                    <input v-model="form.email" id="email" class="input" type="email">
+                                </div>
+                                <div class="form-wrapper">
+                                    <label class="required" for="">password</label>
+                                    <input v-model="form.password" id="password" class="input" type="password">
+                                </div>
+                                <div class="form-wrapper" style="margin-top: 30px; justify-content: flex-end;">
+                                    <input type="reset" class="button-reset">
+                                    <input type="submit" class="button-submit">
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </form>
 
                 </div>
 
@@ -71,30 +100,10 @@
         el: '#template',
         data: {
             form: {
-                name: 'muhammad',
-                last_name: 'nur rochim',
-                brithday: '2022-09-07',
-                age: '4',
-                telpon: '082215441119',
-                gender: 'male',
-                email: 'muhammad@gmail.com',
-                password: '12381941}:}_+)+Zeradjp',
-                address: 'caran jalan kaliurang km 11,5',
-                programing: [],
-                foto: '',
-            },
-            result: {
-                name: 'muhammad',
-                last_name: 'nur rochim',
-                brithday: '2022-09-07',
-                age: '4',
-                telpon: '082215441119',
-                gender: 'male',
-                email: 'muhammad@gmail.com',
-                password: '12381941}:}_+)+Zeradjp',
-                address: 'caran jalan kaliurang km 11,5',
-                programing: [],
-                pictureData: '',
+                name: '',
+                last_name: '',
+                email: '',
+                password: '',
             },
             pictureData: '',
         },
@@ -122,32 +131,6 @@
                         rule: 'required',
                         errorMessage: 'Last Name is required',
                     }])
-                    .addField('#brithday', [{
-                        rule: 'required',
-                        errorMessage: 'Brithday is required',
-                    }])
-                    .addField('#age', [{
-                            rule: 'required',
-                            errorMessage: 'Age is required',
-                        },
-                        {
-                            rule: 'number',
-                            errorMessage: 'input must number'
-                        }
-                    ])
-                    .addField('#gender', [{
-                        rule: 'required',
-                        errorMessage: 'Gender is required',
-                    }])
-                    .addField('#telpon', [{
-                            rule: 'required',
-                            errorMessage: 'telpon is required',
-                        },
-                        {
-                            rule: 'number',
-                            errorMessage: 'input must number'
-                        }
-                    ])
                     .addField('#email', [{
                             rule: 'required',
                             errorMessage: 'Email is required',
@@ -165,19 +148,6 @@
                             rule: 'customRegexp',
                             value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/,
                             errorMessage: 'Password not Strong',
-                        }
-                    ])
-                    .addField('#address', [{
-                            rule: 'required',
-                            errorMessage: 'address is required',
-                        },
-                        {
-                            rule: 'minLength',
-                            value: 10,
-                        },
-                        {
-                            rule: 'maxLength',
-                            value: 50,
                         }
                     ]).onSuccess(event => {
                         Swal.fire({

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zettacamp - day 1</title>
+
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <link rel="stylesheet" href="../asset/css/styleproperty.css">
+    <link rel="stylesheet" href="../asset/css/media.css">
+    <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div></div>
+    <nav>
+        <div class="container">
+            <ul id="navbar-list">
+                <li>
+                    <a class="navbar-content" href="../master/index.html">Home</a>
+                </li>
+                <li>
+                    <a class="navbar-content" href="about.html">About</a>
+                </li>
+                <li>
+                    <a class="navbar-content active" href="contact.html">Contact</a>
+                </li>
+            </ul>
+            <div class="navbar-right">
+                <div class="input-search-container">
+                    <a href="../master/assignment-list.html">
+                        <i style="color: #fff; font-size: 18px;margin: 15px;" class="fas fa-regular fa-file"></i>
+                    </a>
+                    <a href="../master/day3.html">
+                        <i style="color: #fff; font-size: 18px;" class="fas fa-regular fa-cart-shopping"></i>
+                    </a>
+                    <input placeholder="type here..." type="text" class="input input-search">
+                    <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="second-header">
+        </div>
+    </nav>
+
+
+    <div class="container relative content">
+
+        <section class="section">
+            <h1 class="heading"><i class="fa-regular fa-address-book"></i> contact</h1>
+            <div class="container-breadcrumb">
+                <ul class="breadcrumb">
+                    <li><a href="javascript:void(0)">my web</a></li>
+                    <li><a href="#">contact</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div id="googleMap" style="width:100%;height:400px;"></div>
+            </div>
+
+        </section>
+
+        <section class="section">
+            <h1 class="heading">Stay Connected</h1>
+            <p style="padding-left: 50px;">
+                Stay connected with me via my social media :
+            </p>
+
+            <div id="table-container">
+                silahkan datang ke alamat saya di jalan kaliurang km11,5 sinduharjo, ngaglik, sleman, yogyakarta , 55581
+                atau anda dapat menghubungi saya melalui kontak dibawah ini
+                <table id="table-contact">
+                    <tbody>
+                        <tr>
+                            <td>telpon</td>
+                            <td>082154441119</td>
+                        </tr>
+                        <tr>
+                            <td>wa</td>
+                            <td><a href="https://wa.wizard.id/3ea340">https://wa.wizard.id/3ea340</a> </td>
+                        </tr>
+                        <tr>
+                            <td>facebook</td>
+                            <td><a
+                                    href="https://donormerahyogyakarta.com/facebook.com/mamad-anjar">https://donormerahyogyakarta.com/facebook.com/mamad-anjar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ig</td>
+                            <td><a
+                                    href="https://www.instagram.com/quranan.ajabaa/">https://www.instagram.com/quranan.ajabaa/</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>github</td>
+                            <td><a
+                                    href="https://github.com/zettacampmuhammadnurrochim">https://github.com/zettacampmuhammadnurrochim</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>linkedin</td>
+                            <td>
+                                <link rel="stylesheet"
+                                    href="https://www.linkedin.com/in/muhammad-nur-rochim-35a683247/">
+                                https://www.linkedin.com/in/muhammad-nur-rochim-35a683247/</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+
+    <footer>
+        <p>Author: muhammad nur rochim<br>
+            <a href="mailto:muhammad.rochim@zettacamp.sg">muhammad.rochim@zettacamp.sg</a></p>
+    </footer>
+</body>
+
+<script>
+    function myMap() {
+        var mapProp = {
+            center: new google.maps.LatLng(51.508742, -0.120850),
+            zoom: 5,
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCboTXQ9W23HXD2t-qM8PE1GnAMKhDKKAY&callback=myMap">
+</script>
+
+
+</html>
