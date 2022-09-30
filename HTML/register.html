@@ -38,7 +38,7 @@
         </nav>
     </header>
     <div id="template">
-        <section class="container relative content" style="height: 900px; margin-top: 200px;">
+        <section class="container relative content" style="min-height: 900px; margin-bottom: 200px; margin-top: calc(50% - 900px);">
             <div class="section section-register">
                 <h1 class="heading"><i class="fa-solid fa-registered"></i>
                     Register</h1>
@@ -48,6 +48,10 @@
 
                 <div class="content-containier">
                     <form action="#" id="form" autocomplete="off">
+                        <div class="drop-zone">
+                            <span class="drop-zone__prompt">Drop picture here or click to upload</span>
+                            <input v-on:change="pictureChange" type="file" name="picture" class="drop-zone__input">
+                        </div>
                         <div class="flex-container" style="text-align: left;">
                             <div id="form-register" class="flex-item-left" style="padding: 0;flex: 60%;">
                                 <div class="form-row">
@@ -68,6 +72,15 @@
                                 <div class="form-wrapper">
                                     <label class="required" for="">password</label>
                                     <input v-model="form.password" id="password" class="input" type="password">
+                                </div>
+                                <div class="form-wrapper">
+                                    <label class="required" for="">subscribtion</label>
+                                    <select v-model="form.subs" id="subs" class="input">
+                                        <option value="1month">1month</option>    
+                                        <option value="6month">6month</option>    
+                                        <option value="12month">12month</option>    
+                                    </select>
+
                                 </div>
                                 <div class="form-wrapper" style="margin-top: 30px; justify-content: flex-end;">
                                     <input type="reset" class="button-reset">
@@ -104,13 +117,21 @@
                 last_name: '',
                 email: '',
                 password: '',
+                subs: '',
             },
             pictureData: '',
         },
         mounted: function () {
             this.define_form_validate();
+            this.getUrlVar();
         },
         methods: {
+            getUrlVar : function () {
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                jenis = urlParams.get('freq');
+                this.form.subs = jenis;
+            },
             define_form_validate: function () {
                 const validation = new JustValidate('#form');
                 validation
@@ -140,6 +161,11 @@
                             errorMessage: 'Email is invalid!',
                         },
                     ])
+                    .addField('#subs', [{
+                            rule: 'required',
+                            errorMessage: 'subs is required',
+                        }
+                    ])
                     .addField('#password', [{
                             rule: 'required',
                             errorMessage: 'Password is required',
@@ -149,7 +175,9 @@
                             value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/,
                             errorMessage: 'Password not Strong',
                         }
-                    ]).onSuccess(event => {
+                    ])
+                    
+                    .onSuccess(event => {
                         Swal.fire({
                             title: 'success!',
                             text: 'data uploaded',
@@ -173,11 +201,11 @@
                     localStorage.setItem("zettacamp", JSON.stringify(arr));
                 }
 
-                console.log(arr, this.pictureData);
                 $('.drop-zone__thumb').remove();
                 $('.drop-zone__thumb').css("background-image", "none");
                 this.pictureData = '';
                 this.form = {};
+                window.location ="profile.html";
             },
             pictureChange(e) {
                 let files = e.target.files || e.dataTransfer.files;
@@ -193,7 +221,8 @@
                     vm.form.foto = file;
                 };
                 reader.readAsDataURL(file);
-            }
+            },
+            
         },
     });
 </script>
