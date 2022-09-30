@@ -380,6 +380,28 @@ color: #fff;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     text-align: center;
 }
+.grid-container-album {
+    display: flex;
+    padding: 10px;
+    column-gap: 10px;
+}
+
+.grid-container-album .grid-item > i {
+    font-size: 30px; text-align: center; width: 100%; color: #fff;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.grid-container-album .grid-item {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
 
 .bg-about-video{
     background-image: url('../images/bg-about-video-simple-01.png');
