@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css day 1 project 2</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        width: 100%;
+        border: none;
+        border-spacing: 0;
+    }
+
+    table tr td {
+        padding: 10px 20px;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    table thead:first-child {
+        background-color: green;
+        color: #fff;
+    }
+
+    .container {
+        width: 80%;
+        margin: 30px auto;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .flex-item {
+        flex: 50%;
+        padding: 20px;
+    }
+
+    table[secondTable] tr:nth-child(2) {
+        background-color: red;
+        color: #fff;
+    }
+
+    table[thirdTable] tbody tr:last-child {
+        background-color: blue;
+        color: #fff;
+    }
+</style>
+
+<body>
+    <main>
+        <div class="container">
+            <div class="flex">
+                <div class="flex-item">
+                    <h3>My hobbies</h3>
+                    <table>
+                        <thead>
+                            <td>Hobbies</td>
+                            <td>Description</td>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Writing</td>
+                                <td>Communication is the heart of every organisation. Writing novels or publishing
+                                    scientific papers give a clear representation of your written communication skills.
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Blogging</td>
+                                <td>Blogging, just as any kind of writing, proves you have communication and writing
+                                    skills. Data shows communication is the most important skill for people entering the
+                                    workforce.</td>
+                            </tr>
+                            <tr>
+                                <td>Podcasting</td>
+                                <td>The podcast format has become incredibly popular. Podcasting allows to demonstrate
+                                    you have industry expertize, know how build an audience (marketing skills) and
+                                    connect with thought leaders (networking and research skills). It's a good way to
+                                    improve organizational skills, too.</td>
+                            </tr>
+                            <tr>
+                                <td>Marketing</td>
+                                <td>The percentage of US adults who use social media increased from 5% in 2005 to 79% in
+                                    2019. The rise of social media has created such new job professions as a social
+                                    media manager, content creator, or SEO specialist. If you’ve ever made a Facebook
+                                    page that drew engaged audience or owned an Instagram profile with a stable number
+                                    of followers, it will definitely make a good impression on the recruiter.</td>
+                            </tr>
+                            <tr>
+                                <td>Learning languages</td>
+                                <td>Speaking English might not be enough if you’re planning on developing your career.
+                                    The three fastest-emerging languages of global consumers are Russian, Hindi, and
+                                    Japanese. Studies have found a correlation between learning languages and
+                                    problem-solving abilities, intelligence, and memory skills.</td>
+                            </tr>
+                            <tr>
+                                <td>Photography</td>
+                                <td>Photography is so much more than just taking pictures. It develops conceptual skills
+                                    and technical expertise, but also teaches how to collaborate with others. </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex-item">
+                    <h3>favourite songs</h3>
+                    <table secondTable>
+                        <thead>
+                            <td>Songs</td>
+                            <td>Singer</td>
+                            <td>Description</td>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Blue Bird (ブルーバード)</td>
+                                <td>Ikimonogakari</td>
+                                <td>"Blue Bird" is the tenth single released by Ikimonogakari. The title track was used
+                                    as the third opening theme for the anime NARUTO: Shippuuden. The single reached #3
+                                    on the Oricon weekly charts. Because it sold 87,002 copies in 2008, it was the #82
+                                    single of that year. Overall, it charted for 29 weeks and sold 90,267 copies. The
+                                    first press came with "ikimono card 005" as well as a Naruto sticker and card.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Blue Bird (ブルーバード)</td>
+                                <td>Ikimonogakari</td>
+                                <td>"Blue Bird" is the tenth single released by Ikimonogakari. The title track was used
+                                    as the third opening theme for the anime NARUTO: Shippuuden. The single reached #3
+                                    on the Oricon weekly charts. Because it sold 87,002 copies in 2008, it was the #82
+                                    single of that year. Overall, it charted for 29 weeks and sold 90,267 copies. The
+                                    first press came with "ikimono card 005" as well as a Naruto sticker and card.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Blue Bird (ブルーバード)</td>
+                                <td>Ikimonogakari</td>
+                                <td>"Blue Bird" is the tenth single released by Ikimonogakari. The title track was used
+                                    as the third opening theme for the anime NARUTO: Shippuuden. The single reached #3
+                                    on the Oricon weekly charts. Because it sold 87,002 copies in 2008, it was the #82
+                                    single of that year. Overall, it charted for 29 weeks and sold 90,267 copies. The
+                                    first press came with "ikimono card 005" as well as a Naruto sticker and card.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Blue Bird (ブルーバード)</td>
+                                <td>Ikimonogakari</td>
+                                <td>"Blue Bird" is the tenth single released by Ikimonogakari. The title track was used
+                                    as the third opening theme for the anime NARUTO: Shippuuden. The single reached #3
+                                    on the Oricon weekly charts. Because it sold 87,002 copies in 2008, it was the #82
+                                    single of that year. Overall, it charted for 29 weeks and sold 90,267 copies. The
+                                    first press came with "ikimono card 005" as well as a Naruto sticker and card.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Blue Bird (ブルーバード)</td>
+                                <td>Ikimonogakari</td>
+                                <td>"Blue Bird" is the tenth single released by Ikimonogakari. The title track was used
+                                    as the third opening theme for the anime NARUTO: Shippuuden. The single reached #3
+                                    on the Oricon weekly charts. Because it sold 87,002 copies in 2008, it was the #82
+                                    single of that year. Overall, it charted for 29 weeks and sold 90,267 copies. The
+                                    first press came with "ikimono card 005" as well as a Naruto sticker and card.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Blue Bird (ブルーバード)</td>
+                                <td>Ikimonogakari</td>
+                                <td>"Blue Bird" is the tenth single released by Ikimonogakari. The title track was used
+                                    as the third opening theme for the anime NARUTO: Shippuuden. The single reached #3
+                                    on the Oricon weekly charts. Because it sold 87,002 copies in 2008, it was the #82
+                                    single of that year. Overall, it charted for 29 weeks and sold 90,267 copies. The
+                                    first press came with "ikimono card 005" as well as a Naruto sticker and card.
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h3>Favorites Movies</h3>
+            <table thirdTable>
+                <thead>
+                    <td>Movies</td>
+                    <td>released</td>
+                    <td>Description</td>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Harry Potter and the
+                            Philosopher's Stone</td>
+                        <td>2001</td>
+                        <td>Harry Potter and the Philosopher's Stone (released in the United States, India and the
+                            Philippines as Harry Potter and the Sorcerer's Stone) is a 2001 fantasy film directed by
+                            Chris Columbus and distributed by Warner Bros. Pictures, based on J. K. Rowling's 1997 novel
+                            of the same name. Produced by David Heyman and written by Steve Kloves, it is the first
+                            instalment of the Harry Potter film series. The film stars Daniel Radcliffe as Harry Potter,
+                            with Rupert Grint as Ron Weasley, and Emma Watson as Hermione Granger. Its story follows
+                            Harry's first year at Hogwarts School of Witchcraft and Wizardry as he discovers that he is
+                            a famous wizard and begins his formal wizarding education.</td>
+                    </tr>
+                    <tr>
+                        <td>Harry Potter and the Chamber of Secrets (film)</td>
+                        <td>2002</td>
+                        <td>Harry Potter and the Chamber of Secrets is a 2002 fantasy film directed by Chris Columbus and distributed by Warner Bros. Pictures, based on J. K. Rowling's 1998 novel of the same name. The film, which is the second instalment in the Harry Potter film series, was written by Steve Kloves, and produced by David Heyman. The film stars Daniel Radcliffe as Harry Potter, with Rupert Grint and Emma Watson as his best friends Ron Weasley and Hermione Granger respectively. The story follows Harry's second year at Hogwarts School of Witchcraft and Wizardry, where the Heir of Salazar Slytherin opens the Chamber of Secrets, unleashing a monster that petrifies the school's students. The film is the sequel to Harry Potter and the Philosopher’s Stone (2001).</td>
+                    </tr>
+                    <tr>
+                        <td>Harry Potter and the Prisoner of Azkaban (film)</td>
+                        <td>2004</td>
+                        <td>Harry Potter and the Prisoner of Azkaban is a 2004 fantasy film directed by Alfonso Cuarón and distributed by Warner Bros. Pictures, based on J. K. Rowling's 1999 novel of the same name. The film was written by Steve Kloves, and produced by Chris Columbus and David Heyman. It is the sequel to Harry Potter and the Chamber of Secrets (2002) and the third instalment in the Harry Potter film series. It stars Daniel Radcliffe as Harry Potter, alongside Rupert Grint and Emma Watson as Harry's best friends Ron Weasley and Hermione Granger respectively. The film follows Harry's third year at Hogwarts and his quest to uncover the truth about his past, including the connection recently-escaped Azkaban prisoner Sirius Black has to Harry and his late parents.</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+
+</html>
