@@ -7,19 +7,400 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSS day 3</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/element.css">
+      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
     <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
 
 <body>
+    <img src="assets/img/discount.png" width="150px" alt="" class="fixed b-2 l-2 img-disc">
+    <nav>
+        <div class="container">
+            <div class="navbar p-2">
+                <h1 id="popular-prod">
+                    <span><i class="fa-solid fa-bag-shopping"></i> Popular Product</span>
+                </h1>
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-bell"></i>
+                    <input type="text" class="input">
+                    <button class="btn"><i class="fa-solid fa-magnifying-glass"></i> search</button>
+                </div>
+            </div>
+            <div class="sec-container">
+                <a href="javascript:alert('baju')">baju</a>
+                <a href="javascript:alert('sepatu')" class="active">sepatu</a>
+                <a href="javascript:alert('pakaian')">pakaian anak anak</a>
+                <a href="javascript:alert('pakaian')">pakaian dewasa</a>
+                <a href="javascript:alert('peralatan')">peralatan rumah tangga</a>
+                <a href="javascript:alert('elektronik')">elektronik</a>
+                <a href="javascript:alert('handphone')">handphone</a>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-basket-shopping"></i>
+            </div>
+        </div>
+    </nav>
     <div class="conatiner-wrapper">
         <section class="content">
             <div class="container">
-                <h1 class="popular-prod">
-                    Popular Product
-                </h1>
+
+                <div class="display-flex mt-5 relative">
+                    <div class="col-12">
+
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <div class="fluid-container">
+
+
+                            <div class="overflow-scroll">
+                                <div class="title-list mb-3">
+                                    <i class="fa-sharp fa-solid fa-chart-simple"></i> Storage
+                                </div>
+                                <ul data-aos="fade-right" class="list-none">
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="display-flex">
+                                        <div class="col-3">
+                                            <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                        </div>
+                                        <div class="list-description col-9 display-flex">
+                                            <div>
+                                                <h3>Sepatu sneakers biru</h3>
+                                                <div>
+                                                    <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <canvas class="myChart" width="100px"></canvas>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="overflow-scroll">
+                            <div class="title-list mb-3">
+                                <i class="fa-sharp fa-solid fa-chart-simple"></i> Sold
+                            </div>
+                            <ul data-aos="fade-left" class="list-none">
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="display-flex">
+                                    <div class="col-3">
+                                        <img src="assets/img/njepatu-removebg-preview.png" width="100px" alt="">
+                                    </div>
+                                    <div class="list-description col-9 display-flex">
+                                        <div>
+                                            <h3>Sepatu sneakers biru</h3>
+                                            <div>
+                                                <span>item amount : 30 </span>| <span>price : Rp30.000</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <canvas class="myChart" width="100px"></canvas>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-wrapper">
 
-                    <div class="card" data-disc="10%">
+                    <div class="card" data-aos="fade-down" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -51,7 +432,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-disc="10%">
+                    <div class="card" data-aos="fade-down" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -83,7 +464,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-disc="10%">
+                    <div class="card" data-aos="fade-down" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -115,7 +496,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-disc="10%">
+                    <div class="card" data-aos="fade-down" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -147,7 +528,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-disc="10%">
+                    <div class="card" data-aos="fade-down" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -179,7 +560,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-disc="10%">
+                    <div class="card" data-aos="fade-down" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -211,7 +592,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-disc="10%">
+                    <div class="card" data-aos="fade-down" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -243,7 +624,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-disc="10%">
+                    <div class="card" data-aos="fade-down" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -275,7 +656,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-disc="10%">
+                    <div class="card" data-aos="fade-down" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -308,6 +689,7 @@
                     </div>
 
                 </div>
+
             </div>
         </section>
         <footer>
@@ -322,5 +704,40 @@
         </footer>
     </div>
 </body>
-
+<script>
+    let ctx = Array.from(document.getElementsByClassName('myChart'));
+    ctx.map(a => {
+        const myChart = new Chart(a, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    label: '# sold',
+                    data: [12, 19, 8],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 </html>
