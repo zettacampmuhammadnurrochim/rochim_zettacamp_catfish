@@ -554,7 +554,6 @@ nav .navbar h1 {
     font-weight: bold;
     font-size: 1.5rem;
     color: #333;
-    position: sticky;
     width: 100%;
     text-align: center;
     padding: 20px;
@@ -563,7 +562,6 @@ nav .navbar h1 {
 .title-list i {
     font-size: 2rem;
     color: #aaa;
-    position: sticky;
     /* background-color: rgb(243,156,26, 0.2); */
 }
 
