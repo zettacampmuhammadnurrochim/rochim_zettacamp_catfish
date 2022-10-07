@@ -6,30 +6,210 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSS day 3</title>
-    <link rel="stylesheet" href="../assets/css/style_2.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/element.css">
+    <link rel="stylesheet" href="../assets/css/aos.css" />
+
+    <link rel="stylesheet" href="/node_modules/owl.carousel/dist/assets/owl.carousel.min.css" />
+    <!-- <link rel="stylesheet" href="/bower_components/owl.carousel/dist/assets/owl.carousel.min.css" /> -->
+
+    <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+    <script src="assets/js/chart.min.js"></script>
 </head>
 
 <body>
     <nav>
-        <div class="container container-nav">
-            Muhammad nur rochim     |   Zettacamp provide by Zettabyte.Pte.Ltd
+        <div class="container">
+            <div class="navbar p-2">
+                <h1 id="popular-prod">
+                    <span><i class="fa-solid fa-bag-shopping"></i> marplace </span>
+                </h1>
+                <div class="menu-list">
+                    <a href="../index.php">home</a>
+                    <a href="shoping-list.html">shoping list</a>
+                    <a href="addItem.html">add item</a>
+                    <a href="about.html" class="active">about</a>
+                    <a href="contact.html">contact</a>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-bell"></i>
+                    <input type="text" class="input">
+                    <button class="btn"><i class="fa-solid fa-magnifying-glass"></i> search</button>
+                </div>
+            </div>
+            <div class="sec-container">
+                <a href="javascript:alert('baju')">baju</a>
+                <a href="javascript:alert('sepatu')" class="active">sepatu</a>
+                <a href="javascript:alert('pakaian')">pakaian anak anak</a>
+                <a href="javascript:alert('pakaian')">pakaian dewasa</a>
+                <a href="javascript:alert('peralatan')">peralatan rumah tangga</a>
+                <a href="javascript:alert('elektronik')">elektronik</a>
+                <a href="javascript:alert('handphone')">handphone</a>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-basket-shopping"></i>
+            </div>
         </div>
     </nav>
     <div class="conatiner-wrapper">
-        <section class="hero-section">
-            <div class="hero-item-left">
-                <div>
-                    <h1 class="title">ABOUT</h1>
-                    <div>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, sapiente officia fuga eum incidunt dolorum consequatur laborum vel. Ipsa aut blanditiis ea ratione aliquid quod aliquam amet quidem consectetur praesentium.
+        <section class="content">
+            <div class="container">
+                <div class="container-hero">
+                    <div class="display-flex">
+                        <div class="col-5 hero-caption">
+                            <h1>About Me</h1>
+                            <span>marplace adalah platform belanja online terdepan di Asia Tenggara dan Taiwan.</span>
+                        </div>
+                        <div class="col-7">
+
+                            <div class="owl-carousel owl-theme">
+                                <div class="item">
+                                    <img src="../assets/img/hero-new_header/undraw_shopping_app_flsj.svg" alt="">
+                                </div>
+                                <div class="item">
+                                    <img src="../assets/img/hero-new_header/undraw_shopping_re_hdd9.svg" alt="">
+                                </div>
+                                <div class="item">
+                                    <img src="../assets/img/hero-new_header/undraw_web_shopping_re_owap.svg" alt="">
+                                </div>
+                                <div class="item">
+                                    <img src="../assets/img/hero-new_header/undraw_window_shopping_re_0kbm.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="hero-item-right">
-                <div></div>
+        </section>
+
+        <section class="content">
+            <div class="container">
+
+
+                <div class="display-flex content-about">
+                    <div class="col-6">
+                        <h1>History</h1>
+                        <p>
+
+                            Diluncurkan tahun 2015, marplace merupakan sebuah platform yang disesuaikan untuk tiap
+                            wilayah dan
+                            menyediakan pengalaman berbelanja online yang mudah, aman, dan cepat bagi pelanggan melalui
+                            dukungan pembayaran dan logistik yang kuat.
+
+                            Kami percaya bahwa kegiatan belanja online harus terjangkau, mudah, dan menyenangkan. Ini
+                            adalah
+                            visi yang ingin marplace berikan melalui platform kami, setiap harinya.
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <h1>Tujuan</h1>
+                        <p>
+                            Kami percaya pada kekuatan transformatif dari teknologi dan ingin mengubah dunia menjadi
+                            lebih
+                            baik dengan menyediakan platform untuk menghubungkan pembeli dan penjual dalam satu
+                            komunitas.
+                        </p>
+                        <h1>posisi</h1>
+                        <p>
+                            Untuk pengguna Internet di seluruh wilayah, marplace menawarkan pengalaman belanja online
+                            komprehensif, dari berbagai pilihan produk sampai ke sebuah komunitas sosial untuk
+                            bereksplorasi, dan layanan untuk selalu memenuhi kebutuhan konsumen tanpa hambatan.
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <h1>Galery</h1>
+                        <div class="galery-wrap">
+                            <div class="row">
+                                <div class="column">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_01.d4aca121.jpg" style="width:100%">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_02.6ac2565d.jpg" style="width:100%">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_03.52203334.jpg" style="width:100%">
+                                </div>
+                                <div class="column">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_05.2b48f6e5.jpg" style="width:100%">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_06.0a7ef3c1.jpg" style="width:100%">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_06.0a7ef3c1.jpg" style="width:100%">
+                                </div>
+                                <div class="column">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_08.1e16bb2c.jpg" style="width:100%">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_10.198086f9.jpg" style="width:100%">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_11.751333d2.jpg" style="width:100%">
+                                </div>
+                                <div class="column">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_12.48083888.jpg" style="width:100%">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_13.4cdabd59.jpg" style="width:100%">
+                                    <img src="https://deo.shopeemobile.com/shopee/shopee-careers-live-id/assets/img/about_ourjourney_new_14.19d153dc.jpg" style="width:100%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
+        <footer>
+            <div class="footer-wrap">
+                <div class="container">
+                    <div class="display-flex flex-center">
+                        <a class="btn" href="HTML/about.html">about</a>
+                        <a class="btn" href="HTML/contact.html">contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </body>
+<script>
+    let ctx = Array.from(document.getElementsByClassName('myChart'));
+    ctx.map(a => {
+        const myChart = new Chart(a, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    label: '# sold',
+                    data: [12, 19, 8],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+<script src="/node_modules/jquery/dist/jquery.js"></script>
+<script src="/node_modules/owl.carousel/dist/owl.carousel.min.js"></script>
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: false,
+        items: 1,
+        center: true,
+        autoplay: true,
+        autoplayTimeout: 1000,
+        lazyLoad: true,
+    })
+</script>
 
 </html>

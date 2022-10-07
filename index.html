@@ -18,6 +18,14 @@
 </head>
 
 <body>
+    <div id="video-popup-overlay"></div>
+
+    <div id="video-popup-container">
+        <div id="video-popup-close" class="fade">&#10006;</div>
+        <div id="video-popup-iframe-container">
+            <iframe id="video-popup-iframe" src="" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+    </div>
     <nav>
         <div class="container">
             <div class="navbar p-2">
@@ -26,10 +34,10 @@
                 </h1>
                 <div class="menu-list">
                     <a href="/index.php" class="active">home</a>
-                    <a href="assets/shoping-list.html">shoping list</a>
-                    <a href="assets/add-item.html">add item</a>
-                    <a href="assets/about.html">about</a>
-                    <a href="assets/contact.html">contact</a>
+                    <a href="HTML/shoping-list.html">shoping list</a>
+                    <a href="HTML/addItem.html">add item</a>
+                    <a href="HTML/about.html">about</a>
+                    <a href="HTML/contact.html">contact</a>
                 </div>
                 <div class="input-group">
                     <i class="fa-solid fa-user"></i>
@@ -61,6 +69,9 @@
                             <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat ipsa aliquid
                                 suscipit itaque inventore quibusdam perspiciatis fugiat provident magnam dignissimos
                                 vero eos nisi, mollitia consectetur sunt. Facere quis velit enim.</span>
+
+                            <button class="vpop" data-type="youtube" data-id="OQBjZa3_100" data-autoplay='true'>our video's
+                            </button>
                         </div>
                         <div class="col-7">
 
@@ -87,6 +98,7 @@
         <section class="content">
             <div class="container">
 
+                <h1>Our Popular Product</h1>
                 <div class="card-wrapper">
 
                     <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="0" data-disc="10%">
@@ -121,8 +133,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="100"
-                        data-disc="10%">
+                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="100" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -154,8 +165,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="200"
-                        data-disc="10%">
+                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="200" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -218,8 +228,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="100"
-                        data-disc="10%">
+                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="100" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -251,8 +260,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="200"
-                        data-disc="10%">
+                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="200" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -315,8 +323,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="100"
-                        data-disc="10%">
+                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="100" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -348,8 +355,7 @@
                         </div>
                     </div>
 
-                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="200"
-                        data-disc="10%">
+                    <div class="card" data-aos="zoom-in-left" data-aos-offset="50" data-aos-delay="200" data-disc="10%">
                         <div class="img-wrapper">
                             <img width="100%"
                                 src="https://www.pngall.com/wp-content/uploads/13/Nike-Shoes-Air-Max-PNG-Cutout.png"
@@ -448,6 +454,33 @@
         autoplayTimeout: 1000,
         lazyLoad: true,
     })
+</script>
+<script>
+    $(".vpop").on('click', function (e) {
+        e.preventDefault();
+        $("#video-popup-overlay,#video-popup-iframe-container,#video-popup-container,#video-popup-close")
+    .show();
+
+        var srchref = '',
+            autoplay = '',
+            id = $(this).data('id');
+        if ($(this).data('type') == 'vimeo') var srchref = "//player.vimeo.com/video/";
+        else if ($(this).data('type') == 'youtube') var srchref = "https://www.youtube.com/embed/";
+
+        if ($(this).data('autoplay') == true) autoplay = '?autoplay=1';
+
+        $("#video-popup-iframe").attr('src', srchref + id + autoplay);
+
+        $("#video-popup-iframe").on('load', function () {
+            $("#video-popup-container").show();
+        });
+    });
+
+    $("#video-popup-close, #video-popup-overlay").on('click', function (e) {
+        $("#video-popup-iframe-container,#video-popup-container,#video-popup-close,#video-popup-overlay")
+    .hide();
+        $("#video-popup-iframe").attr('src', '');
+    });
 </script>
 
 </html>

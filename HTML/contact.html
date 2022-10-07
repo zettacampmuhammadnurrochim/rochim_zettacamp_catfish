@@ -6,30 +6,231 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSS day 3</title>
-    <link rel="stylesheet" href="../assets/css/style_2.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/element.css">
+    <link rel="stylesheet" href="../assets/css/aos.css" />
+
+    <link rel="stylesheet" href="/node_modules/owl.carousel/dist/assets/owl.carousel.min.css" />
+    <!-- <link rel="stylesheet" href="/bower_components/owl.carousel/dist/assets/owl.carousel.min.css" /> -->
+
+    <script src="https://kit.fontawesome.com/781cd63ebd.js" crossorigin="anonymous"></script>
+    <script src="assets/js/chart.min.js"></script>
 </head>
 
 <body>
     <nav>
-        <div class="container container-nav">
-            Muhammad nur rochim     |   Zettacamp provide by Zettabyte.Pte.Ltd
+        <div class="container">
+            <div class="navbar p-2">
+                <h1 id="popular-prod">
+                    <span><i class="fa-solid fa-bag-shopping"></i> marplace </span>
+                </h1>
+                <div class="menu-list">
+                    <a href="../index.php">home</a>
+                    <a href="shoping-list.html">shoping list</a>
+                    <a href="addItem.html">add item</a>
+                    <a href="about.html">about</a>
+                    <a href="contact.html" class="active">contact</a>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <i class="fa-solid fa-bell"></i>
+                    <input type="text" class="input">
+                    <button class="btn"><i class="fa-solid fa-magnifying-glass"></i> search</button>
+                </div>
+            </div>
+            <div class="sec-container">
+                <a href="javascript:alert('baju')">baju</a>
+                <a href="javascript:alert('sepatu')" class="active">sepatu</a>
+                <a href="javascript:alert('pakaian')">pakaian anak anak</a>
+                <a href="javascript:alert('pakaian')">pakaian dewasa</a>
+                <a href="javascript:alert('peralatan')">peralatan rumah tangga</a>
+                <a href="javascript:alert('elektronik')">elektronik</a>
+                <a href="javascript:alert('handphone')">handphone</a>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-basket-shopping"></i>
+            </div>
         </div>
     </nav>
     <div class="conatiner-wrapper">
-        <section class="hero-section">
-            <div class="hero-item-left">
-                <div>
-                    <h1 class="title">CONTACT</h1>
-                    <div>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum neque minus modi, cum dolore excepturi exercitationem voluptatibus autem voluptatem nam ex ut beatae alias nemo sint et ab sit reprehenderit.
+        <section class="content">
+            <div class="container">
+                <div class="container-hero">
+                    <div class="display-flex">
+                        <div class="col-12 hero-caption" style="margin-top: 100px;">
+
+                            <div class="hero-caption-item">
+                                <h1>Contact</h1>
+                                <span>give me criticism and suggestions</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="hero-item-right">
-                <div></div>
+        </section>
+
+        <section class="content">
+            <div class="container">
+
+
+                <div class="display-flex content-about">
+                    <div class="col-12 relative">
+                        <div class="sugest-form">
+                            <div class="card card-sugest">
+                                <div class="container">
+                                    <form class="w-100 p-1" action="">
+                                        <div class="form-wrapper">
+                                            <label required for="">email</label>
+                                            <input type="email" class="input w-100" name="email">
+                                        </div>
+                                        <div class="form-wrapper">
+                                            <label required for="">message</label>
+                                            <textarea class="input w-100" name="" id="" cols="30" rows="10"></textarea>
+                                        </div>
+                                        <div class="form-wrapper display-flex flex-center">
+                                            <button class="btn btn-more-info m-1">send</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="display-flex content-about">
+                    <div class="col-12" style="height: 250px;">
+
+                    </div>
+                    <div class="col-6">
+                        <h1>Contact</h1>
+                        <table id="table-contact">
+                            <tbody>
+                                <tr>
+                                    <td>telpon</td>
+                                    <td>082154441119</td>
+                                </tr>
+                                <tr>
+                                    <td>wa</td>
+                                    <td><a href="https://wa.wizard.id/3ea340">https://wa.wizard.id/3ea340</a> </td>
+                                </tr>
+                                <tr>
+                                    <td>facebook</td>
+                                    <td><a
+                                            href="https://donormerahyogyakarta.com/facebook.com/mamad-anjar">https://donormerahyogyakarta.com/facebook.com/mamad-anjar</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ig</td>
+                                    <td><a
+                                            href="https://www.instagram.com/quranan.ajabaa/">https://www.instagram.com/quranan.ajabaa/</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>github</td>
+                                    <td><a
+                                            href="https://github.com/zettacampmuhammadnurrochim">https://github.com/zettacampmuhammadnurrochim</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>linkedin</td>
+                                    <td>
+                                        <link rel="stylesheet"
+                                            href="https://www.linkedin.com/in/muhammad-nur-rochim-35a683247/">
+                                        https://www.linkedin.com/in/muhammad-nur-rochim-35a683247/</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-6">
+                        <h1>Address</h1>
+                        <div class="display-flex">
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos neque quaerat
+                                asperiores natus rem dolore non possimus laudantium tenetur quisquam nulla qui
+                                recusandae libero, debitis earum illum inventore iste molestiae!
+                            </p>
+                            <div id="googleMap" style="width:500px;height:300px;margin: 0 auto;"></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
+        <footer style="margin-top: 200px;">
+            <div class="footer-wrap">
+                <div class="container">
+                    <div class="display-flex flex-center">
+                        <a class="btn" href="HTML/about.html">about</a>
+                        <a class="btn" href="HTML/contact.html">contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </body>
+<script>
+    let ctx = Array.from(document.getElementsByClassName('myChart'));
+    ctx.map(a => {
+        const myChart = new Chart(a, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    label: '# sold',
+                    data: [12, 19, 8],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+<script src="/node_modules/jquery/dist/jquery.js"></script>
+<script src="/node_modules/owl.carousel/dist/owl.carousel.min.js"></script>
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<script src="/bower_components/owl.carousel/dist/owl.carousel.min.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: false,
+        items: 1,
+        center: true,
+        autoplay: true,
+        autoplayTimeout: 1000,
+        lazyLoad: true,
+    })
+</script>
+
+<script>
+    function myMap() {
+        var mapProp = {
+            center: new google.maps.LatLng(51.508742, -0.120850),
+            zoom: 5,
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCboTXQ9W23HXD2t-qM8PE1GnAMKhDKKAY&callback=myMap">
+</script>
 
 </html>
