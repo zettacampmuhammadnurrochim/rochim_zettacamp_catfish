@@ -103,14 +103,17 @@ body {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    /* gap: 1rem; */
     justify-content: space-between;
+}
+.card-wrapper > .col-4{
+    padding: 1rem;
 }
 
 .card {
     position: relative;
     background-color: #fff;
-    width: 485px;
+    /* width: 485px; */
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     margin-top: 30px;
@@ -151,7 +154,7 @@ body {
 
 .card>.img-wrapper {
     width: 100%;
-    height: 300px;
+    height: 200px;
     display: flex;
     justify-content: center;
     position: relative;
@@ -180,7 +183,7 @@ body {
 }
 
 .card .card-content .title {
-    font-size: 25px;
+    font-size: 20px;
     color: #5a6edc;
 }
 
