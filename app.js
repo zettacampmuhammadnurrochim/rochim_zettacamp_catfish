@@ -70,6 +70,8 @@ getBooks(url).then(e => {
     const pureData = dataBuku.books;
     calculateDiscount(10, pureData);
 });
+
+
 var checkBooksData = function() {
 return new Promise(resolve => {
     setTimeout(function() {
@@ -119,7 +121,7 @@ var async_function = async function() {
 const first_promise = await checkBooksData();
 console.log(first_promise);
   
-const second_promise = await bookPurchasing(10, 9, 'The River of Silver');
+const second_promise = await bookPurchasing(5, 1, 'The River of Silver');
 
 }
   
