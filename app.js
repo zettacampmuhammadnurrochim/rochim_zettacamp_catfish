@@ -64,9 +64,7 @@ const d = new Date();
 
 function bookCheckOut(dataPembelian, waktu, callback) {
     dataPembelian.forEach((e, mainIndex) => {
-        let {
-            amountStock
-        } = dataPembelian[mainIndex];
+        let {amountStock} = dataPembelian[mainIndex];
         let {
             amountPurchased
         } = dataPembelian[mainIndex];
@@ -82,9 +80,11 @@ function bookCheckOut(dataPembelian, waktu, callback) {
                     indexke = index;
                     let recentAmountBooks = amountStock - amountPurchased;
 
-
-
                     // aku copy , bener2 kopi bukan reference , aku ubah ke array dulu 
+                    let copy = [
+                        {},{}
+                    ];
+                    
                     let shpChrtIndx = shopping_cart.push(...Array(dataBuku[index])) - 1;
 
                     // aku ubah ke objek lagi biar ga masalah wkwk
@@ -189,15 +189,13 @@ function calculateCredit(jangkawaktu, indexOfbooks, indexOfcart) {
         console.log(`the period entered does not match what is available ${available_period}`);
         console.log('you cannot continue credit purchases');
     }
-
-
-
 }
 
 var mainFunction = async function (credit) {
     const waitForbooksFilled = await get_books().then(e => {
         dataBuku = e.data.books
     });
+
     let result = calculateDiscount_Tax(10, 2.5, dataBuku);
     dataBuku = [...result];
 
