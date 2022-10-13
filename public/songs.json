@@ -1,0 +1,151 @@
+[
+    {
+        "title" : "Yaa Nabi Salam 'Alaika",
+        "album" : "Cinta Rasul",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Yaa Thoybah",
+        "album" : "Cinta Rasul",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Yaa Robbi Bil Mustofa Yaa Rasulullah Salamun 'Alaik",
+        "album" : "Cinta Rasul",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Asmaul Husna",
+        "album" : "Cinta Rasul",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Lil Abi Wal Ummi",
+        "album" : "Cinta Rasul",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Akhlaqul Karimah",
+        "album" : "Cinta Rasul",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "duration" : "00:03:10"
+    },
+
+    {
+        "title" : "Da'Uniy",
+        "album" : "The Best of Sulis",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "writer" : "Alhabib Abdullah Alhaddad",
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Alfu Salam",
+        "album" : "The Best of Sulis",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "writer" : "Alhabib Abdullah Alhaddad",
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Ya Ala Baitin Nabi",
+        "album" : "The Best of Sulis",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "writer" : "Haydar Yahya",
+        "duration" : "00:43:10"
+    },
+    {
+        "title" : "Ya Imamar Rusli",
+        "album" : "The Best of Sulis",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "writer" : "Alhabib Abdullah Alhaddad",
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Ya Robbi Ya Rohman",
+        "album" : "The Best of Sulis",
+        "vol"   : 1,
+        "tahun" : 1999,
+        "singer" : "Haddad Alwi & Sulis",
+        "genre" : ["pop","religi","nasyid"],
+        "writer" : "Copyright Control",
+        "duration" : "00:03:10"
+    }
+    ,
+    {
+        "title" : "Libur Telah Tiba",
+        "album" : "Libur Telah Tiba",
+        "vol"   : 1,
+        "tahun" : 2000,
+        "singer" : "Tasya Kamila",
+        "genre" : ["pop"],
+        "label" : "Sony Music Entertainment Indonesia",
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Libur Telah Tiba",
+        "album" : "Libur Telah Tiba",
+        "vol"   : 1,
+        "tahun" : 2000,
+        "singer" : "Tasya Kamila",
+        "genre" : ["pop"],
+        "label" : "Sony Music Entertainment Indonesia",
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Libur Telah Tiba",
+        "album" : "Libur Telah Tiba",
+        "vol"   : 1,
+        "tahun" : 2000,
+        "singer" : "Tasya Kamila",
+        "genre" : ["pop"],
+        "label" : "Sony Music Entertainment Indonesia",
+        "duration" : "00:03:10"
+    },
+    {
+        "title" : "Libur Telah Tiba",
+        "album" : "Libur Telah Tiba",
+        "vol"   : 1,
+        "tahun" : 2000,
+        "singer" : "Tasya Kamila",
+        "genre" : ["rock"],
+        "label" : "Sony Music Entertainment Indonesia",
+        "duration" : "00:03:10"
+    }
+    
+]
+
+
