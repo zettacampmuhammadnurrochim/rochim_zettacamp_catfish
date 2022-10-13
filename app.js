@@ -8,7 +8,7 @@ let shopping_cart = [];
 // membuat promise - suatu janji yang akan dikabari nanti #untuk menunggu data buku terisi
 function get_books() {
     return new Promise(resolve => {
-        setTimeout(function () {
+        // setTimeout(function () {
             axios.get(url, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -17,7 +17,7 @@ function get_books() {
             }).then(e => {
                 resolve(e)
             })
-        }, 2000);
+        // }, 2000);
     })
 }
 
