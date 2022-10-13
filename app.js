@@ -6,7 +6,7 @@ let moment = require('moment');
 function artistGrouped(artisName) {
     return dataSong.filter(({
         singer
-    // }) => singer == artisName);
+        // }) => singer == artisName);
     }) => singer.toLowerCase().includes(artisName.toLowerCase()));
 }
 
@@ -38,7 +38,7 @@ function lessOneOur() {
 
     console.log(`songs playlist under 1 hour duration\n`);
 
-    dataSong.filter((song,index) => {
+    dataSong.filter((song, index) => {
         if (index < songsIndex) {
             console.log(song);
         }
@@ -46,7 +46,7 @@ function lessOneOur() {
 
     return `all songs duration is ${result.hours()}:${result.minutes()}:${result.seconds()} \ntotal songs in playlist :  ${songsIndex} where total duration is : ${totalDuration}`;
 
-    
+
 }
 
 console.log(
