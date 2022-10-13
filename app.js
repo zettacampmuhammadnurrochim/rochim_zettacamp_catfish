@@ -4,10 +4,7 @@ let moment = require('moment');
 
 
 function artistGrouped(artisName) {
-    return dataSong.filter(({
-        singer
-        // }) => singer == artisName);
-    }) => singer.toLowerCase().includes(artisName.toLowerCase()));
+    return dataSong.filter(({singer}) => singer.toLowerCase().includes(artisName.toLowerCase()));
 }
 
 function genreGrouped(genreName) {
@@ -49,13 +46,13 @@ function lessOneOur() {
 
 }
 
-console.log(
-    artistGrouped("sulis")
-);
+// console.log(
+//     artistGrouped("sulis")
+// );
 
-console.log(
-    genreGrouped("religi")
-);
+// console.log(
+//     genreGrouped("rock")
+// );
 
 console.log(
     lessOneOur()
