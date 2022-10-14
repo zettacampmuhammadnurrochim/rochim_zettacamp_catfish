@@ -1,0 +1,236 @@
+{
+    "books": [
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78623/thumb_image_normal/BLK_TROS2022905356.jpg",
+            "title": "The River of Silver",
+            "author": "S. A. Chakraborty",
+            "price": "Rp 249.000",
+            "original_url": "https://ebooks.gramedia.com/books/the-river-of-silver",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/the-river-of-silver",
+            "slug": "the-river-of-silver"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78599/thumb_image_normal/BLK_ATS2022754864.jpg",
+            "title": "Across The Sand",
+            "author": "Hugh Howey",
+            "price": "Rp 249.000",
+            "original_url": "https://ebooks.gramedia.com/books/across-the-sand",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/across-the-sand",
+            "slug": "across-the-sand"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78543/thumb_image_normal/BLK_BPB2022186648.jpg",
+            "title": "Bindle Punk Bruja",
+            "author": "Desideria Mesa",
+            "price": "Rp 229.000",
+            "original_url": "https://ebooks.gramedia.com/books/bindle-punk-bruja",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/bindle-punk-bruja",
+            "slug": "bindle-punk-bruja"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78524/thumb_image_normal/BLK_TDOD2022236130.jpg",
+            "title": "The Dao of Drizzt",
+            "author": "R. A. Salvatore",
+            "price": "Rp 229.000",
+            "original_url": "https://ebooks.gramedia.com/books/the-dao-of-drizzt",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/the-dao-of-drizzt",
+            "slug": "the-dao-of-drizzt"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78499/thumb_image_normal/BLK_IR2022866948.jpg",
+            "title": "Imperium Restored",
+            "author": "Walter Jon Williams",
+            "price": "Rp 229.000",
+            "original_url": "https://ebooks.gramedia.com/books/imperium-restored",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/imperium-restored",
+            "slug": "imperium-restored"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78424/thumb_image_normal/BLK_CO2022536896.jpg",
+            "title": "Chosen Ones",
+            "author": "Veronica Roth",
+            "price": "Rp 209.000",
+            "original_url": "https://ebooks.gramedia.com/books/chosen-ones",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/chosen-ones",
+            "slug": "chosen-ones"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78340/thumb_image_normal/BLK_SOT2022977563.jpg",
+            "title": "Sea of Tranquility",
+            "author": "Emily St. John Mandel",
+            "price": "Rp 229.000",
+            "original_url": "https://ebooks.gramedia.com/books/sea-of-tranquility",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/sea-of-tranquility",
+            "slug": "sea-of-tranquility"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78307/thumb_image_normal/BLK_EITS2022737937.jpg",
+            "title": "Eye In The Sky",
+            "author": "Philip K. Dick",
+            "price": "Rp 209.000",
+            "original_url": "https://ebooks.gramedia.com/books/eye-in-the-sky",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/eye-in-the-sky",
+            "slug": "eye-in-the-sky"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78149/thumb_image_normal/BLK_TBKW2022281544.jpg",
+            "title": "The Blind King's Wrath",
+            "author": "Ashok K. Banker",
+            "price": "Rp 209.000",
+            "original_url": "https://ebooks.gramedia.com/books/the-blind-king-s-wrath",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/the-blind-king-s-wrath",
+            "slug": "the-blind-king-s-wrath"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/78118/thumb_image_normal/BLK_TSBOD2022188070.jpg",
+            "title": "The Sandman: Book of Dreams",
+            "author": "Neil Gaiman",
+            "price": "Rp 149.000",
+            "original_url": "https://ebooks.gramedia.com/books/the-sandman-book-of-dreams",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/the-sandman-book-of-dreams",
+            "slug": "the-sandman-book-of-dreams"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77946/thumb_image_normal/BLK_FT2022341015.jpg",
+            "title": "Fault Tolerance",
+            "author": "Valerie Valdes",
+            "price": "Rp 229.000",
+            "original_url": "https://ebooks.gramedia.com/books/fault-tolerance",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/fault-tolerance",
+            "slug": "fault-tolerance"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77892/thumb_image_normal/BLK_HHWGITD2022707726.jpg",
+            "title": "How High We Go in the Dark",
+            "author": "Sequoia Nagamatsu",
+            "price": "Rp 249.000",
+            "original_url": "https://ebooks.gramedia.com/books/how-high-we-go-in-the-dark",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/how-high-we-go-in-the-dark",
+            "slug": "how-high-we-go-in-the-dark"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77888/thumb_image_normal/BLK_TML2022958507.jpg",
+            "title": "The Memory Librarian",
+            "author": "Janelle Monáe",
+            "price": "Rp 179.000",
+            "original_url": "https://ebooks.gramedia.com/books/the-memory-librarian",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/the-memory-librarian",
+            "slug": "the-memory-librarian"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77861/thumb_image_normal/BLK_ETM2022615433.jpg",
+            "title": "Eclipse the Moon",
+            "author": "Jessie Mihalik",
+            "price": "Rp 179.000",
+            "original_url": "https://ebooks.gramedia.com/books/eclipse-the-moon",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/eclipse-the-moon",
+            "slug": "eclipse-the-moon"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77782/thumb_image_normal/BLK_A2022501810.jpg",
+            "title": "Appleseed",
+            "author": "Matt Bell",
+            "price": "Rp 199.000",
+            "original_url": "https://ebooks.gramedia.com/books/appleseed",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/appleseed",
+            "slug": "appleseed"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77772/thumb_image_normal/BLK_DOTMG2022676711.jpg",
+            "title": "Daughter of the Moon Goddess",
+            "author": "Sue Lynn Tan",
+            "price": "Rp 249.000",
+            "original_url": "https://ebooks.gramedia.com/books/daughter-of-the-moon-goddess",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/daughter-of-the-moon-goddess",
+            "slug": "daughter-of-the-moon-goddess"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77768/thumb_image_normal/BLK_GE2022674219.jpg",
+            "title": "Glacier's Edge",
+            "author": "R. A. Salvatore",
+            "price": "Rp 229.000",
+            "original_url": "https://ebooks.gramedia.com/books/glacier-s-edge",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/glacier-s-edge",
+            "slug": "glacier-s-edge"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77740/thumb_image_normal/BLK_TDTT2022729646.jpg",
+            "title": "Tear Down the Throne",
+            "author": "Jennifer Estep",
+            "price": "Rp 369.000",
+            "original_url": "https://ebooks.gramedia.com/books/tear-down-the-throne",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/tear-down-the-throne",
+            "slug": "tear-down-the-throne"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77555/thumb_image_normal/BLK_GON2022618434.jpg",
+            "title": "God of Neverland",
+            "author": "Gama Ray Martinez",
+            "price": "Rp 229.000",
+            "original_url": "https://ebooks.gramedia.com/books/god-of-neverland",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/god-of-neverland",
+            "slug": "god-of-neverland"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77449/thumb_image_normal/BLK_JAT2022319700.jpg",
+            "title": "Juniper and Thorn",
+            "author": "Ava Reid",
+            "price": "Rp 209.000",
+            "original_url": "https://ebooks.gramedia.com/books/juniper-and-thorn",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/juniper-and-thorn",
+            "slug": "juniper-and-thorn"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77412/thumb_image_normal/BLK_HFTTF2022972056.jpg",
+            "title": "Hold Fast Through the Fire",
+            "author": "K. B. Wagers",
+            "price": "Rp 159.000",
+            "original_url": "https://ebooks.gramedia.com/books/hold-fast-through-the-fire",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/hold-fast-through-the-fire",
+            "slug": "hold-fast-through-the-fire"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77404/thumb_image_normal/BLK_BB2022425414.jpg",
+            "title": "Blade Breaker",
+            "author": "Victoria Aveyard",
+            "price": "Rp 229.000",
+            "original_url": "https://ebooks.gramedia.com/books/blade-breaker",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/blade-breaker",
+            "slug": "blade-breaker"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77346/thumb_image_normal/BLK_R2022108786.jpg",
+            "title": "Razzmatazz",
+            "author": "Christopher Moore",
+            "price": "Rp 479.000",
+            "original_url": "https://ebooks.gramedia.com/books/razzmatazz",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/razzmatazz",
+            "slug": "razzmatazz"
+        },
+        {
+            "image": "https://ebooks.gramedia.com/ebook-covers/77341/thumb_image_normal/BLK_MOF202275054.jpg",
+            "title": "Master of Furies",
+            "author": "Raymond E. Feist",
+            "price": "Rp 249.000",
+            "original_url": "https://ebooks.gramedia.com/books/master-of-furies",
+            "url": "http://laravel-books-db.herokuapp.com/api/books/master-of-furies",
+            "slug": "master-of-furies"
+        }
+    ],
+    "links": {
+        "first": "http://laravel-books-db.herokuapp.com/api/categories/science-fiction-fantasy/books?language=en&page=1",
+        "last": null,
+        "prev": null,
+        "next": "http://laravel-books-db.herokuapp.com/api/categories/science-fiction-fantasy/books?language=en&page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "path": "http://laravel-books-db.herokuapp.com/api/categories/science-fiction-fantasy/books?language=en",
+        "per_page": 24,
+        "to": 24
+    },
+    "status": 200,
+    "type": "http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html",
+    "title": "OK"
+}
