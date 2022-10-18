@@ -19,4 +19,7 @@ router.get('/getToken', userController.getToken);
 router.get('/getRefreshToken', userController.getRefreshToken);
 router.get('/logout', userController.logout);
 
+// tugas JS day 7
+router.get('/Await/readfile', userController.readFileAwait) //readfile using await 
+router.get('/readfile', userController.readFile)  //readfile without await
 module.exports = router;

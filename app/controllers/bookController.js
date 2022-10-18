@@ -125,7 +125,6 @@ function calculateCredit(jangkawaktu, indexOfcart) {
         }
     })
 
-console.log(available);
     if (available) {
 
         shopping_cart[indexOfcart].paymentTerm = 'Credit Type ' + CreditTerms + 1 + ', ' + periodOfcredit[CreditTerms].jangka + ' months payment';

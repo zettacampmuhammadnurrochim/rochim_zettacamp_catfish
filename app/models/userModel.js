@@ -6,7 +6,8 @@ const userSchema = {
     email: String,
     password : String,
     date : String,
-    address  : String
+    address  : String,
+    token : String,
 }
 const userModel = mongoose.model(CollectionName, userSchema)
 
