@@ -1,5 +1,6 @@
 const bookModel = require('../models/bookModel')
 const userModel = require('../models/userModel')
+const mongoose = require('../../services/services.js')
 
 let dataBuku = [];
 let shopping_cart = [];
@@ -67,9 +68,7 @@ function calculateDiscount_Tax(dis, tax, books) {
 
 const getAllBooks_ = async (req,res) => {
     dataBuku = await getAllBooks_raw()
-    console.log(dataBuku);
     dataBuku = calculateDiscount_Tax(10,2.5,dataBuku)
-    console.log(dataBuku);
     if (typeof res !== 'undefined') {
         res.send({data : dataBuku })
     }
@@ -77,40 +76,40 @@ const getAllBooks_ = async (req,res) => {
 }
 
 function bookCheckOut(dataPembelian, period) {
-    let found = []
-    for (let index = 0; index < dataBuku.length; index++) {
-            dataPembelian.forEach( (e, mainIndex) => {
-                let {amountStock,amountPurchased,bookTitle} = e;
-            
-                let indexke = 0
-                if (dataBuku[index].title == bookTitle) {
-                    if (amountStock > amountPurchased) {
-                        indexke = index;
-                        found.push(mainIndex)
-
-                        let shpChrtIndx = shopping_cart.push(dataBuku[index]).length - 1;
-                        shopping_cart[shpChrtIndx] =  shopping_cart.push(dataBuku[index]);
-
-                        shopping_cart[shpChrtIndx].location = indexke + 1;
+    try {
+        let found = []
+        let map_SpCart = new Map();
+        for (let index = 0; index < dataBuku.length; index++) {
+                dataPembelian.forEach( (e, mainIndex) => {
+                    let {amountPurchased,bookId} = e;
+                    if (dataBuku[index]._id.toString() == bookId) {
+                        if (dataBuku[index].stock > amountPurchased) {
+                            found.push(mainIndex)
+                            let shpChrtIndx = shopping_cart.push(dataBuku[index]) - 1;
+                            shopping_cart[shpChrtIndx].location = index + 1;
+                            calculateCredit(period,shpChrtIndx)
+                        }
                     }
-                }
-            });
-    }
-    
-        dataPembelian.forEach((element,key) => {
-            
-            found.forEach((val,index)=>{
-                calculateCredit(period, val);
-
-                shopping_cart.push({
-                    title : element.bookTitle,
-                    status : 'not found'
-                })
-
-                dataPembelian.splice(val,1);
-            })
+                    map_SpCart.set(mainIndex,{...e, location : index+1});
+                });
+        }
+        found.forEach((val,index)=>{
+                map_SpCart.delete(val)
         })
+            
+        map_SpCart.forEach((element,key) => {
+            shopping_cart.push({
+                    _id : element.bookId,
+                    status : 'not found'
+                })    
+        });
 
+            return shopping_cart
+    } 
+    catch (error) 
+    {
+        return {error : error}
+    }
 }
 
 function calculateCredit(jangkawaktu, indexOfcart) {
@@ -151,7 +150,18 @@ function calculateCredit(jangkawaktu, indexOfcart) {
             priceafterinterest[index] = formatter.format(priceafterinterest[index]);
         }
 
-        shopping_cart[indexOfcart].creditPrice = priceafterinterest;
+        get_month = []
+        for (let monthIndex = 1; monthIndex <= jangkawaktu; monthIndex++) {
+            
+        }
+        // console.log(get_month);
+        let Credit_set = new Set()
+        priceafterinterest.forEach(element => {  
+            Credit_set.add(element)
+        });
+        
+
+        shopping_cart[indexOfcart].creditPrice = [...Credit_set];
         shopping_cart[indexOfcart].subtotal = formatter.format(RAWpriceafterinterest.reduce((a, b) => parseFloat(a) + parseFloat(b)));
         return shopping_cart;
 
@@ -159,16 +169,25 @@ function calculateCredit(jangkawaktu, indexOfcart) {
         return shopping_cart= []
     }
 }
+const editBookStock = (req,res)=> {
+    bookModel.collection.updateMany({}, {
+        $set: {"stock" : 14}
+    })
+}
 
 const getAllBooks_credit = async (req,res) => {
-    const period = req.params.period
+    const period = req.body.period
+    length = req.body.data.length
+
+    const bookPurcase  = req.body.data;
+
+
+
     await getAllBooks_()
-    const result = await bookCheckOut([
-        {amountStock: 10,amountPurchased: 5,bookTitle: 'Razzmatazz'}, 
-        {amountStock: 10,amountPurchased: 3,bookTitle: 'Master of Furies'}], 
+    const result = await bookCheckOut(bookPurcase, 
         period);
 
-    res.send({data : shopping_cart})
+    res.send({data : result})
 }
 
 module.exports = {getAllBooks_raw,getAllBooks_,getAllBooks_credit}
