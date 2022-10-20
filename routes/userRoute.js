@@ -23,3 +23,6 @@ router.get('/logout', userController.logout);
 router.get('/Await/readfile', userController.readFileAwait) //readfile using await 
 router.get('/readfile', userController.readFile)  //readfile without await
 module.exports = router;
+
+// tugas JS day 9
+

@@ -6,14 +6,14 @@ const mongoose = require('../../services/services.js')
 const bcrypt = require("bcrypt");
 const { isSet } = require('util/types');
 
-let privatekey = fs.readFileSync(path.join(__dirname, '../../private.key'))
+let public = fs.readFileSync(path.join(__dirname, '../../public.key'))
 
 const register = async (req, res) => {
     const {name,email,password,date,address} = req.body
 
     let token = jwt.sign({
-        foo: 'bar'
-    }, privatekey)
+        owner: 'rochim'
+    }, public,{expiresIn: '1h'})
 
     const result = await userModel.collection.insertOne({
         name : name,

@@ -28,7 +28,7 @@ let formatter = new Intl.NumberFormat('id-ID', {
 const getAllBooks_raw = async (req,res) => {
     dataBuku = await bookModel.collection.find().toArray()
     if (typeof res !== 'undefined') {
-        res.send(res)
+        res.send(dataBuku)
     }
     return dataBuku
 }
