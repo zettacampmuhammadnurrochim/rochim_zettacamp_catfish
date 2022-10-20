@@ -7,6 +7,6 @@ const {getAllBooks_raw,getAllBooks_,getAllBooks_credit} = require("../app/contro
 router.get("/all", getAllBooks_raw);
 router.get("/all/calc", getAllBooks_);
 
-router.get("/all/credit/:period", getAllBooks_credit);
+router.post("/all/credit/", getAllBooks_credit);
 
 module.exports = router;

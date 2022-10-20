@@ -36,7 +36,7 @@ const getAllUsers = async (req,res) => {
 
 const getUserById = async (req,res) => {
     let Object_id = mongoose.Types.ObjectId(req.params.id)
-    console.log(Object_id)
+    // console.log(Object_id)
     const result = await userModel.collection.findOne({_id : Object_id },function(err, results){
     res.send(results)
 })
@@ -104,7 +104,7 @@ const logout = (req, res) => {
 const getFile = () => {
      return new Promise((resolve, reject) => {
                 try {
-                    privatekeys = fs.readFileSync(path.join(__dirname, '../../server.js')) 
+                    // privatekeys = fs.readFileSync(path.join(__dirname, '../../server.js')) 
                     if(privatekeys !== null) {
                         resolve({privatekeys : privatekeys.toString()})
                     } else {
@@ -122,7 +122,7 @@ const getFile = () => {
 const readFile = (req, res) => {
     getFile()
     .then( result => {
-        console.log({status: 'ok', result : result});
+        // console.log({status: 'ok', result : result});
         res.status(200).send({
             status : 'ok',
             code : 200,
@@ -141,15 +141,16 @@ const readFile = (req, res) => {
             }
         })
     }).finally(()=> {
-        console.log('promise finihed and returning value');
+        // console.log('promise finihed and returning value');
     })
+
 }
 
 const readFileAwait = async(req, res) => {
     
     try {
         const result = await getFile();
-        console.log({status: 'ok', result : result});
+        // console.log({status: 'ok', result : result});
         res.status(200).send({
                 status : 'ok',
                 code : 200,
@@ -159,7 +160,7 @@ const readFileAwait = async(req, res) => {
                 }
             })
     } catch (error) {
-        console.log({status: 'error', result : error});
+        // console.log({status: 'error', result : error});
     }
 
 }
@@ -168,7 +169,7 @@ let events = require('events');
 let eventEmitter = new events.EventEmitter();
 
 const eventEm = (name) => {
-      console.log(`my name is ${name}`);    
+    //   console.log(`my name is ${name}`);    
 }
 
 const editFile = () =>{
@@ -181,12 +182,12 @@ const editFile = () =>{
     }
 
     rs.on('open', function () {
-        console.log('The file is open');
+        // console.log('The file is open');
     });
 
     rs.emit('open')
 }
-editFile()
+
 
 eventEmitter.on('showName', eventEm);
 eventEmitter.emit('showName', 'rochim');

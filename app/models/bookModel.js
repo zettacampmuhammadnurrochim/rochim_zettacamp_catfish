@@ -9,6 +9,7 @@ const bookSchema = {
     original_url: String,
     url: String,
     slug: String,
+    stock: Number,
 }
 
 const bookModel = mongoose.model(CollectionName, bookSchema, CollectionName)
