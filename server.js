@@ -6,6 +6,7 @@ const app = express()
 require('dotenv').config()
 const port = process.env.PORT;
 app.use(express.json()) //parse all request in with jsoon format    
+// app.use(express.urlencoded({extended:true})) //parse all request in with jsoon format    
 
 // routes
 const bookRoutes = require('./routes/bookRoute.js')

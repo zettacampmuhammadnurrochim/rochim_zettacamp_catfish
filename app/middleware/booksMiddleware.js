@@ -4,7 +4,6 @@ const path = require('path')
 let private = fs.readFileSync(path.join(__dirname, '../../private.key'))
 
 exports.bookMiddleware = (req, res, next) => {
-    console.log(req.session.loggedIn);
     let token = req.headers.authorization;
     if (typeof token !== 'undefined') {
         token = token.replace('Bearer ', '');

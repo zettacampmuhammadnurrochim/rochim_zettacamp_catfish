@@ -1,3 +1,4 @@
+const bookshelfModel = require('../models/bookshelfModel')
 const bookModel = require('../models/bookModel')
 const userModel = require('../models/userModel')
 const mongoose = require('../../services/services.js')
@@ -304,4 +305,70 @@ const deleteBook = async (req,res) => {
     }
 }
 
-module.exports = {getAllBooks_raw,getAllBooks_,getAllBooks_credit,saveBook,updateBook,deleteBook}
+const bookshelf = async (req,res) => {
+    result = await bookshelfModel.collection.find({}).toArray()
+    if (result.length == 0) {
+        res.status(200).send({status : 'success', data : "bookshelf is empty"})
+    }else{
+        res.status(200).send(result)
+    }
+}
+
+const bookshelf_add = async (req,res) => {
+// just make one
+    try {
+        const result = await bookshelfModel.collection.insertOne({
+            shelf_name : req.body.shelf_name,
+            book : {
+                book_id : [mongoose.Types.ObjectId(req.body.id)]
+            }
+        })
+        res.status(200).send({status : 'success', data : result})
+    } catch (error) {
+        res.status(500).send({status : 'error', data : error})
+    }
+}
+
+const bookshelf_addMany = async (req,res) => {
+// create many , tadi nyoba pakai push, pakai addtoset pada update, tapi ternyata dilangsung pada pertamakali insert bisa
+    try {
+        const result = await bookshelfModel.collection.insertOne({
+        shelf_name : req.body.shelf_name,
+        book : {
+            book_id : req.body.id.map(e => mongoose.Types.ObjectId(e))
+        }
+    })
+        res.status(200).send({status : 'success', data : result})
+    } catch (error) {
+        res.status(500).send({status : 'error', data : error})
+    }
+}
+
+const bookshelf_find = async (req,res) => {
+    let book_id =  mongoose.Types.ObjectId(req.body.id_book)
+    console.log(book_id);
+    try {
+       let result = bookshelfModel.collection.updateOne({_id :  mongoose.Types.ObjectId(req.body.id)},{
+                $pull : {"book.book_id" : book_id}
+       })            
+        res.status(200).send({status : 'success', data : result})
+    } catch (error) {
+        res.status(500).send({status : 'error', data : error})
+    }
+}
+
+const bookshelf_find_match = async (req,res) => {
+    
+    let book_id = mongoose.Types.ObjectId(req.body.id_book)
+    try {
+        let result = await bookshelfModel.find({
+            "book.book_id" : {$in : [book_id]}
+        })
+        res.status(200).send({status : 'success', data : result})
+    } catch (error) {
+        res.status(500).send({status : 'error', data : error})
+    }
+}
+
+module.exports = {getAllBooks_raw,getAllBooks_,getAllBooks_credit,saveBook,updateBook,deleteBook,
+    bookshelf,bookshelf_add,bookshelf_find,bookshelf_addMany,bookshelf_find_match}
