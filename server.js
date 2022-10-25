@@ -11,7 +11,16 @@ app.use(express.json()) //parse all request in with jsoon format
 const bookRoutes = require('./routes/bookRoute.js')
 const songRoute = require('./routes/songRoute')
 const userRoutes = require('./routes/userRoute.js')
+const session = require('express-session')
 
+
+app.use(session({
+    secret:'its secret key',
+    name:'uniqueSessionID',
+    cookie: { maxAge: (1000 * 60 * 100) },
+    resave: true,
+    saveUninitialized: true
+}))
 // middleware
 const {bookMiddleware} = require('./app/middleware/booksMiddleware.js')
 const {songMiddleware} = require('./app/middleware/songMiddleware')

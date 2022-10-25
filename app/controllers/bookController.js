@@ -169,6 +169,7 @@ function calculateCredit(jangkawaktu, indexOfcart) {
         return shopping_cart= []
     }
 }
+
 const editBookStock = (req,res)=> {
     bookModel.collection.updateMany({}, {
         $set: {"stock" : 14}
@@ -190,4 +191,117 @@ const getAllBooks_credit = async (req,res) => {
     res.send({data : result})
 }
 
-module.exports = {getAllBooks_raw,getAllBooks_,getAllBooks_credit}
+const saveBook = async (req,res) => {
+    var book1 = new bookModel({    
+                image : req.body.image ,
+                title : req.body.title ,
+                author : req.body.author ,
+                price:  req.body.price,
+                original_url : req.body.original_url ,
+                url : req.body.url,
+                slug : req.body.slug,
+                stock : req.body.stock
+            });
+ 
+    // save model to database
+    try {
+        let err = book1.validateSync() //sync validate
+        if (!err) {
+            book1.save(function (err, book) {
+            if (err) {
+                res.status(500).send({
+                    status : 'error',
+                    code : 500,
+                    data : {
+                        title : book.title,
+                        message : err
+                    }
+                });
+            }else{
+                res.status(200).send({
+                    status : 'success',
+                    code : 200,
+                    data : {
+                        title : book.title,
+                        message : err
+                    }
+                });
+                }
+            })
+        }else{
+            res.status(500).send({
+            status : 'error',
+            data : err
+         })
+        }
+        
+    } catch (error) {
+        res.status(500).send({
+            status : 'error',
+            data : error
+        })
+    }
+    
+}
+
+const saveMany = async (req,res) => {}
+
+const updateBook = async (req,res) => {
+    let Object_id = mongoose.Types.ObjectId(req.body.id)
+
+    try {
+        let updated = await bookModel.updateOne({_id : Object_id}, {$set: {    
+                    image : req.body.image ,
+                    title : req.body.title ,
+                    author : req.body.author ,
+                    price:  req.body.price,
+                    original_url : req.body.original_url ,
+                    url : req.body.url,
+                    slug : req.body.slug,
+                    stock : req.body.stock
+                }
+            },{ runValidators: true })
+            
+             res.status(200).send({
+                    status : 'success',
+                    code : 200,
+                    data : {
+                        message : updated
+                    }
+                });
+    } catch (error){
+        res.status(200).send({
+                    status : 'error',
+                    code : 500,
+                    data : {
+                        message : error
+                    }
+                });
+    }
+}
+
+const deleteBook = async (req,res) => {
+    let Object_id = mongoose.Types.ObjectId(req.body.id)
+
+    try {
+        let deleted = await bookModel.deleteOne({_id : Object_id})
+            
+             res.status(200).send({
+                    status : 'success',
+                    code : 200,
+                    data : {
+                        message : deleted
+                    }
+                });
+    } catch (error){
+        res.status(200).send({
+                    status : 'error',
+                    code : 500,
+                    data : {
+                        message : error
+                    }
+                });
+    }
+}
+
+module.exports = {getAllBooks_raw,getAllBooks_,getAllBooks_credit,saveBook,updateBook,deleteBook}

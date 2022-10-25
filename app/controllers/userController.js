@@ -4,8 +4,6 @@ const path = require('path')
 const userModel = require('../models/userModel')
 const mongoose = require('../../services/services.js')
 const bcrypt = require("bcrypt");
-const { isSet } = require('util/types');
-
 let public = fs.readFileSync(path.join(__dirname, '../../public.key'))
 
 const register = async (req, res) => {
@@ -73,10 +71,13 @@ const login = async (req, res) => {
     const exist = await userModel.exists({email : email})
     let Object_id = mongoose.Types.ObjectId(exist._id)
     const {password : hash} = await userModel.collection.findOne({_id: Object_id}, 'password')
+    console.log(exist, Object_id);
     if (exist !== null && password !== null) {
         const result = await comparePassword(password,hash);
+        console.log(result);
         if (result) {
-            res.send({status : result, isExist : exist , hash : hash},{message : "welcome, you are logged in"})
+            req.session.loggedIn = true
+            res.send({status : result, isExist : exist , hash : hash,message : "welcome, you are logged in"})
         }
     }
 
