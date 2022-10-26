@@ -3,7 +3,9 @@ const express = require("express"); //must use in every documents
 const router = express.Router();
 
 const {getAllBooks_raw,getAllBooks_,getAllBooks_credit,saveBook,updateBook,deleteBook,bookshelf,
-    bookshelf_add,bookshelf_find,bookshelf_addMany,bookshelf_find_match} = require("../app/controllers/bookController");
+    bookshelf_add,bookshelf_find_pull,bookshelf_addMany,bookshelf_find_eq,
+    bookshelf_find_ne,bookshelf_find_update_add,bookshelf_find_updateMany,
+    bookshelf_find_match,bookshelf_find_updateFillter} = require("../app/controllers/bookController");
 
 router.get("/all", getAllBooks_raw);
 router.post("/save", saveBook);
@@ -15,8 +17,15 @@ router.get("/all/calc", getAllBooks_);
 router.get("/shelf", bookshelf);
 router.post("/shelf/add", bookshelf_add);
 router.post("/shelf/addMany", bookshelf_addMany);
-router.post("/shelf/find", bookshelf_find);
+
+router.put("/shelf/find/pull", bookshelf_find_pull);
+router.post("/shelf/find/eq", bookshelf_find_eq);
 router.post("/shelf/find/match", bookshelf_find_match);
+router.post("/shelf/find/ne", bookshelf_find_ne);
+router.put("/shelf/update/add", bookshelf_find_update_add);
+router.put("/shelf/update/many", bookshelf_find_updateMany);
+
+router.put("/shelf/update/fillter", bookshelf_find_updateFillter);
 
 router.post("/all/credit/", getAllBooks_credit);
 
