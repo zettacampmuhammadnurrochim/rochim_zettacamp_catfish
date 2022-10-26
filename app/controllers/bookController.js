@@ -350,23 +350,10 @@ const bookshelf_addMany = async (req,res) => {
 // create many , tadi nyoba pakai push, pakai addtoset pada update, tapi ternyata dilangsung pada pertamakali insert bisa
     try {    
         if (typeof req.body.books !== "string") {
-            let result = []
-            let upload = await bookshelfModel.collection.insertOne({
-                shelf_name : req.body.shelf_name,
-                theme : req.body.theme,
-                type : 
-                    {
-                        price : req.body.price,
-                        level : req.body.level
-                    }
-                })
-            result.push(upload);
-            
+            let books = []
             for(const m of req.body.books)
             {
-                let update = await bookshelfModel.collection.updateOne({_id : mongoose.Types.ObjectId(upload.insertedId)},
-                {$push : {
-                    books : {
+                    books.push({
                         book_id : mongoose.Types.ObjectId(m.book_id),
                         added : {
                         full_date : moment().format(),
@@ -379,13 +366,19 @@ const bookshelf_addMany = async (req,res) => {
                         seconds : moment().format("ss")
                         },
                         stock : m.stock
-                    }
-                    }
-                })
-
-                result.push(update);
+                    })
             }
 
+            let result = await bookshelfModel.collection.insertOne({
+                shelf_name : req.body.shelf_name,
+                books : books,
+                theme : req.body.theme,
+                type : 
+                    {
+                        price : req.body.price,
+                        level : req.body.level
+                    }
+                })
             res.status(200).send({status : 'success', data : result})
         }else{
             res.status(500).send({status : "error", data : {message : "data must an array"}})
