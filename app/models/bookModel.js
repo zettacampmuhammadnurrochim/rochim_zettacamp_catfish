@@ -11,6 +11,8 @@ const bookSchema = new Schema({
     url: {type : String},
     slug: {type : String},
     stock: {type : Number},
+    dis: {type : Number},
+    tax: {type : Number},
     createdAt : Date,
     updatedAt : {type: Date , default : new Date} //notworking
 },{ timestamps: true }) //working

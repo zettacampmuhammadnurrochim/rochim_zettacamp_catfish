@@ -2,21 +2,25 @@ const {Schema, mongoose} = require('../../services/services.js')
 CollectionName = "bookshelf"
 
 const bookshelfSchema = new Schema({
-        shelf_name : String,
+        admin : {type : Schema.Types.ObjectId, ref : "admin"},
         books : [{
-            book_id : {type : Schema.Types.ObjectId}, 
+            book_id : {type : Schema.Types.ObjectId, ref : "collectionBooks"}, 
             added : {
                 full_date : {Type : String}, date : {Type : String},day : {Type : String}, month : {Type : String}, year : {Type : String}, hours : {Type : String},minutes : {Type : String}, seconds : {Type : String}
                 },
-            stock : {Type : Number}
+            quantity : {Type : Number},
+            total_disc: {Type : String},
+            price_AfterDisc: {Type : String},
+            total_tax: {Type : String},
+            price_afterTax: {Type : String},
+            total_price : {Type : String}
         }],
         date : [{date : {type : String}, time : {Type : String}}],
-        theme : [{type : String}],
-        type : 
-        {
-            price : {Type : String, enum: ['expensive', 'middle', 'cheap']},
-            level : {Type : Array, enum: ['rare', 'medium', 'ordinary']}
-        }
+        total : {Type : String},
+        paid : {Type : String},
+        change : {Type : String},
+        paid_off : {Type : Boolean},
+        description : {Type : String}
     },
     { timestamps: true })
 
