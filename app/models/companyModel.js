@@ -1,13 +1,11 @@
 const mongoose = require('../../services/services.js')
 
-CollectionName = "users" 
-const userSchema = {
+CollectionName = "company" 
+const companySchema = {
     name : String,
     email: String,
-    password : String,
-    date : String,
+    telpon : String,
     address  : String,
-    token : String,
     location: {
         type: {
             type: String,
@@ -20,6 +18,6 @@ const userSchema = {
         }
     }
 }
-const userModel = mongoose.model(CollectionName, userSchema)
 
-module.exports = userModel
+const companyModel = mongoose.model(CollectionName, companySchema, CollectionName)
+module.exports = companyModel

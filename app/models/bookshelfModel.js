@@ -3,6 +3,7 @@ CollectionName = "bookshelf"
 
 const bookshelfSchema = new Schema({
         admin : {type : Schema.Types.ObjectId, ref : "admin"},
+        user : {type : Schema.Types.ObjectId, ref : "users"},
         books : [{
             book_id : {type : Schema.Types.ObjectId, ref : "collectionBooks"}, 
             added : {

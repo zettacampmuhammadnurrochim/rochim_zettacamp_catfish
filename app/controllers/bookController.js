@@ -1,8 +1,11 @@
 const bookshelfModel = require('../models/bookshelfModel')
 const bookModel = require('../models/bookModel')
 const userModel = require('../models/userModel')
+const companyModel = require('../models/companyModel')
 const mongoose = require('../../services/services.js')
 const moment = require('moment')
+const Decimal = require('decimal.js');
+
 let dataBuku = [];
 let shopping_cart = [];
 let periodOfcredit = [{
@@ -38,9 +41,9 @@ function calculateDiscount_Tax(books) {
     let result = [];
     books.forEach(h => {
         let harga = h.price;
-        let rawHarga = harga.replace(/[^0-9.-]+/g, "");
+        let rawHarga = harga.replaceAll(/[^0-9.-]+/g, "");
 
-        let hargaInt = parseFloat(rawHarga.replace('.', '')).toFixed(2);
+        let hargaInt = parseFloat(rawHarga.replaceAll('.', '')).toFixed(2);
 
         let discount = (hargaInt * h.dis) / 100;
         let rawAfterDisc = hargaInt - discount;
@@ -142,7 +145,7 @@ function calculateCredit(jangkawaktu, indexOfcart) {
         shopping_cart[indexOfcart].startDate = tglMulai;
         shopping_cart[indexOfcart].endDate = tglSelesai;
 
-        let starting_price = parseFloat(shopping_cart[indexOfcart].price_afterTax.replace('Rp', "").replace('.', '')).toFixed(2);
+        let starting_price = parseFloat(shopping_cart[indexOfcart].price_afterTax.replaceAll('Rp', "").replaceAll('.', '')).toFixed(2);
         let startmonthlyPayment = starting_price / jangkawaktu;
 
         let monthlyPayment = starting_price / jangkawaktu;
@@ -332,8 +335,8 @@ const bookshelf_add = async (req, res) => {
         }).toArray()
         let find = calculateDiscount_Tax(data)
         let price = find[0].price_afterTax;
-        let rawPrice = price.replace("Rp", "");
-        let priceInt = parseFloat(rawPrice.replace('.', '').replace(',', '.')).toFixed(2);
+        let rawPrice = price.replaceAll("Rp", "");
+        let priceInt = parseFloat(rawPrice.replaceAll('.', '').replaceAll(',', '.')).toFixed(2);
         total_price = formatter.format(req.body.quantity * priceInt)
         let paid_off = false 
             if ((req.body.paid - (req.body.quantity * priceInt)) >= 0) {
@@ -341,6 +344,7 @@ const bookshelf_add = async (req, res) => {
             }
         const result = await bookshelfModel.collection.insertOne({
             admin: mongoose.Types.ObjectId(req.body.admin),
+            user: mongoose.Types.ObjectId(req.body.user),
             books: [{
                 book_id: mongoose.Types.ObjectId(req.body.book_id),
                 added: {
@@ -392,8 +396,8 @@ const bookshelf_addMany = async (req, res) => {
 
                 let find = calculateDiscount_Tax(data)
                 let price = find[0].price_afterTax;
-                let rawPrice = price.replace("Rp", "");
-                let priceInt = parseFloat(rawPrice.replace('.', '').replace(',', '.')).toFixed(2);
+                let rawPrice = price.replaceAll("Rp", "");
+                let priceInt = parseFloat(rawPrice.replaceAll('.', '').replaceAll(',', '.')).toFixed(2);
                 total_price = formatter.format(m.quantity * priceInt)
                 total = total + (m.quantity * priceInt)
                 books.push({
@@ -415,6 +419,10 @@ const bookshelf_addMany = async (req, res) => {
                     price_afterTax: find[0].price_afterTax,
                     total_price: total_price
                 })
+
+                // stock buku pada collection berkurang seharusnya 
+
+
             }
 
             let paid_off = false 
@@ -423,6 +431,7 @@ const bookshelf_addMany = async (req, res) => {
             }
             let result = await bookshelfModel.collection.insertOne({
                 admin:  mongoose.Types.ObjectId(req.body.admin),
+                user: mongoose.Types.ObjectId(req.body.user),
                 books: books,
                 total: formatter.format(total),
                 paid: formatter.format(req.body.paid),
@@ -523,27 +532,60 @@ const bookshelf_find_ne = async (req, res) => {
 }
 
 const bookshelf_find_update_add = async (req, res) => {
-    let result = await bookshelfModel.collection.updateOne({
-        _id: mongoose.Types.ObjectId(req.body.id)
-    }, {
-        $push: {
-            books: {
-                book_id: mongoose.Types.ObjectId(req.body.book_id),
-                added: {
-                    full_date: moment().format(),
-                    date: moment().format("D/M/YYYY"),
-                    day: moment().format("dddd"),
-                    month: moment().format("MMMM"),
-                    year: moment().format("YYYY"),
-                    hours: moment().format("HH"),
-                    minutes: moment().format("mm"),
-                    seconds: moment().format("ss")
+    // pertanyaan, karena disini aku memerlukan value dari data yang sudah tersimpan maka aku find dulu baru update
+    // so , peretanyaannya apakah ada cara lebih mudah untuk mengambil value yang sudah ada saat akan upadte
+    let data = await bookModel.collection.find({_id: mongoose.Types.ObjectId(req.body.book_id)}).toArray()
+    let result = await bookshelfModel.collection.findOne({_id: mongoose.Types.ObjectId(req.body.id)})
+   
+    let total = result.total.replaceAll("Rp", "").replaceAll('.', '').replaceAll(',', '.')
+    total = parseFloat(total).toFixed(2)
+
+    let paid = result.paid.replaceAll("Rp", "").replaceAll('.', '').replaceAll(',', '.')
+    paid = parseFloat(paid).toFixed(2)
+
+    let find = calculateDiscount_Tax(data)
+    let price = find[0].price_afterTax;
+    let rawPrice = price.replaceAll("Rp", "");
+    let priceInt = parseFloat(rawPrice.replaceAll('.', '').replaceAll(',', '.')).toFixed(2);
+    total_price = formatter.format(req.body.quantity * priceInt)
+    let paid_off = false 
+    if (Decimal.sub((Decimal.add(paid , req.body.paid)) , (Decimal.add(total , (req.body.quantity * priceInt)))) >= 0) {
+        paid_off = true
+    }
+
+    let books = {
+                "book_id": mongoose.Types.ObjectId(req.body.book_id),
+                "added": {
+                    "full_date": moment().format(),
+                    "date": moment().format("D/M/YYYY"),
+                    "day": moment().format("dddd"),
+                    "month": moment().format("MMMM"),
+                    "year": moment().format("YYYY"),
+                    "hours": moment().format("HH"),
+                    "minutes": moment().format("mm"),
+                    "seconds": moment().format("ss")
                 },
-                stock: req.body.stock
+                "quantity": req.body.quantity,
+                "total_disc": find[0].total_disc,
+                "price_AfterDisc": find[0].price_AfterDisc,
+                "total_tax": find[0].total_tax,
+                "price_afterTax": find[0].price_afterTax,
+                "total_price": total_price
             }
-        }
-    })
-    // await result.save()
+            
+            result = await bookshelfModel.collection.updateOne({_id: mongoose.Types.ObjectId(req.body.id)},{
+                $push : {
+                    books : books
+                },
+                $set : {
+                    total        : formatter.format(Decimal.add(total, (req.body.quantity * priceInt))),
+                    paid         : formatter.format(Decimal.add(paid ,req.body.paid)),
+                    change       : formatter.format(Decimal.sub((Decimal.add(paid , req.body.paid)) , (Decimal.add(total , (req.body.quantity * priceInt))))),
+                    description  : req.body.description,
+                    paid_off     : paid_off
+                }
+            })
+    
     res.status(200).send({
         status: 'success',
         data: result
@@ -553,7 +595,6 @@ const bookshelf_find_update_add = async (req, res) => {
 
 const bookshelf_find_updateMany = async (req, res) => {
     if (typeof req.body.id_book !== "string") {
-        console.log(req.body.id_book.map(e => mongoose.Types.ObjectId(e)));
         let result = await bookshelfModel.updateOne({
             _id: mongoose.Types.ObjectId(req.body.id)
         }, {
@@ -671,6 +712,286 @@ const aggregateFunc = async (req,res) => {
 
     res.send({status : "success", data : result})
 }
+
+const aggregateCountDistance = async (req,res) => {
+    // get data company 
+    let nama = req.body.name
+    let company = await companyModel.collection.findOne({})
+    let result = await bookshelfModel.aggregate([
+    {
+        $lookup: {
+           from: "admin",
+           localField: "admin",
+           foreignField: "_id",
+           as: "admin_field"
+         }
+    },
+    {
+        $lookup: {
+           from: "users",
+           localField: "user",
+           foreignField: "_id",
+           as: "detail_user"
+         }
+    },
+    {
+        $match : {
+            "detail_user.name" : nama
+        }
+    },
+    {
+        $unwind: {
+            path: "$admin_field",
+            preserveNullAndEmptyArrays: true
+        }
+    },
+    {
+        $unwind: {
+            path: "$detail_user",
+            preserveNullAndEmptyArrays: true
+        }
+    },
+    {
+        // haversine formula to calculate distance √ ((x2-x1)² + (y2-y1)²)
+        $addFields : {
+            'distance': {
+                '$sqrt': {
+                    '$add': [
+                    {
+                    '$pow': [{
+                        '$subtract': [{'$round' : [{'$arrayElemAt': [company.location.coordinates, 0]},0]}, 
+                        {'$round' : [{'$arrayElemAt': ['$detail_user.location.coordinates', 0]},0]}]}, 2]
+                    }, 
+                    {
+                    '$pow': [{
+                        '$subtract': [{'$round' : [{'$arrayElemAt': [company.location.coordinates, 1]},0]}, 
+                        {'$round' : [{'$arrayElemAt': ['$detail_user.location.coordinates', 1]},0]}]}, 2]
+                    }]
+                }
+            },
+            "long1" : {'$round' : [{'$arrayElemAt': [company.location.coordinates, 0]},0]},
+            "lat1" : {'$round' : [{'$arrayElemAt': ['$detail_user.location.coordinates', 0]},0]},
+            "long2" : {'$round' : [{'$arrayElemAt': [company.location.coordinates, 1]},0]},
+            "lat2" : {'$round' : [{'$arrayElemAt': ['$detail_user.location.coordinates', 1]},0]},
+            'admin_name' : "$admin_field.name",
+            "company_location" : company.location.coordinates,
+            "user_location" : '$detail_user.location.coordinates'
+        }
+    },
+    {
+        $project : {
+            "admin_field" : 0
+        }
+    }
+    ])
+
+    res.send({status : "success", data : result})
+}
+
+const DistanceNear = async (req,res) => {
+    let company = await companyModel.collection.findOne({})
+    let result = await bookshelfModel.aggregate([
+    {
+        // haversine formula to calculate distance √ ((x2-x1)² + (y2-y1)²)
+       "$geoNear": {
+            "near": {
+                "type": "Point",
+                "coordinates": [ -81.093699, 32.074673 ]
+            },
+            "distanceField": "distance",
+        }
+
+    },
+    {
+        $lookup: {
+           from: "admin",
+           localField: "admin",
+           foreignField: "_id",
+           as: "admin_field"
+         }
+    },
+    {
+        $lookup: {
+           from: "users",
+           localField: "user",
+           foreignField: "_id",
+           as: "detail_user"
+         }
+    },
+    {
+        $unwind: {
+            path: "$admin_field",
+            preserveNullAndEmptyArrays: true
+        }
+    },
+    {
+        $unwind: {
+            path: "$detail_user",
+            preserveNullAndEmptyArrays: true
+        }
+    },
+    
+    {
+        $project : {
+            "admin_field" : 0
+        }
+    }
+    ])
+
+    res.send({status : "success", data : result})
+}
+
+const orederByprice = async (req,res) => {
+    try {
+        const result = await bookModel.aggregate([
+            {
+                $addFields : {
+                    priceInt : {
+                        $replaceAll : {input: "$price", find: "Rp ", replacement: ""}
+                    }
+                }
+            },
+            {
+                $set : {
+                    priceInt : {$replaceAll : {input: "$priceInt", find: ".", replacement: ""}}
+                }
+            },
+            {
+                $set : {
+                    priceInt : {
+                        $toInt : {
+                            $replaceAll : {input: "$priceInt", find: ",", replacement: "."}
+                        }
+                    }
+                }
+            },
+            {
+                $sort : {
+                    priceInt : 1
+                }
+            }
+        ])
+        res.status(200).send({
+            status: 'success',
+            data: result
+        })
+    } catch (error) {
+        res.status(500).send({
+            status: 'error',
+            data: error
+        })
+    }
+}
+
+const showBetween = async (req,res) => {
+    try {
+        let lower = req.body.lower 
+        let higher = req.body.higher
+        const result = await bookModel.aggregate([
+            {
+                $addFields : {
+                    priceInt : {
+                        $replaceAll : {input: "$price", find: "Rp ", replacement: ""}
+                    },
+                    concating : {
+                        $concat : ["buku ini ","berjudul ","$title"]
+                    }
+                }
+            },
+            {
+                $set : {
+                    priceInt : {$replaceAll : {input: "$priceInt", find: ".", replacement: ""}}
+                }
+            },
+            {
+                $set : {
+                    priceInt : {
+                        $toInt : {
+                            $replaceAll : {input: "$priceInt", find: ",", replacement: "."}
+                        }
+                    }
+                }
+            },
+            {
+                $match : {
+                    priceInt : {
+                        $gte : lower,
+                        $lte : higher
+                    }
+                }
+            }
+        ])
+        res.status(200).send({
+            status: 'success',
+            data: result
+        })
+    } catch (error) {
+        res.status(500).send({
+            status: 'error',
+            data: error
+        })
+    }
+}
+
+const arrayFilter = async (req,res) => {
+    // try {
+        let query = []
+        if (typeof req.body.title != 'undefined' ) {
+            query.push({
+                "title" : req.body.title
+            })
+        }
+
+        if (req.body.price != 'undefined' ) {
+            query.push({
+                "title" : req.body.title
+            })
+        }
+
+        // if (req.body.stock.length != 0 || req.body.stock != 'undefined' ) {
+        //     console.log('stock was available');
+        // }
+
+        query = {
+            $or : query
+        }
+
+        const result = await bookModel.aggregate([
+            {
+                $match : query
+            }
+        ])
+        res.status(200).send({
+            status: 'success',
+            data: result
+        })
+    // } catch (error) {
+    //     res.status(500).send({
+    //         status: 'error',
+    //         data: error
+    //     })
+    // }
+}
+
+const pagination = (req,res)=>{
+    const page = req.body.page 
+    const limit = req.body.limit 
+    const skip = 0
+    skip = skip * (page-1)
+    let result = bookModel.collection.aggregation([
+        {
+            $limit : limit
+        },
+        {
+            $skip : skip
+        }
+    ])
+
+    res.status(200).send({status : 'success', data : result})
+}
+
+
+
 module.exports = {
     getAllBooks_raw,
     getAllBooks_,
@@ -689,5 +1010,11 @@ module.exports = {
     bookshelf_find_updateMany,
     bookshelf_find_match,
     bookshelf_find_updateFillter,
-    aggregateFunc
+    aggregateFunc,
+    aggregateCountDistance,
+    DistanceNear,
+    orederByprice,
+    showBetween,
+    arrayFilter,
+    pagination
 }
