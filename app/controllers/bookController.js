@@ -934,43 +934,44 @@ const showBetween = async (req,res) => {
 }
 
 const arrayFilter = async (req,res) => {
-    try {
-        let query = []
-        if (typeof req.body.title != 'undefined' ) {
-            query.push({
-                "title" : req.body.title
+    // try {
+        let query = {$and : [],$or : []}
+        // if (typeof req.body.title != 'undefined' ) {
+            query.$and.push({
+                "title" : "tes"
             })
-        }
+        // }
 
-        if (typeof req.body.price != 'undefined' ) {
-            if (req.body.price != 0  ) {
-                lower = req.body.price[0]
-                higher = req.body.price[1]
-                query.push({
+        // if (typeof req.body.price != 'undefined' ) {
+        //     if (req.body.price != 0  ) {
+                lower = 9
+                higher = 8
+                query.$and.push({
                     priceInt : {
                             $gte : lower,
                             $lte : higher
                         }
                 })
-            }
-        }
+        //     }
+        // }
         
-        if (typeof req.body.stock != 'undefined' ) {
-            if (req.body.stock != 0  ) {
-                lower = req.body.stock[0]
-                higher = req.body.stock[1]
-                query.push({
+        // if (typeof req.body.stock != 'undefined' ) {
+            // if (req.body.stock != 0  ) {
+                lower = 10
+                higher = 1
+                query.$or.push({
                     stock : {
                             $gte : lower,
                             $lte : higher
                         }
                 })
-            }
-        }
-
-        query = {
-            $or : query
-        }
+            // }
+        // }
+        console.log(query);
+        return 0
+        // query = {
+        //     $or : query
+        // }
 
         const result = await bookModel.aggregate([
             {
@@ -1005,23 +1006,21 @@ const arrayFilter = async (req,res) => {
             status: 'success',
             data: result
         })
-    } catch (error) {
-        res.status(500).send({
-            status: 'error',
-            data: error
-        })
-    }
+    // } catch (error) {
+    //     res.status(500).send({
+    //         status: 'error',
+    //         data: error
+    //     })
+    // }
 }
+arrayFilter()
 
 const pagination = async (req,res)=>{
-    let page = req.body.page 
-    let limit = req.body.limit 
-    let skip = limit * (page-1)
-    
-
+    let page = req.body.page //(1 --) 
+    let limit = req.body.limit
     let result = await bookModel.aggregate([
         {
-            $skip : skip
+            $skip : limit * (page - 1)
         },
         {
             $limit : limit
