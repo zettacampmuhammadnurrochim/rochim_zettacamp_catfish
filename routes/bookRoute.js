@@ -6,7 +6,7 @@ const {getAllBooks_raw,getAllBooks_,getAllBooks_credit,saveBook,updateBook,delet
     bookshelf_add,bookshelf_find_pull,bookshelf_addMany,bookshelf_find_eq,
     bookshelf_find_ne,bookshelf_find_update_add,bookshelf_find_updateMany,
     bookshelf_find_match,bookshelf_find_updateFillter,aggregateFunc,aggregateCountDistance
-    ,DistanceNear,orederByprice,showBetween,arrayFilter,pagination} = require("../app/controllers/bookController");
+    ,DistanceNear,orederByprice,showBetween,arrayFilter,pagination,facetPrice,facetGroup} = require("../app/controllers/bookController");
 
 router.get("/all", getAllBooks_raw);
 router.post("/save", saveBook);
@@ -36,5 +36,7 @@ router.get("/all/sort/cheap", orederByprice);
 router.get("/all/between", showBetween);
 router.get("/all/array/filter", arrayFilter);
 router.get("/all/pagination", pagination);
+router.get("/all/facetPrice", facetPrice);
+router.get("/all/facetGroup", facetGroup);
 
 module.exports = router;

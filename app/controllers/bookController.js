@@ -934,7 +934,7 @@ const showBetween = async (req,res) => {
 }
 
 const arrayFilter = async (req,res) => {
-    // try {
+    try {
         let query = []
         if (typeof req.body.title != 'undefined' ) {
             query.push({
@@ -942,21 +942,61 @@ const arrayFilter = async (req,res) => {
             })
         }
 
-        if (req.body.price != 'undefined' ) {
-            query.push({
-                "title" : req.body.title
-            })
+        if (typeof req.body.price != 'undefined' ) {
+            if (req.body.price != 0  ) {
+                lower = req.body.price[0]
+                higher = req.body.price[1]
+                query.push({
+                    priceInt : {
+                            $gte : lower,
+                            $lte : higher
+                        }
+                })
+            }
         }
-
-        // if (req.body.stock.length != 0 || req.body.stock != 'undefined' ) {
-        //     console.log('stock was available');
-        // }
+        
+        if (typeof req.body.stock != 'undefined' ) {
+            if (req.body.stock != 0  ) {
+                lower = req.body.stock[0]
+                higher = req.body.stock[1]
+                query.push({
+                    stock : {
+                            $gte : lower,
+                            $lte : higher
+                        }
+                })
+            }
+        }
 
         query = {
             $or : query
         }
 
         const result = await bookModel.aggregate([
+            {
+                $addFields : {
+                    priceInt : {
+                        $replaceAll : {input: "$price", find: "Rp ", replacement: ""}
+                    },
+                    concating : {
+                        $concat : ["buku ini ","berjudul ","$title"]
+                    }
+                }
+            },
+            {
+                $set : {
+                    priceInt : {$replaceAll : {input: "$priceInt", find: ".", replacement: ""}}
+                }
+            },
+            {
+                $set : {
+                    priceInt : {
+                        $toInt : {
+                            $replaceAll : {input: "$priceInt", find: ",", replacement: "."}
+                        }
+                    }
+                }
+            },
             {
                 $match : query
             }
@@ -965,26 +1005,126 @@ const arrayFilter = async (req,res) => {
             status: 'success',
             data: result
         })
-    // } catch (error) {
-    //     res.status(500).send({
-    //         status: 'error',
-    //         data: error
-    //     })
-    // }
+    } catch (error) {
+        res.status(500).send({
+            status: 'error',
+            data: error
+        })
+    }
 }
 
-const pagination = (req,res)=>{
-    const page = req.body.page 
-    const limit = req.body.limit 
-    const skip = 0
-    skip = skip * (page-1)
-    let result = bookModel.collection.aggregation([
-        {
-            $limit : limit
-        },
+const pagination = async (req,res)=>{
+    let page = req.body.page 
+    let limit = req.body.limit 
+    let skip = limit * (page-1)
+    
+
+    let result = await bookModel.aggregate([
         {
             $skip : skip
+        },
+        {
+            $limit : limit
         }
+    ])
+
+    res.status(200).send({status : 'success', data : result, limit : limit, skip : skip})
+}
+
+const facetPrice = async (req,res)=>{
+    let result = await bookModel.aggregate([
+        { $match: { price: { $exists: 1 } } },
+        {
+                $addFields : {
+                    priceInt : {
+                        $replaceAll : {input: "$price", find: "Rp ", replacement: ""}
+                    },
+                    concating : {
+                        $concat : ["buku ini ","berjudul ","$title"]
+                    }
+                }
+            },
+            {
+                $set : {
+                    priceInt : {$replaceAll : {input: "$priceInt", find: ".", replacement: ""}}
+                }
+            },
+            {
+                $set : {
+                    priceInt : {
+                        $toInt : {
+                            $replaceAll : {input: "$priceInt", find: ",", replacement: "."}
+                        }
+                    }
+                }
+            },
+            {
+            $facet : {
+                "allPrice" : [
+                    {
+                        $bucket: {
+                            groupBy: "$priceInt",
+                            boundaries: [149000,180000],
+                            default: "Other",
+                            output: {
+                            "count": { $sum: 1 },
+                            "total": { $sum: "$priceInt" },
+                            "titles": { $push: "$title" }
+                            }
+                        } 
+                    }
+                ]
+            }
+        }
+    ])
+
+    res.status(200).send({status : 'success', data : result})
+}
+
+const facetGroup = async (req,res)=>{
+    let result = await bookModel.aggregate([
+        { $match: { price: { $exists: 1 } } },
+        {
+                $addFields : {
+                    priceInt : {
+                        $replaceAll : {input: "$price", find: "Rp ", replacement: ""}
+                    },
+                    concating : {
+                        $concat : ["buku ini ","berjudul ","$title"]
+                    }
+                }
+            },
+            {
+                $set : {
+                    priceInt : {$replaceAll : {input: "$priceInt", find: ".", replacement: ""}}
+                }
+            },
+            {
+                $set : {
+                    priceInt : {
+                        $toInt : {
+                            $replaceAll : {input: "$priceInt", find: ",", replacement: "."}
+                        }
+                    }
+                }
+            },
+            {
+            $facet : {
+                "allPrice" : [
+                    {
+                        $group : {
+                            _id: "$priceInt",
+                            total : {$sum : 1 }
+                        }
+                    }
+                ]
+            }
+        },
+            {
+                $addFields : {
+                    total : {$size : "$allPrice"}
+                }
+            }
     ])
 
     res.status(200).send({status : 'success', data : result})
@@ -1016,5 +1156,7 @@ module.exports = {
     orederByprice,
     showBetween,
     arrayFilter,
-    pagination
+    pagination,
+    facetPrice,
+    facetGroup
 }
