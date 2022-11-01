@@ -1013,7 +1013,6 @@ const arrayFilter = async (req,res) => {
     //     })
     // }
 }
-arrayFilter()
 
 const pagination = async (req,res)=>{
     let page = req.body.page //(1 --) 
@@ -1128,8 +1127,6 @@ const facetGroup = async (req,res)=>{
 
     res.status(200).send({status : 'success', data : result})
 }
-
-
 
 module.exports = {
     getAllBooks_raw,
