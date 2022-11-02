@@ -46,17 +46,9 @@ async function startApolloServer(typeDefs, resolvers){
     app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 }
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
+const {typeDefs} = require('./app/graphql/typeDefs.js') 
 // Provide resolver functions for your schema fields
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
-};
+const {resolvers} = require('./app/graphql/resolvers.js')
 
 startApolloServer(typeDefs, resolvers);
 // app.use('/', (req,res)=>{res.status(404).send({status : 404, message : 'route not found'})})
