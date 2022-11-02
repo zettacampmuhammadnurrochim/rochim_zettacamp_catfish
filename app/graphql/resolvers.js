@@ -121,7 +121,7 @@ const resolvers = {
             if (exist !== null && password !== null) {
                 const result = await comparePassword(password,hash)
                 if (result) {
-                    return result    
+                    return {data : {status : "success", result : "your logged in"}}    
                 }
             }
         }

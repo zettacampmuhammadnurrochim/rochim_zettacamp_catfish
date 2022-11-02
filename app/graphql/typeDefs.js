@@ -3,6 +3,10 @@ const {gql} = require('apollo-server-express')
 const typeDefs = gql`
     scalar JSON
     scalar Date
+    type default{
+        result : JSON    
+    }
+
     input userInput {
         name : String!
         email : String!
@@ -49,7 +53,7 @@ const typeDefs = gql`
     
     type Mutation {
         createUser(data : userInput) : user!
-        loginUser(email : String, password : String) :user
+        loginUser(email : String, password : String) : default
     }
 `
 

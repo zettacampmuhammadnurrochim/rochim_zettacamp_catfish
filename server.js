@@ -1,5 +1,5 @@
 const express = require('express')
-const {ApolloServer, gql} = require('apollo-server-express')
+const {ApolloServer} = require('apollo-server-express')
 
 const app = express()
 require('dotenv').config()
@@ -30,11 +30,6 @@ app.use('/', userRoutes)
 // songs route
 app.use('/songs', songMiddleware); //no problem
 app.use('/songs', songRoute);
-
-
-// define server runing on
-
-
 
 // graphql day 1
 
