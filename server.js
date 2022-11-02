@@ -1,20 +1,15 @@
-// require memungkinkan mengimport file js , dapat dipanggil didalam fungsi (CJS), merupakan standar javascript, (beberapa browser tidak support)
-// sedangkan import adalah sintaks untuk masadepan, di jalankan di awal (hoisting)
 const express = require('express')
+const {ApolloServer, gql} = require('apollo-server-express')
 
 const app = express()
 require('dotenv').config()
 const port = process.env.PORT;
-app.use(express.json()) //parse all request in with jsoon format    
-// app.use(express.urlencoded({extended:true})) //parse all request in with jsoon format    
+app.use(express.json())
 
-// routes
 const bookRoutes = require('./routes/bookRoute.js')
 const songRoute = require('./routes/songRoute')
 const userRoutes = require('./routes/userRoute.js')
 const session = require('express-session')
-
-
 app.use(session({
     secret:'its secret key',
     name:'uniqueSessionID',
@@ -36,6 +31,32 @@ app.use('/', userRoutes)
 app.use('/songs', songMiddleware); //no problem
 app.use('/songs', songRoute);
 
-app.use('/', (req,res)=>{res.status(404).send({status : 404, message : 'route not found'})})
+
 // define server runing on
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+
+
+// graphql day 1
+
+
+async function startApolloServer(typeDefs, resolvers){
+    const server = new ApolloServer({typeDefs, resolvers})
+    await server.start()
+    server.applyMiddleware({app})
+    app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+}
+
+const typeDefs = gql`
+  type Query {
+    hello: String
+  }
+`;
+// Provide resolver functions for your schema fields
+const resolvers = {
+  Query: {
+    hello: () => 'Hello world!',
+  },
+};
+
+startApolloServer(typeDefs, resolvers);
+// app.use('/', (req,res)=>{res.status(404).send({status : 404, message : 'route not found'})})
