@@ -19,7 +19,6 @@ const bookSchema = new Schema({
 
 
 bookSchema.pre(['save','updateOne','updateMany','insertOne','insertMany','updateById'], function(next){
-    console.log('save is runing');
     let currenDate = new Date()
     this.updatedAt = currenDate
     if (!this.createdAt) {
