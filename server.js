@@ -40,14 +40,6 @@ const loginAuth = async (resolve, root, args, context, info) => {
   return result
 }
 
-// const getbook = (id : String) : book => {
-//     return bookModel.find({_id : id})
-// }
-
-// const getBooksById = async (ids: String[]) : Promise<Domain[]> => {
-//     return ids.map((id)=> getBook(id))
-// }
-// app.use('/graphql', graphqlMiddleware)
 async function startApolloServer(typeDefs, resolvers){
     const schema = makeExecutableSchema({
         typeDefs, 
