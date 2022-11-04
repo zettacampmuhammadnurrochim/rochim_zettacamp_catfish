@@ -1,5 +1,7 @@
 const express = require('express')
 const {ApolloServer , ApolloError} = require('apollo-server-express')
+const {mergeTypeDefs,mergeResolvers} = require('@graphql-tools/merge')
+const { makeExecutableSchema } = require('@graphql-tools/schema')
 
 const app = express()
 require('dotenv').config()
@@ -33,13 +35,22 @@ app.use('/songs', songMiddleware); //no problem
 app.use('/songs', songRoute);
 
 // graphql day 1
-
+const loginAuth = async (resolve, root, args, context, info) => {
+  console.log("middleware success");
+  const result = await resolve(root, args, context, info)
+  return result
+}
 // app.use('/graphql', graphqlMiddleware)
 async function startApolloServer(typeDefs, resolvers){
-    
-    const server = new ApolloServer({
+    const schema = makeExecutableSchema({
         typeDefs, 
-        resolvers,
+        resolvers
+    })
+    const middleware = [loginAuth]
+    schemaWithMiddleware = applyMiddleware(schema, ...middleware)
+
+    const server = new ApolloServer({
+        schema : schemaWithMiddleware,
         context : ({req}) => {
             return {req : req, error: ApolloError}
         }
@@ -48,10 +59,18 @@ async function startApolloServer(typeDefs, resolvers){
     server.applyMiddleware({app})
     app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 }
+// TYPE DEFS 
+const booksTypeDefs = require('./app/graphql/books/books.typeDefs') 
+const usersTypeDefs = require('./app/graphql/users/users.typeDefs')
 
-const {typeDefs} = require('./app/graphql/book/typeDefs.js') 
-// Provide resolver functions for your schema fields
-const {resolvers} = require('./app/graphql/book/resolvers.js')
+// RESOLVERS
+const booksResolvers = require('./app/graphql/books/books.resolvers')
+const usersResolvers = require('./app/graphql/users/users.resolvers')
+const { applyMiddleware } = require('graphql-middleware')
+
+// MERGEING 
+typeDefs = mergeTypeDefs([booksTypeDefs,usersTypeDefs])
+resolvers = mergeResolvers([booksResolvers,usersResolvers])
 
 startApolloServer(typeDefs, resolvers);
 // app.use('/', (req,res)=>{res.status(404).send({status : 404, message : 'route not found'})})

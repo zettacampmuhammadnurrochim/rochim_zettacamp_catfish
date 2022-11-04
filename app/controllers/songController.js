@@ -351,7 +351,7 @@ const findDetail = async (req,res) => {
 }
 
 const matchSong = async (req,res) => {
-    // try {
+    try {
         let aggregate = []
         if (typeof req.body.match != 'undefined') {
             if (req.body.match.length != 0) {
@@ -424,8 +424,8 @@ const matchSong = async (req,res) => {
         
         let result = await songModel.aggregate(aggregate)
         res.status(200).send({status : "success", query: aggregate ,data : result})
-    // } catch (error) {
-    //     res.status(500).send({status : "error",data : error}) 
-    // }
+    } catch (error) {
+        res.status(500).send({status : "error",data : error}) 
+    }
 }
 module.exports.songController = {all,songlist,addOneHourSongList,addSongList,remSongList,updSongList,dellSongList,forceDellSongList,findDetailAll,findDetail,matchSong}

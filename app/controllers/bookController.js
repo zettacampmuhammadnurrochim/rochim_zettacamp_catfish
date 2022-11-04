@@ -181,10 +181,8 @@ function calculateCredit(jangkawaktu, indexOfcart) {
 }
 
 const getAllBooks_credit = async (req, res) => {
-    const period = req.body.period
-    length = req.body.data.length
-
     const bookPurcase = req.body.data;
+    const period = req.body.period
 
     await getAllBooks_()
     const result = await bookCheckOut(bookPurcase,
