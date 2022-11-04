@@ -2,7 +2,7 @@ const express = require('express')
 const {ApolloServer , ApolloError} = require('apollo-server-express')
 const {mergeTypeDefs,mergeResolvers} = require('@graphql-tools/merge')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
-
+const Dataloader = require('dataloader')
 const app = express()
 require('dotenv').config()
 const port = process.env.PORT;
@@ -36,7 +36,6 @@ app.use('/songs', songRoute);
 
 // graphql day 1
 const loginAuth = async (resolve, root, args, context, info) => {
-  console.log("middleware success");
   const result = await resolve(root, args, context, info)
   return result
 }
@@ -52,7 +51,7 @@ async function startApolloServer(typeDefs, resolvers){
     const server = new ApolloServer({
         schema : schemaWithMiddleware,
         context : ({req}) => {
-            return {req : req, error: ApolloError}
+            return {req : req, error: ApolloError, dataloader : new Dataloader}
         }
     })
     await server.start()

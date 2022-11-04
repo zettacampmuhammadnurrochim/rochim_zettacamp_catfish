@@ -1,7 +1,8 @@
 const bookModel = require('../../models/bookModel')
 const mongoose = require('../../../services/services')
 const {GraphQLScalarType, Kind} = require('graphql')
-const { GraphQLJSON  } = require('graphql-type-json')
+const { GraphQLJSON  } = require('graphql-type-json');
+const { bookshelf } = require('../../controllers/bookController');
 
 let shopping_cart = [];
 let periodOfcredit = [{
@@ -211,6 +212,7 @@ const booksResolvers = {
         },
         async getBooksPaginate(parent, arggs, ctx){
             try {
+                console.log("each");
                 const aggregate = []
 
                 aggregate.push({
@@ -232,6 +234,19 @@ const booksResolvers = {
                 return result
             } catch (error) {
                 return new ctx.error(error)
+            }
+        },
+        async bookshelf(parent, arggs, ctx){
+            try {
+                console.log(ctx.dataloader);
+                result = await bookshelfModel.collection.find({}).toArray()
+                if (result.length == 0) {
+                    return result
+                } else {
+                    ctx.error({message : "data is null"})
+                }
+            } catch (error) {
+                ctx.error(error)
             }
         }
     },

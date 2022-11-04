@@ -96,6 +96,42 @@ const booksTypeDefs = gql`
         page : Int
     }
     
+    type added_detail {
+        full_date : String
+        date : String
+        day : String
+        month : String
+        year : String
+        hours : String
+        minutes : String
+        seconds : String
+    }
+
+    type bookshelf_detail{
+        book_id : ID
+        added : [added_detail]
+        quantity : Int
+        total_disc : String
+        price_AfterDisc : String
+        total_tax : String
+        price_afterTax : String
+        total_price : String
+        book_info : [book]
+    }
+
+    type bookShelf {
+        _id : ID
+        admin : String
+        user : ID
+        books : [bookshelf_detail]
+        total : String
+        paid : String
+        change : String
+        date : Date
+        description : String
+        paid_off : Boolean
+    }
+
     #queries 
     type Query {
         getBookbyId(id : ID) : book
@@ -103,8 +139,10 @@ const booksTypeDefs = gql`
         getBooksPaginate(paginate : paginateInput) : [book]
         getAllBooks_ : [book]
         bookPurchase(data : bookPurchaseInput) : [bookPurchase]
+        bookshelf : bookShelf
     }
     
+    #mutation
     type Mutation {
         createBook(data : bookInput) : resultBook
         updateBook(data : bookInput) : resultBook
