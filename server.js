@@ -8,6 +8,11 @@ require('dotenv').config()
 const port = process.env.PORT;
 app.use(express.json())
 
+const jwt = require('jsonwebtoken')
+const fs = require('fs');
+const path = require('path')
+let private = fs.readFileSync(path.join(__dirname, 'private.key'))
+
 const bookRoutes = require('./routes/bookRoute')
 const songRoute = require('./routes/songRoute')
 const userRoutes = require('./routes/userRoute')
@@ -36,8 +41,19 @@ app.use('/songs', songRoute);
 
 // graphql day 1
 const loginAuth = async (resolve, root, args, context, info) => {
-  const result = await resolve(root, args, context, info)
-  return result
+//   console.log(context.req.headers.authorization)
+    let token = context.req.headers.authorization
+    if (typeof token !== 'undefined') {
+        token = token.replace('Bearer ', '');
+        let decode = jwt.decode(token, private);
+        decode != null ? context.isAuth = true : context.isAuth = false    
+        // console.log(context.isAuth);
+            const result = await resolve(root, args, context, info)
+            return result
+
+    }else{
+        return new ApolloError("token is null")
+    }
 }
 
 async function startApolloServer(typeDefs, resolvers){

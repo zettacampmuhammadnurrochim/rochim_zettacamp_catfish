@@ -9,12 +9,9 @@ const batchBooks = async function (booksId) {
         }
     });
 
-const userByIds = keyBy(book, '_id');  // ["54545sdsd": {}, "3434342334":{}]
-    console.log('book by Id:', userByIds)
+    const userByIds = keyBy(book, '_id')
     result = booksId.map(ownerId => userByIds[ownerId]);
-    console.log(result);
     return result
-
 }
 
 const bookLoader = new DataLoader(batchBooks);

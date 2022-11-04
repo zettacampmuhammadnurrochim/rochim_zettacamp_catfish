@@ -183,6 +183,9 @@ const booksResolvers = {
     Query : {
         async getBookbyId(parent, arggs, ctx){
             try {
+                if (!ctx.isAuth) {
+                return new ctx.error("your not authorize")
+                }
                 let id = arggs.id
                 dataBuku = await bookModel.collection.findOne({_id : mongoose.Types.ObjectId(id)})
                 return dataBuku
@@ -192,6 +195,9 @@ const booksResolvers = {
         },
         async getBooks(parent, arggs, ctx){
             try {
+                if (!ctx.isAuth) {
+                return new ctx.error("your not authorize")
+                }
                 dataBuku = await bookModel.collection.find().toArray()
                 return dataBuku
             } catch (error) {
@@ -200,6 +206,9 @@ const booksResolvers = {
         },
         async getAllBooks_(parent, arggs, ctx){
             try {
+                if (!ctx.isAuth) {
+                return new ctx.error("your not authorize")
+                }
                 dataBuku = await this.getBooks()
                 dataBuku = calculateDiscount_Tax(dataBuku)
                 return dataBuku
@@ -209,6 +218,9 @@ const booksResolvers = {
         },
         async bookPurchase(parent, arggs, ctx){
             try {
+                if (!ctx.isAuth) {
+                return new ctx.error("your not authorize")
+                }
                 const {period,booksPurchase} = arggs.data
                 const dataBuku = await this.getAllBooks_()
                 const result = await bookCheckOut(dataBuku,booksPurchase,period)
@@ -219,7 +231,9 @@ const booksResolvers = {
         },
         async getBooksPaginate(parent, arggs, ctx){
             try {
-                console.log("each");
+                if (!ctx.isAuth) {
+                return new ctx.error("your not authorize")
+                }
                 const aggregate = []
 
                 aggregate.push({
@@ -245,6 +259,9 @@ const booksResolvers = {
         },
         async bookshelf(parent, arggs, ctx){
             try {
+                if (!ctx.isAuth) {
+                return new ctx.error("your not authorize")
+                }
                 result = await bookshelfModel.collection.find({}).toArray()
                 return result
 
@@ -258,6 +275,9 @@ const booksResolvers = {
     Mutation : {
         async createBook(parent, arggs, ctx){
             try {
+                if (!ctx.isAuth) {
+                return new ctx.error("your not authorize")
+                }
                 const {image,title,author,price,original_url,url,slug,stock,dis,tax,} = arggs.data
                 var book = new bookModel({
                     image: image,
@@ -279,6 +299,9 @@ const booksResolvers = {
         },
         async updateBook(parent, arggs, ctx){
             try {
+                if (!ctx.isAuth) {
+                return new ctx.error("your not authorize")
+                }
                 let Object_id = mongoose.Types.ObjectId(arggs.data.id)
                 const book = {
                     image: arggs.data.image,
@@ -298,6 +321,9 @@ const booksResolvers = {
         },
         async deleteBook(parent, arggs, ctx){
             try {
+                if (!ctx.isAuth) {
+                return new ctx.error("your not authorize")
+                }
                 let Object_id = mongoose.Types.ObjectId(arggs.id)
                 let result = await bookModel.deleteOne({_id: Object_id})
                 return {status : "success", input : {id : arggs.id}, result : result}
