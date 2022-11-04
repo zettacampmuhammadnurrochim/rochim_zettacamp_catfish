@@ -1,4 +1,5 @@
 const bookModel = require('../../models/bookModel')
+const bookshelfModel = require('../../models/bookshelfModel')
 const mongoose = require('../../../services/services')
 const {GraphQLScalarType, Kind} = require('graphql')
 const { GraphQLJSON  } = require('graphql-type-json');
@@ -154,6 +155,12 @@ function calculateCredit(jangkawaktu, indexOfcart) {
     }
 }
 
+const getBooksloader = async function(parent, arggs, ctx){
+    if (parent.book_id) {
+        const result = await ctx.dataloader.load(parent.book_id)
+        return result;
+    }
+}
 
 const booksResolvers = {
     JSON: GraphQLJSON,
@@ -238,16 +245,13 @@ const booksResolvers = {
         },
         async bookshelf(parent, arggs, ctx){
             try {
-                console.log(ctx.dataloader);
                 result = await bookshelfModel.collection.find({}).toArray()
-                if (result.length == 0) {
-                    return result
-                } else {
-                    ctx.error({message : "data is null"})
-                }
+                return result
+
             } catch (error) {
-                ctx.error(error)
+                return new ctx.error(error)
             }
+            
         }
     },
     
@@ -301,6 +305,10 @@ const booksResolvers = {
                 return new ctx.error(error)
             }
         }
+    },
+
+    bookshelf_detail : {
+        book_id :  getBooksloader
     }
 }
 

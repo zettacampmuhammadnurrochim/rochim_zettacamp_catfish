@@ -2,7 +2,7 @@ const express = require('express')
 const {ApolloServer , ApolloError} = require('apollo-server-express')
 const {mergeTypeDefs,mergeResolvers} = require('@graphql-tools/merge')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
-const Dataloader = require('dataloader')
+const loaders = require('./app/dataloaders/bookDataloader')
 const app = express()
 require('dotenv').config()
 const port = process.env.PORT;
@@ -39,6 +39,14 @@ const loginAuth = async (resolve, root, args, context, info) => {
   const result = await resolve(root, args, context, info)
   return result
 }
+
+// const getbook = (id : String) : book => {
+//     return bookModel.find({_id : id})
+// }
+
+// const getBooksById = async (ids: String[]) : Promise<Domain[]> => {
+//     return ids.map((id)=> getBook(id))
+// }
 // app.use('/graphql', graphqlMiddleware)
 async function startApolloServer(typeDefs, resolvers){
     const schema = makeExecutableSchema({
@@ -51,7 +59,7 @@ async function startApolloServer(typeDefs, resolvers){
     const server = new ApolloServer({
         schema : schemaWithMiddleware,
         context : ({req}) => {
-            return {req : req, error: ApolloError, dataloader : new Dataloader}
+            return {req : req, error: ApolloError, dataloader : loaders}
         }
     })
     await server.start()
@@ -66,6 +74,7 @@ const usersTypeDefs = require('./app/graphql/users/users.typeDefs')
 const booksResolvers = require('./app/graphql/books/books.resolvers')
 const usersResolvers = require('./app/graphql/users/users.resolvers')
 const { applyMiddleware } = require('graphql-middleware')
+const bookModel = require('./app/models/bookModel')
 
 // MERGEING 
 typeDefs = mergeTypeDefs([booksTypeDefs,usersTypeDefs])

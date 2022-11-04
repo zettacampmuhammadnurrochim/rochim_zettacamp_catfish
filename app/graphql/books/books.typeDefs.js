@@ -108,7 +108,7 @@ const booksTypeDefs = gql`
     }
 
     type bookshelf_detail{
-        book_id : ID
+        book_id : book
         added : [added_detail]
         quantity : Int
         total_disc : String
@@ -116,12 +116,11 @@ const booksTypeDefs = gql`
         total_tax : String
         price_afterTax : String
         total_price : String
-        book_info : [book]
     }
 
     type bookShelf {
         _id : ID
-        admin : String
+        admin : ID
         user : ID
         books : [bookshelf_detail]
         total : String
@@ -139,7 +138,7 @@ const booksTypeDefs = gql`
         getBooksPaginate(paginate : paginateInput) : [book]
         getAllBooks_ : [book]
         bookPurchase(data : bookPurchaseInput) : [bookPurchase]
-        bookshelf : bookShelf
+        bookshelf : [bookShelf]
     }
     
     #mutation
