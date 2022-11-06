@@ -2,7 +2,7 @@ const express = require('express')
 const {ApolloServer , ApolloError} = require('apollo-server-express')
 const {mergeTypeDefs,mergeResolvers} = require('@graphql-tools/merge')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
-const loaders = require('./app/dataloaders/bookDataloader')
+const loaders = require('./app/graphql/books/books.dataloader')
 const app = express()
 require('dotenv').config()
 const port = process.env.PORT;
@@ -28,7 +28,7 @@ app.use(session({
 const {bookMiddleware} = require('./app/middleware/booksMiddleware')
 const {songMiddleware} = require('./app/middleware/songMiddleware')
 const {userMiddleware} = require('./app/middleware/userMiddleware')
-const {graphqlMiddleware} = require('./app/middleware/graphqlMiddleware')
+const auth_middleware = require('./app/middleware/authMiddleware')
 // book route
 app.use('/books', bookMiddleware)
 app.use('/books', bookRoutes)
@@ -40,28 +40,12 @@ app.use('/songs', songMiddleware); //no problem
 app.use('/songs', songRoute);
 
 // graphql day 1
-const loginAuth = async (resolve, root, args, context, info) => {
-//   console.log(context.req.headers.authorization)
-    let token = context.req.headers.authorization
-    if (typeof token !== 'undefined') {
-        token = token.replace('Bearer ', '');
-        let decode = jwt.decode(token, private);
-        decode != null ? context.isAuth = true : context.isAuth = false    
-        // console.log(context.isAuth);
-            const result = await resolve(root, args, context, info)
-            return result
-
-    }else{
-        return new ApolloError("token is null")
-    }
-}
-
 async function startApolloServer(typeDefs, resolvers){
     const schema = makeExecutableSchema({
         typeDefs, 
         resolvers
     })
-    const middleware = [loginAuth]
+    const middleware = [auth_middleware]
     schemaWithMiddleware = applyMiddleware(schema, ...middleware)
 
     const server = new ApolloServer({

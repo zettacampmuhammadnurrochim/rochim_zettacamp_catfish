@@ -1,9 +1,8 @@
 const bookModel = require('../../models/bookModel')
 const bookshelfModel = require('../../models/bookshelfModel')
 const mongoose = require('../../../services/services')
-const {GraphQLScalarType, Kind} = require('graphql')
-const { GraphQLJSON  } = require('graphql-type-json');
-const { bookshelf } = require('../../controllers/bookController');
+const {GraphQLScalarType,Kind} = require('graphql')
+const {GraphQLJSON} = require('graphql-type-json');
 
 let shopping_cart = [];
 let periodOfcredit = [{
@@ -57,13 +56,16 @@ function calculateDiscount_Tax(books) {
     return result;
 }
 
-function bookCheckOut(dataBuku,dataPembelian, period) {
+function bookCheckOut(dataBuku, dataPembelian, period) {
     try {
         let found = []
         let map_SpCart = new Map();
         for (let index = 0; index < dataBuku.length; index++) {
             dataPembelian.forEach((e, mainIndex) => {
-                let {amountPurchased,bookId} = e;
+                let {
+                    amountPurchased,
+                    bookId
+                } = e;
                 if (dataBuku[index]._id.toString() == bookId) {
                     if (dataBuku[index].stock > amountPurchased) {
                         found.push(mainIndex)
@@ -90,7 +92,7 @@ function bookCheckOut(dataBuku,dataPembelian, period) {
                 status: 'not found'
             })
         });
-        
+
         return shopping_cart
     } catch (error) {
         return error
@@ -154,11 +156,190 @@ function calculateCredit(jangkawaktu, indexOfcart) {
         return shopping_cart = []
     }
 }
+/////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 
-const getBooksloader = async function(parent, arggs, ctx){
+const getBooksloader = async function (parent, arggs, ctx) {
     if (parent.book_id) {
         const result = await ctx.dataloader.load(parent.book_id)
         return result;
+    }
+}
+/////////////////////////////////////////////////////query function////////////////////////////////////////////////////
+
+const getBookbyId = async function (parent, arggs, ctx) {
+    try {
+        let id = arggs.id
+        dataBuku = await bookModel.collection.findOne({
+            _id: mongoose.Types.ObjectId(id)
+        })
+        return dataBuku
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+const getBooks = async function (parent, arggs, ctx) {
+    try {
+        dataBuku = await bookModel.collection.find().toArray()
+        return dataBuku
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+const getAllBooks_ = async function (parent, arggs, ctx) {
+    try {
+        dataBuku = await this.getBooks()
+        dataBuku = calculateDiscount_Tax(dataBuku)
+        return dataBuku
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+const bookPurchase = async function (parent, arggs, ctx) {
+    try {
+        const {
+            period,
+            booksPurchase
+        } = arggs.data
+        const dataBuku = await this.getAllBooks_()
+        const result = await bookCheckOut(dataBuku, booksPurchase, period)
+        return result
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+const getBooksPaginate = async function (parent, arggs, ctx) {
+    try {
+        const aggregate = []
+
+        aggregate.push({
+            $match: {
+                $and: [{
+                    "title": {
+                        $ne: ""
+                    }
+                }]
+            }
+        })
+
+        if (typeof arggs.paginate != 'undefined') {
+            const {
+                limit,
+                page
+            } = arggs.paginate
+            if (typeof limit != 'undefined' && typeof page != 'undefined') {
+                aggregate.push({
+                    $skip: limit * page
+                }, {
+                    $limit: limit
+                })
+            }
+        }
+        let result = await bookModel.aggregate(aggregate)
+        return result
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+const bookshelf = async function (parent, arggs, ctx) {
+    try {
+        result = await bookshelfModel.collection.find({}).toArray()
+        return result
+
+    } catch (error) {
+        return new ctx.error(error)
+    }
+
+}
+
+///////////////////////////////////// mutation resolver ////////////////////////////////
+
+const createBook = async function (parent, arggs, ctx) {
+    try {
+        const {
+            image,
+            title,
+            author,
+            price,
+            original_url,
+            url,
+            slug,
+            stock,
+            dis,
+            tax,
+        } = arggs.data
+        var book = new bookModel({
+            image: image,
+            title: title,
+            author: author,
+            price: price,
+            original_url: original_url,
+            url: url,
+            slug: slug,
+            stock: stock,
+            dis: dis,
+            tax: tax
+        });
+        const result = book.save()
+        return {
+            status: "success",
+            input: book,
+            result: result
+        }
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+const updateBook = async function (parent, arggs, ctx) {
+    try {
+        let Object_id = mongoose.Types.ObjectId(arggs.data.id)
+        const book = {
+            image: arggs.data.image,
+            title: arggs.data.title,
+            author: arggs.data.author,
+            price: arggs.data.price,
+            original_url: arggs.data.original_url,
+            url: arggs.data.url,
+            slug: arggs.data.slug,
+            stock: arggs.data.stock
+        }
+        let result = await bookModel.updateOne({
+            _id: Object_id
+        }, {
+            $set: book
+        }, {
+            runValidators: true
+        })
+        return {
+            status: "success",
+            input: book,
+            result: result
+        }
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+const deleteBook = async function (parent, arggs, ctx) {
+    try {
+        let Object_id = mongoose.Types.ObjectId(arggs.id)
+        let result = await bookModel.deleteOne({
+            _id: Object_id
+        })
+        return {
+            status: "success",
+            input: {
+                id: arggs.id
+            },
+            result: result
+        }
+    } catch (error) {
+        return new ctx.error(error)
     }
 }
 
@@ -175,168 +356,30 @@ const booksResolvers = {
         },
         parseLiteral(ast) {
             if (ast.kind === Kind.INT) {
-            return parseInt(ast.value, 10); // ast value is always in string format
+                return parseInt(ast.value, 10); // ast value is always in string format
             }
             return null;
         },
     }),
-    Query : {
-        async getBookbyId(parent, arggs, ctx){
-            try {
-                if (!ctx.isAuth) {
-                return new ctx.error("your not authorize")
-                }
-                let id = arggs.id
-                dataBuku = await bookModel.collection.findOne({_id : mongoose.Types.ObjectId(id)})
-                return dataBuku
-            } catch (error) {
-                return new ctx.error(error)
-            }
-        },
-        async getBooks(parent, arggs, ctx){
-            try {
-                if (!ctx.isAuth) {
-                return new ctx.error("your not authorize")
-                }
-                dataBuku = await bookModel.collection.find().toArray()
-                return dataBuku
-            } catch (error) {
-                return new ctx.error(error)
-            }
-        },
-        async getAllBooks_(parent, arggs, ctx){
-            try {
-                if (!ctx.isAuth) {
-                return new ctx.error("your not authorize")
-                }
-                dataBuku = await this.getBooks()
-                dataBuku = calculateDiscount_Tax(dataBuku)
-                return dataBuku
-            } catch (error) {
-                return new ctx.error(error)
-            }
-        },
-        async bookPurchase(parent, arggs, ctx){
-            try {
-                if (!ctx.isAuth) {
-                return new ctx.error("your not authorize")
-                }
-                const {period,booksPurchase} = arggs.data
-                const dataBuku = await this.getAllBooks_()
-                const result = await bookCheckOut(dataBuku,booksPurchase,period)
-                return result
-            } catch (error) {
-                return new ctx.error(error)
-            }
-        },
-        async getBooksPaginate(parent, arggs, ctx){
-            try {
-                if (!ctx.isAuth) {
-                return new ctx.error("your not authorize")
-                }
-                const aggregate = []
 
-                aggregate.push({
-                    $match : {
-                        $and : [{"title" : {$ne : ""}}]
-                    }
-                })
-                
-                if (typeof arggs.paginate != 'undefined') {
-                    const {limit,page} = arggs.paginate
-                    if (typeof limit != 'undefined' && typeof page != 'undefined') {
-                        aggregate.push(
-                            {$skip : limit * page},
-                            {$limit : limit}
-                        )
-                    }
-                }
-                let result = await bookModel.aggregate(aggregate)
-                return result
-            } catch (error) {
-                return new ctx.error(error)
-            }
-        },
-        async bookshelf(parent, arggs, ctx){
-            try {
-                if (!ctx.isAuth) {
-                return new ctx.error("your not authorize")
-                }
-                result = await bookshelfModel.collection.find({}).toArray()
-                return result
-
-            } catch (error) {
-                return new ctx.error(error)
-            }
-            
-        }
-    },
-    
-    Mutation : {
-        async createBook(parent, arggs, ctx){
-            try {
-                if (!ctx.isAuth) {
-                return new ctx.error("your not authorize")
-                }
-                const {image,title,author,price,original_url,url,slug,stock,dis,tax,} = arggs.data
-                var book = new bookModel({
-                    image: image,
-                    title: title,
-                    author: author,
-                    price: price,
-                    original_url: original_url,
-                    url: url,
-                    slug: slug,
-                    stock: stock,
-                    dis: dis,
-                    tax: tax
-                });
-                const result = book.save()
-                return {status : "success", input : book, result : result}
-            } catch (error) {
-                return new ctx.error(error)
-            }
-        },
-        async updateBook(parent, arggs, ctx){
-            try {
-                if (!ctx.isAuth) {
-                return new ctx.error("your not authorize")
-                }
-                let Object_id = mongoose.Types.ObjectId(arggs.data.id)
-                const book = {
-                    image: arggs.data.image,
-                    title: arggs.data.title,
-                    author: arggs.data.author,
-                    price: arggs.data.price,
-                    original_url: arggs.data.original_url,
-                    url: arggs.data.url,
-                    slug: arggs.data.slug,
-                    stock: arggs.data.stock            
-                }
-                let result = await bookModel.updateOne({_id: Object_id},{$set: book},{runValidators: true})
-                return {status : "success", input : book, result : result}
-            } catch (error) {
-                return new ctx.error(error)
-            }
-        },
-        async deleteBook(parent, arggs, ctx){
-            try {
-                if (!ctx.isAuth) {
-                return new ctx.error("your not authorize")
-                }
-                let Object_id = mongoose.Types.ObjectId(arggs.id)
-                let result = await bookModel.deleteOne({_id: Object_id})
-                return {status : "success", input : {id : arggs.id}, result : result}
-            } catch (error) {
-                return new ctx.error(error)
-            }
-        }
+    Query: {
+        getBookbyId,
+        getBooks,
+        getAllBooks_,
+        bookPurchase,
+        getBooksPaginate,
+        bookshelf
     },
 
-    bookshelf_detail : {
-        book_id :  getBooksloader
+    Mutation: {
+        createBook,
+        updateBook,
+        deleteBook
+    },
+
+    bookshelf_detail: {
+        book_id: getBooksloader
     }
 }
 
 module.exports = booksResolvers
-
