@@ -39,7 +39,7 @@ const get_song = async function (parent, arggs, ctx) {
     }
 }
 
-const get_songDetail = async function (parent, arggs, ctx) {
+const get_songAggregate = async function (parent, arggs, ctx) {
     try {
         let aggregate = []
         if (typeof arggs.data.match != 'undefined') {
@@ -54,10 +54,7 @@ const get_songDetail = async function (parent, arggs, ctx) {
                     aggregate[pushIndex].$match.$and.push(value)
                 }
             } else {
-                res.status(500).send({
-                    status: "error",
-                    data: "pagiante must an array"
-                })
+                return new ctx.error("match must an array")
             }
         }
 
@@ -70,15 +67,11 @@ const get_songDetail = async function (parent, arggs, ctx) {
                     $limit: limit
                 })
             } else {
-                res.status(500).send({
-                    status: "error",
-                    data: "pagiante must an array"
-                })
+                return new ctx.error("pagiante must an array")
             }
         }
 
         if (typeof arggs.data.sort != 'undefined') {
-
             let valdur = 0
             let durationSort = false
             for (const [index, value] of arggs.data.sort.entries()) {
@@ -153,12 +146,8 @@ const addPlaylist = async function (parent, arggs, ctx, info) {
             total_duration: total_minutes //format (hour:minutes:seconds)
         })
         let result = await insert.save()
-
-
-        return {
-            status: "success",
-            result: result
-        }
+        result.status = "success"
+        return result
 
     } catch (error) {
         return new ctx.error(error)
@@ -186,10 +175,8 @@ const addPlaylist_manual = async function (parent, arggs, ctx, info) {
             })
 
             let result = await insert.save()
-            return {
-                status: "success",
-                result: result
-            }
+            result.status = "success"
+            return result
         } else {
             return new ctx.error("songs not defined or not defined as array")
         }
@@ -384,7 +371,7 @@ const songsResolver = {
     Query: {
         getAll_songs,
         get_song,
-        get_songDetail
+        get_songAggregate
     },
 
     Mutation: {

@@ -41,52 +41,31 @@ const booksTypeDefs = gql`
         page : Int
     }
 
-    type bookshelf_detail{
-        book_id : book
-        added : [added_detail]
-        quantity : Int
-        total_disc : String
-        price_AfterDisc : String
-        total_tax : String
-        price_afterTax : String
-        total_price : String
-    }
-
-    type bookShelf {
-        _id : ID
-        admin : ID
-        user : ID
-        books : [bookshelf_detail]
-        total : String
-        paid : String
-        change : String
-        date : Date
-        description : String
-        paid_off : Boolean
+    type resultPlaylist{
+        status : String
+        id : ID
+        name : String
+        songs : [ID]
+        total_duration : String
+        createdAt : Date
+        updatedAt : Date
     }
 
     #queries 
     type Query {
-        getBookbyId(id : ID) : book
-        getBooks : [book]
-        getBooksPaginate(paginate : paginateInput) : [book]
-        getAllBooks_ : [book]
-        bookPurchase(data : bookPurchaseInput) : [bookPurchase]
-        bookshelf : [bookShelf]
+        getAll_songs : [song]
+        get_song(id : String) : song
+        get_songAggregate : [song]
     }
     
     #mutation
     type Mutation {
-        addPlaylist : []
-        addPlaylist_manual
-        remSongList
-        updSongList
-        dellSongList
-        forceDellSongList
-
-        createBook(data : bookInput) : resultBook
-        updateBook(data : bookInput) : resultBook
-        deleteBook(data : bookInput) : resultBook
+        addPlaylist : resultPlaylist
+        addPlaylist_manual : resultPlaylist
+        remSongList : resultSong
+        updSongList : resultSong
+        dellSongList : resultSong
+        forceDellSongList : resultSong
     }
 `
 module.exports = booksTypeDefs
