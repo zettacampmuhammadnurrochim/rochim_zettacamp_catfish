@@ -35,8 +35,7 @@ module.exports = {
         get_songAggregate : userAuth,
         getSonglist : userAuth, 
         get_songPaginate : userAuth,
-        getAllUsers : userAuth,
-        loginUser : userAuth
+        getAllUsers : userAuth
     },
     Mutation: {
         createBook: userAuth,
