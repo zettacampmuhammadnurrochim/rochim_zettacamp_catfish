@@ -1,6 +1,9 @@
-const bookModel = require('../../models/bookModel')
-const bookshelfModel = require('../../models/bookshelfModel')
+const songModel = require('../../models/songModel')
+const songListModel = require('../../models/songListModel')
 const mongoose = require('../../../services/services')
+const moment = require('moment')
+// const format = require('moment-duration-format')
+const { parse } = require('dotenv')
 const {
     GraphQLScalarType,
     Kind
@@ -59,16 +62,12 @@ const get_songAggregate = async function (parent, arggs, ctx) {
         }
 
         if (typeof arggs.data.paginate != 'undefined') {
-            if (arggs.data.paginate.length != 0) {
-                let [page, limit] = arggs.data.paginate
+                let {page, limit} = arggs.data.paginate
                 aggregate.push({
                     $skip: limit * page
                 }, {
                     $limit: limit
                 })
-            } else {
-                return new ctx.error("pagiante must an array")
-            }
         }
 
         if (typeof arggs.data.sort != 'undefined') {
@@ -156,17 +155,17 @@ const addPlaylist = async function (parent, arggs, ctx, info) {
 
 const addPlaylist_manual = async function (parent, arggs, ctx, info) {
     try {
-        if (typeof arggs.data.song != 'undefined') {
+        if (typeof arggs.data.songs != 'undefined') {
             let total_duration = moment.duration()
 
-            for (const items of arggs.data.song) {
+            for (const items of arggs.data.songs) {
                 let song = await songModel.collection.findOne({
                     _id: mongoose.Types.ObjectId(items)
                 })
                 total_duration.add(song.duration)
             }
 
-            let songs = arggs.data.song
+            let songs = arggs.data.songs
             total_duration = `${total_duration.hours()}:${total_duration.minutes()}:${total_duration.seconds()}`
             let insert = new songListModel({
                 name: arggs.data.name,
@@ -188,16 +187,16 @@ const addPlaylist_manual = async function (parent, arggs, ctx, info) {
 
 const remSongList = async function (parent, arggs, ctx, info) {
     try {
-        if (typeof arggs.data.song != 'undefined') {
+        if (typeof arggs.data.songs != 'undefined') {
             let total_duration = moment.duration()
-            for (const items of arggs.data.song) {
+            for (const items of arggs.data.songs) {
                 let song = await songModel.collection.findOne({
                     _id: mongoose.Types.ObjectId(items)
                 })
                 total_duration.add(song.duration)
             }
 
-            let songs = arggs.data.song.map((e) => mongoose.Types.ObjectId(e))
+            let songs = arggs.data.songs.map((e) => mongoose.Types.ObjectId(e))
 
             let duration_saved = await songListModel.findOne({
                 _id: mongoose.Types.ObjectId(arggs.data.id)
@@ -257,16 +256,16 @@ const remSongList = async function (parent, arggs, ctx, info) {
 
 const updSongList = async function (parent, arggs, ctx, info) {
     try {
-        if (typeof arggs.data.song != 'undefined') {
+        if (typeof arggs.data.songs != 'undefined') {
             let total_duration = moment.duration()
-            for (const items of arggs.data.song) {
+            for (const items of arggs.data.songs) {
                 let song = await songModel.collection.findOne({
                     _id: mongoose.Types.ObjectId(items)
                 })
                 total_duration.add(song.duration)
             }
 
-            let songs = arggs.data.song.map((e) => mongoose.Types.ObjectId(e))
+            let songs = arggs.data.songs.map((e) => mongoose.Types.ObjectId(e))
             let duration_saved = await songListModel.findOne({
                 _id: mongoose.Types.ObjectId(arggs.data.id)
             }).select({
@@ -285,16 +284,16 @@ const updSongList = async function (parent, arggs, ctx, info) {
                     set.name = arggs.data.name
                 }
 
-                let update = await songListModel.collection.updateOne({
+                let result = await songListModel.collection.updateOne({
                     _id: mongoose.Types.ObjectId(arggs.data.id),
                     deleted_at: {
                         $exists: false
                     } //just update on document active
                 }, {
                     $push: {
-                        songs: {
-                            $in: songs
-                        }
+                        songs: 
+                            {$each : songs}
+                        
                     },
                     $set: set
                 });
@@ -316,7 +315,7 @@ const updSongList = async function (parent, arggs, ctx, info) {
 const dellSongList = async function (parent, arggs, ctx, info) {
     try {
         let result = await songListModel.collection.updateOne({
-            _id: mongoose.Types.ObjectId(arggs.data.id),
+            _id: mongoose.Types.ObjectId(arggs.id),
             deleted_at: {
                 $exists: false
             } //just update on document active
@@ -337,7 +336,7 @@ const dellSongList = async function (parent, arggs, ctx, info) {
 const forceDellSongList = async function (parent, arggs, ctx, info) {
     try {
         let result = await songListModel.deleteOne({
-            _id: mongoose.Types.ObjectId(arggs.data.id)
+            _id: mongoose.Types.ObjectId(arggs.id)
         });
         return {
             status: "success",

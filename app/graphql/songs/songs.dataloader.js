@@ -2,17 +2,17 @@ const DataLoader = require('dataloader');
 const songModel = require('../../models/songModel')
 const { keyBy } = require('lodash')
 
-const batchBooks = async function (booksId) {
-    const book = await songModel.find({
+const batchSongs = async function (songsId) {
+    const song = await songModel.find({
         _id: {
-            $in: booksId //array
+            $in: songsId //array
         }
     });
 
-    const userByIds = keyBy(book, '_id')
-    result = booksId.map(ownerId => userByIds[ownerId]);
+    const userByIds = keyBy(song, '_id')
+    result = songsId.map(ownerId => userByIds[ownerId]);
     return result
 }
 
-const bookLoader = new DataLoader(batchBooks);
-module.exports = bookLoader
+const songLoader = new DataLoader(batchSongs);
+module.exports = songLoader

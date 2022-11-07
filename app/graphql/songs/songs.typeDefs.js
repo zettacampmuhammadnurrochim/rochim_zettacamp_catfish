@@ -14,6 +14,7 @@ const booksTypeDefs = gql`
     }
 
     input songInput  {
+        _id : ID
         title : String
         album : String
         vol : Int
@@ -21,6 +22,21 @@ const booksTypeDefs = gql`
         singer : String
         genre : [String]
         duration : String
+    }
+
+    input songSortInput  {
+        title : Int
+        album : Int
+        vol : Int
+        tahun : Int
+        singer : Int
+        genre : Int
+        duration : Int
+    }
+
+    input songPaginateInput  {
+        limit : Int
+        page : Int
     }
 
     type song  {
@@ -37,8 +53,8 @@ const booksTypeDefs = gql`
     }
 
     input paginateInput{
-        limit : Int
         page : Int
+        limit : Int
     }
 
     type resultPlaylist{
@@ -51,21 +67,33 @@ const booksTypeDefs = gql`
         updatedAt : Date
     }
 
+    input inputSongAggregate { 
+        match : [songInput]
+        paginate : songPaginateInput
+        sort : [songSortInput]
+    }
+
+    input playlistInput {
+        id : ID
+        name : String
+        songs : [ID]
+    }
+
     #queries 
     type Query {
         getAll_songs : [song]
         get_song(id : String) : song
-        get_songAggregate : [song]
+        get_songAggregate(data : inputSongAggregate) : [song]
     }
     
     #mutation
     type Mutation {
         addPlaylist : resultPlaylist
-        addPlaylist_manual : resultPlaylist
-        remSongList : resultSong
-        updSongList : resultSong
-        dellSongList : resultSong
-        forceDellSongList : resultSong
+        addPlaylist_manual(data : playlistInput) : resultPlaylist
+        remSongList(data : playlistInput) : resultSong
+        updSongList(data : playlistInput) : resultSong
+        dellSongList(id : String) : resultSong
+        forceDellSongList(id : String) : resultSong
     }
 `
 module.exports = booksTypeDefs

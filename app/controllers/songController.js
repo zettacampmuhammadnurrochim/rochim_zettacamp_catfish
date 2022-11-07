@@ -204,7 +204,10 @@ const updSongList = async (req,res) => {
                     deleted_at : { $exists: false } //just update on document active
                 },
                 {
-                    $push: { songs: { $in: songs }},
+                   $push: {
+                        songs: 
+                            {$each : songs}
+                    },
                     $set : set
                 });
                 res.status(200).send({status : "success", data : update})

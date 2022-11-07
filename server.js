@@ -61,16 +61,21 @@ async function startApolloServer(typeDefs, resolvers){
 // TYPE DEFS 
 const booksTypeDefs = require('./app/graphql/books/books.typeDefs') 
 const usersTypeDefs = require('./app/graphql/users/users.typeDefs')
+const songsTypeDefs = require('./app/graphql/songs/songs.typeDefs')
 
 // RESOLVERS
 const booksResolvers = require('./app/graphql/books/books.resolvers')
 const usersResolvers = require('./app/graphql/users/users.resolvers')
+const songsResolvers = require('./app/graphql/songs/songs.resolvers')
+
+
+
 const { applyMiddleware } = require('graphql-middleware')
 const bookModel = require('./app/models/bookModel')
 
 // MERGEING 
-typeDefs = mergeTypeDefs([booksTypeDefs,usersTypeDefs])
-resolvers = mergeResolvers([booksResolvers,usersResolvers])
+typeDefs = mergeTypeDefs([booksTypeDefs,usersTypeDefs,songsTypeDefs])
+resolvers = mergeResolvers([booksResolvers,usersResolvers,songsResolvers])
 
 startApolloServer(typeDefs, resolvers);
 // app.use('/', (req,res)=>{res.status(404).send({status : 404, message : 'route not found'})})
