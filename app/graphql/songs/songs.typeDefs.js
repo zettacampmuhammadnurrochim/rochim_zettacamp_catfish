@@ -46,6 +46,7 @@ const booksTypeDefs = gql`
         vol : Int
         tahun : Int 
         singer : String
+        total_genre : Int
         genre : [String]
         duration : String
         createdAt : Date
@@ -79,11 +80,33 @@ const booksTypeDefs = gql`
         songs : [ID]
     }
 
+    type song_detail {
+        song_id : song
+    } 
+    
+    type playlistDataloader {
+        _id : ID
+        name : String
+        songs : [song_detail]
+        total_duration : String
+        createdAt : Date
+        updatedAt : Date
+    }
+
+    type paginateSongs{
+        total_songs : Int
+        total_page : Int
+        potition : String
+        result : [song]
+    }
+
     #queries 
     type Query {
         getAll_songs : [song]
         get_song(id : String) : song
         get_songAggregate(data : inputSongAggregate) : [song]
+        getSonglist : [playlistDataloader]
+        get_songPaginate(limit : Int , page : Int) : paginateSongs
     }
     
     #mutation

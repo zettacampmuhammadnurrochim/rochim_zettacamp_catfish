@@ -3,7 +3,10 @@ const fs = require('fs');
 const path = require('path')
 const userModel = require('../../models/userModel')
 const mongoose = require('../../../services/services')
-const {GraphQLScalarType,Kind} = require('graphql')
+const {
+    GraphQLScalarType,
+    Kind
+} = require('graphql')
 const bcrypt = require("bcrypt");
 let public = fs.readFileSync(path.join(__dirname, '../../../public.key'))
 
@@ -68,12 +71,21 @@ const loginUser = async function (parent, arggs, ctx) {
         if (exist !== null && password !== null) {
             const result = await comparePassword(password, hash)
             if (result) {
+
+                let token = jwt.sign({
+                    owner: 'rochim'
+                }, public, {
+                    expiresIn: '1h'
+                })
+                let updateToken = await userModel.updateOne({_id : Object_id},{
+                    $set : {
+                        token : token
+                    }
+                })
                 return {
                     status: "success",
-                    input: {
-                        email
-                    },
-                    result: "your logged in"
+                    email : email,
+                    token: token
                 }
             }
         }
@@ -101,12 +113,12 @@ const usersResolvers = {
         },
     }),
     Query: {
-        getAllUsers
+        getAllUsers,
+        loginUser
     },
 
     Mutation: {
         createUser,
-        loginUser
     }
 }
 

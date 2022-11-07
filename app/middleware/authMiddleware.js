@@ -29,11 +29,25 @@ module.exports = {
         getAllBooks_ : userAuth,
         bookPurchase : userAuth,
         getBooksPaginate : userAuth,
-        bookshelf : userAuth
+        bookshelf : userAuth,
+        getAll_songs : userAuth,
+        get_song : userAuth,
+        get_songAggregate : userAuth,
+        getSonglist : userAuth, 
+        get_songPaginate : userAuth,
+        getAllUsers : userAuth,
+        loginUser : userAuth
     },
     Mutation: {
         createBook: userAuth,
         updateBook: userAuth,
         deleteBook: userAuth,
+        addPlaylist : userAuth,
+        addPlaylist_manual : userAuth,
+        remSongList : userAuth,
+        updSongList : userAuth,
+        dellSongList : userAuth, 
+        forceDellSongList : userAuth,
+        createUser : userAuth
     }
 };

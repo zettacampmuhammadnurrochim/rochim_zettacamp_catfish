@@ -3,6 +3,7 @@ const songModel = require('../../models/songModel')
 const { keyBy } = require('lodash')
 
 const batchSongs = async function (songsId) {
+    // console.log({"list id" : songsId});
     const song = await songModel.find({
         _id: {
             $in: songsId //array

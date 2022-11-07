@@ -2,7 +2,8 @@ const express = require('express')
 const {ApolloServer , ApolloError} = require('apollo-server-express')
 const {mergeTypeDefs,mergeResolvers} = require('@graphql-tools/merge')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
-const loaders = require('./app/graphql/books/books.dataloader')
+const booksLoaders = require('./app/graphql/books/books.dataloader')
+const songsLoaders = require('./app/graphql/songs/songs.dataloader')
 const app = express()
 require('dotenv').config()
 const port = process.env.PORT;
@@ -51,7 +52,7 @@ async function startApolloServer(typeDefs, resolvers){
     const server = new ApolloServer({
         schema : schemaWithMiddleware,
         context : ({req}) => {
-            return {req : req, error: ApolloError, dataloader : loaders}
+            return {req : req, error: ApolloError, booksLoaders, songsLoaders }
         }
     })
     await server.start()

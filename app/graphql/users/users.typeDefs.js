@@ -21,6 +21,11 @@ const usersTypeDefs = gql`
         input : resultUser_detail
         result : JSON
     }
+    type resultUserLogin{
+        status : String
+        email : String
+        token : String!
+    }
 
     input userInput {
         name : String!
@@ -45,11 +50,11 @@ const usersTypeDefs = gql`
     #queries 
     type Query {
         getAllUsers: [user]
+        loginUser(email : String, password : String) : resultUserLogin
     }
     
     type Mutation {
         createUser(data : userInput) : resultUser
-        loginUser(email : String, password : String) : resultUser
     }
 `
 module.exports = usersTypeDefs

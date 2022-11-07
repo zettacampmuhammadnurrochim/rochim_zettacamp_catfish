@@ -160,7 +160,7 @@ function calculateCredit(jangkawaktu, indexOfcart) {
 
 const getBooksloader = async function (parent, arggs, ctx) {
     if (parent.book_id) {
-        const result = await ctx.dataloader.load(parent.book_id)
+        const result = await ctx.booksLoaders.load(parent.book_id)
         return result;
     }
 }

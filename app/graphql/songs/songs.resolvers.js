@@ -3,7 +3,9 @@ const songListModel = require('../../models/songListModel')
 const mongoose = require('../../../services/services')
 const moment = require('moment')
 // const format = require('moment-duration-format')
-const { parse } = require('dotenv')
+const {
+    parse
+} = require('dotenv')
 const {
     GraphQLScalarType,
     Kind
@@ -15,8 +17,9 @@ const {
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 
 const getSongsLoader = async function (parent, arggs, ctx) {
-    if (parent.songs) {
-        const result = await ctx.dataloader.load(parent.songs)
+    // console.log(parent._id); //default name from field 
+    if (parent) {
+        const result = await ctx.songsLoaders.load(parent)
         return result;
     }
 }
@@ -62,12 +65,15 @@ const get_songAggregate = async function (parent, arggs, ctx) {
         }
 
         if (typeof arggs.data.paginate != 'undefined') {
-                let {page, limit} = arggs.data.paginate
-                aggregate.push({
-                    $skip: limit * page
-                }, {
-                    $limit: limit
-                })
+            let {
+                page,
+                limit
+            } = arggs.data.paginate
+            aggregate.push({
+                $skip: limit * page
+            }, {
+                $limit: limit
+            })
         }
 
         if (typeof arggs.data.sort != 'undefined') {
@@ -106,6 +112,45 @@ const get_songAggregate = async function (parent, arggs, ctx) {
         }
 
         let result = await songModel.aggregate(aggregate)
+        return result
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+const get_songPaginate = async function (parent, {limit,page}, ctx) {
+    try {
+        let aggregate = []
+        aggregate.push({
+            $skip: limit * page
+        }, {
+            $limit: limit
+        })
+
+        let result = await songModel.aggregate(aggregate)
+        
+        let total_songs = await songModel.count()
+        let total_page = Math.ceil(total_songs/limit)
+        let potition = `${page+1}/${Math.ceil(total_songs/limit)}`
+
+        result = result.map((song) => {
+            return {
+                ...song,
+                total_genre : song.genre.length
+            }
+        })
+        result = {total_songs:total_songs,total_page:total_page,potition:potition, result : result}
+        console.log(result);
+        return result
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+
+const getSonglist = async function (parent, arggs, ctx) {
+    try {
+        let result = await songListModel.collection.find().toArray()
         return result
     } catch (error) {
         return new ctx.error(error)
@@ -291,9 +336,10 @@ const updSongList = async function (parent, arggs, ctx, info) {
                     } //just update on document active
                 }, {
                     $push: {
-                        songs: 
-                            {$each : songs}
-                        
+                        songs: {
+                            $each: songs
+                        }
+
                     },
                     $set: set
                 });
@@ -370,7 +416,9 @@ const songsResolver = {
     Query: {
         getAll_songs,
         get_song,
-        get_songAggregate
+        get_songAggregate,
+        getSonglist,
+        get_songPaginate
     },
 
     Mutation: {
@@ -382,8 +430,8 @@ const songsResolver = {
         forceDellSongList
     },
 
-    bookshelf_detail: {
-        book_id: getSongsLoader
+    song_detail: {
+        song_id: getSongsLoader
     }
 }
 
