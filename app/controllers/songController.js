@@ -416,11 +416,7 @@ const matchSong = async (req,res) => {
                 if (durationSort) {
                     aggregate[pushIndex].$sort.durationInt = valdur.duration
                 }
-        }
-
-    //    res.status(200).send({status : "success", data : aggregate})
-    //     return 0
-        
+        }       
         
         let result = await songModel.aggregate(aggregate)
         res.status(200).send({status : "success", query: aggregate ,data : result})

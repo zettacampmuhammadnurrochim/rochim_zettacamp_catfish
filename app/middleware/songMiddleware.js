@@ -7,8 +7,7 @@ exports.songMiddleware = (req, res, next) => {
     let token = req.headers.authorization;
     if (typeof token !== 'undefined') {
         token = token.replace('Bearer ', '');
-        let result = jwt.verify(token,private);
-        console.log(result);
+        let result = jwt.decode(token, private);
         result!==null ? next() : res.send('your not authorized')
     }else{
         res.status(500).send('token is null')

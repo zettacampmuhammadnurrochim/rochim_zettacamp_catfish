@@ -8,22 +8,8 @@ const booksTypeDefs = gql`
         result : JSON    
     }
 
-    type resultBook_detail{
-        image : String!
-        title : String!
-        author : String!
-        price : String!
-        original_url : String
-        url : String
-        slug : String
-        stock : Int
-        dis : Float
-        tax : Float
-    }
-
     type resultBook{
         status : String
-        input : resultBook_detail
         result : JSON
     }
 

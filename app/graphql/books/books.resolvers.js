@@ -287,7 +287,6 @@ const createBook = async function (parent, arggs, ctx) {
         const result = book.save()
         return {
             status: "success",
-            input: book,
             result: result
         }
     } catch (error) {
@@ -317,7 +316,6 @@ const updateBook = async function (parent, arggs, ctx) {
         })
         return {
             status: "success",
-            input: book,
             result: result
         }
     } catch (error) {
