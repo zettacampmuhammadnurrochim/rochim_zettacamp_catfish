@@ -9,11 +9,6 @@ require('dotenv').config()
 const port = process.env.PORT;
 app.use(express.json())
 
-const jwt = require('jsonwebtoken')
-const fs = require('fs');
-const path = require('path')
-let private = fs.readFileSync(path.join(__dirname, 'private.key'))
-
 const bookRoutes = require('./routes/bookRoute')
 const songRoute = require('./routes/songRoute')
 const userRoutes = require('./routes/userRoute')
@@ -59,6 +54,7 @@ async function startApolloServer(typeDefs, resolvers){
     server.applyMiddleware({app})
     app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 }
+
 // TYPE DEFS 
 const booksTypeDefs = require('./app/graphql/books/books.typeDefs') 
 const usersTypeDefs = require('./app/graphql/users/users.typeDefs')

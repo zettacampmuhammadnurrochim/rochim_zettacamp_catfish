@@ -71,10 +71,10 @@ const login = async (req, res) => {
     const exist = await userModel.exists({email : email})
     let Object_id = mongoose.Types.ObjectId(exist._id)
     const {password : hash} = await userModel.collection.findOne({_id: Object_id}, 'password')
-    console.log(exist, Object_id);
+   
     if (exist !== null && password !== null) {
         const result = await comparePassword(password,hash);
-        console.log(result);
+
         if (result) {
             req.session.loggedIn = true
             res.send({status : result, isExist : exist , hash : hash,message : "welcome, you are logged in"})
