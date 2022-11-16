@@ -6,8 +6,8 @@ let private = fs.readFileSync(path.join(__dirname, '../private.key'))
 
 const userAuth = async (resolve, root, args, context, info) => {
     let token = context.req.headers.authorization || false
-    if (token) {
-        token = token.replace('Bearer ', '');
+    if (token !== null) {
+        token = token.replace('Bearer ', '').replace(' ', '')
         let decode = jwt.decode(token, private);
         decode != null ? context.isAuth = true : context.isAuth = false
         if (context.isAuth) {
@@ -25,6 +25,8 @@ const userAuth = async (resolve, root, args, context, info) => {
 module.exports = {
     Query: {
         GetAllUsers : userAuth,
-        GetOneUser : userAuth
+        GetOneUser : userAuth,
+        GetAllIngredients : userAuth,
+        getAllRecipes : userAuth
     }
 };

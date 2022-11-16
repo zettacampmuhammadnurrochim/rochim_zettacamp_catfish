@@ -31,10 +31,9 @@ const userSchema = new Schema({
     minLength : [8, "min length is 3"],
     trim : true
   },
-  entity: {
-    type: String,
-    enum: ['admin', 'user'],
-    required: [true, "entity is required"]
+  type: {
+    type: Schema.Types.ObjectId,
+    required: [true, "type is required"]
   },
   remember_me: {
     type: String

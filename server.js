@@ -8,41 +8,46 @@ const {shield} = require('graphql-shield')
 require('dotenv').config()
 
 // dataLoader
-let inggridientsLoader = require('./graphql/ingredients/ingredients.dataloader')
+let ingredientsLoader = require('./graphql/ingredients/ingredients.dataloader')
 let recipesLoader = require('./graphql/recipes/recipes.dataloader')
+let recipesAvailable = require('./graphql/recipes/recipesAvailable.dataloader.js')
 let usersLoader = require('./graphql/users/users.dataloader')
+let userTypesLoader = require('./graphql/userTypes/userType.dataloader')
 // middleware
 const auth_middleware = require('./middlewares/auth')
 const userRole_middleware = require('./middlewares/users.role')
 // TYPE DEFS 
-const usersTypeDefs = require('./graphql/users/users.typeDefs.js')
-const ingredientsTypeDefs = require('./graphql/ingredients/ingredients.typeDefs.js') 
-const recipesTypeDefs = require('./graphql/recipes/recipes.typeDefs.js')
-const transactionsTypeDefs = require('./graphql/transactions/transactions.typeDefs.js')
+const usersTypeDefs = require('./graphql/users/users.typeDefs')
+const ingredientsTypeDefs = require('./graphql/ingredients/ingredients.typeDefs') 
+const recipesTypeDefs = require('./graphql/recipes/recipes.typeDefs')
+const transactionsTypeDefs = require('./graphql/transactions/transactions.typeDefs')
+const userTypeTypeDefs = require('./graphql/userTypes/usersType.typeDefs')
 
 // RESOLVERS
-const usersResolvers = require('./graphql/users/users.resolvers.js')
-const ingredientsResolvers = require('./graphql/ingredients/ingredients.resolvers.js') 
-const recipesResolvers = require('./graphql/recipes/recipes.resolvers.js')
-const transactionsResolvers = require('./graphql/transactions/transactions.resolvers.js')
+const usersResolvers = require('./graphql/users/users.resolvers')
+const ingredientsResolvers = require('./graphql/ingredients/ingredients.resolvers') 
+const recipesResolvers = require('./graphql/recipes/recipes.resolvers')
+const transactionsResolvers = require('./graphql/transactions/transactions.resolvers')
+const userTypeResolvers = require('./graphql/userTypes/usersType.resolvers')
 
 // MERGEING 
-typeDefs = mergeTypeDefs([usersTypeDefs,ingredientsTypeDefs,recipesTypeDefs,transactionsTypeDefs])
-resolvers = mergeResolvers([usersResolvers,ingredientsResolvers,recipesResolvers,transactionsResolvers])
+typeDefs = mergeTypeDefs([usersTypeDefs,ingredientsTypeDefs,recipesTypeDefs,transactionsTypeDefs,userTypeTypeDefs])
+resolvers = mergeResolvers([usersResolvers,ingredientsResolvers,recipesResolvers,transactionsResolvers,userTypeResolvers])
 
 async function startApolloServer(typeDefs, resolvers){
     const schema = makeExecutableSchema({
         typeDefs, 
         resolvers
     })
-    const middlewares = [auth_middleware, shield(userRole_middleware)]
+    // const middlewares = [auth_middleware, shield(userRole_middleware)]
+    const middlewares = [auth_middleware]
 
     schemaWithMiddleware = applyMiddleware(schema, ...middlewares)
 
     const server = new ApolloServer({
         schema : schemaWithMiddleware,
         context : ({req}) => {
-            return {req : req, error: ApolloError, inggridientsLoader, recipesLoader, usersLoader}
+            return {req : req, error: ApolloError, ingredientsLoader, recipesLoader, usersLoader, userTypesLoader, recipesAvailable}
         }
     })
     await server.start()

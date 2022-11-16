@@ -4,7 +4,7 @@ const {
 } = require('../../services/services')
 
 CollectionName = "recipes"
-const userSchema = new Schema({
+const recipesSchema = new Schema({
     recipe_name: {
         type: String,
         required: [true, "recipe is required"],
@@ -20,6 +20,10 @@ const userSchema = new Schema({
             required: [true, "stock used is required"]
         }
     }],
+    price : {
+        type : Number,
+        required: [true, "price is required"]
+    },
     status: {
         type: String,
         enum: ['active', 'deleted'],
@@ -31,6 +35,6 @@ const userSchema = new Schema({
 }, {
     timestamps: true
 })
-const userModel = mongoose.model(CollectionName, userSchema, CollectionName)
+const recipeSchema = mongoose.model(CollectionName, recipesSchema, CollectionName)
 
-module.exports = userModel
+module.exports = recipeSchema

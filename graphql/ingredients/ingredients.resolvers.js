@@ -1,7 +1,6 @@
 const ingredientsModel = require('./ingredients.model')
 const mongoose = require('../../services/services')
-const {GraphQLScalarType,Kind} = require('graphql')
-const {GraphQLJSON} = require('graphql-type-json')
+const {checkIngredient} = require('./ingredients.utility')
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////
@@ -87,9 +86,20 @@ const updateIngredient = async function (parent, arggs, ctx) {
 
 const deleteIngredient = async function (parent, {id}, ctx) {
     try {
-        let result = await ingredientsModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{
-            status : "deleted"
-        })
+        let result = {}
+        let checkRelations = await checkIngredient(id)
+        let recipeName = []
+        if (!checkRelations.length) {
+            result = await ingredientsModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{
+                status : "deleted"
+            })
+        }else{
+            for(const val of checkRelations){
+                recipeName.push(val.recipe_name)
+            }
+            return new ctx.error('cant delete the ingredients has relation to recipe',{ recipe : recipeName})
+        }
+        
         return {result : result}
     } catch (error) {
         return new ctx.error(error)
@@ -97,23 +107,6 @@ const deleteIngredient = async function (parent, {id}, ctx) {
 }
 
 const ingredientssResolvers = {
-    JSON: GraphQLJSON,
-    Date: new GraphQLScalarType({
-        name: 'Date',
-        description: 'Date custom scalar type',
-        parseValue(value) {
-            return new Date(value); // value from the client
-        },
-        serialize(value) {
-            return value.getTime(); // value sent to the client
-        },
-        parseLiteral(ast) {
-            if (ast.kind === Kind.INT) {
-                return parseInt(ast.value, 10); // ast value is always in string format
-            }
-            return null;
-        },
-    }),
     Query: {
         GetAllIngredients,
         GetOneIngredient

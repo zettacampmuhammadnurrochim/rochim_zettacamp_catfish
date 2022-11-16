@@ -28,7 +28,6 @@ const validateStockIngredient = async (Recipes) => {
     }
 
     const detailResult = JSON.stringify(Object.fromEntries(detailRecipe))
-    console.log(result);
     return result 
 }
 

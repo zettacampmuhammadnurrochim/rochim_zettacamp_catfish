@@ -3,7 +3,6 @@ const recipesModel = require('./recipes.model')
 const { keyBy } = require('lodash')
 
 const batchRecipes = async function (recipesId) {
-    console.log(recipesId);
     const recipes = await recipesModel.find({
         _id: {
             $in: recipesId //array

@@ -1,8 +1,6 @@
 const {gql} = require('apollo-server-express')
 
 const booksTypeDefs = gql`
-    scalar JSON
-    scalar Date
     
     enum mode{
         push
@@ -55,6 +53,7 @@ const booksTypeDefs = gql`
         user_name : String
         user_first_name : String
         user_last_name : String
+        recipe_name : [String]
         deletedAt : Date
         createdAt : Date
         updatedAt : Date
@@ -66,7 +65,7 @@ const booksTypeDefs = gql`
         note : String
     }
 
-    input entity {
+    input type {
         user_id : ID
         admin_id : ID
     }
@@ -87,7 +86,7 @@ const booksTypeDefs = gql`
     
     #mutation
     type Mutation {
-        createTransaction(entity : entity, data : [transactionInput]) : transaction
+        createTransaction(type : type, data : [transactionInput]) : transaction
         updateTransaction(id : ID, data : transactionInput) : JSON
         deleteTransaction(id : ID) : JSON
     }

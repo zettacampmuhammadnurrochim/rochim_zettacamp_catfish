@@ -10,7 +10,7 @@ let public = fs.readFileSync(path.join(__dirname, '../../public.key'))
 const {GraphQLJSON} = require('graphql-type-json')
 
 function generateToken(expires) {
-    let expiresIn = expires || '1h'  
+    let expiresIn = expires || '1h'
     let token = jwt.sign({foo: 'rochim'}, public, 
     {expiresIn: expiresIn})
     return token;
@@ -99,7 +99,7 @@ const createUser = async function (parent, arggs, ctx) {
             first_name : arggs.data.first_name,
             last_name : arggs.data.last_name,
             email : arggs.data.email,
-            entity : arggs.data.entity,
+            type : mongoose.Types.ObjectId(arggs.data.type),
             password : await bcrypt.hash(arggs.data.password, 10),
             remember_me : remember_token,
             status : "active"
@@ -121,15 +121,39 @@ const createUser = async function (parent, arggs, ctx) {
 const loginUser = async function (parent, {email, password}, ctx) {
     try {
         const exist = await userModel.exists({email: email, status : 'active'})
+        if (!exist) return new ctx.error("your account isnt match with all data")
         let Object_id = mongoose.Types.ObjectId(exist._id)
-        const {password: hashed} = await userModel.collection.findOne({_id: Object_id}, 'password')
+        
+        const findUser = await userModel.aggregate([
+        {
+            $match : {
+                _id : mongoose.Types.ObjectId(Object_id),
+            }
+        },
+        {    
+            $lookup : {
+                from: "userTypes",
+                localField: "type",
+                foreignField: "_id",
+                as: "userType"
+            }
+        },
+        {
+            $unwind: '$userType'
+        }
+           
+        ])
+        const hashed = findUser[0].password
 
         let logedin = true
         if (exist) {
             const result = await comparePassword(password, hashed)
             if (result) {
                 let token = generateToken('1h')
-                return {token : token , result : result, id_user : exist._id}
+                return {
+                    token : token , 
+                    ...findUser[0]
+                }
             }
             else logedin = false
         }
@@ -142,17 +166,16 @@ const loginUser = async function (parent, {email, password}, ctx) {
 // done
 const updateUser = async function (parent, {id,data}, ctx) {
     try {
-        let {email, entity, last_name, first_name, password} = data
+        let {email, type, last_name, first_name, password} = data
         let result = await userModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{
             $set : {
                 email : email,
-                entity : entity,
+                type : type,
                 last_name : last_name,
                 first_name : first_name,
                 password : password
             }
         })
-        console.log(result);
         return {result : result}
     } catch (error) {
         return new ctx.error(error)

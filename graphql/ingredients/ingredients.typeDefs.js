@@ -1,8 +1,6 @@
 const {gql} = require('apollo-server-express')
 
 const booksTypeDefs = gql`
-    scalar JSON
-    scalar Date
     
     enum status{
         active

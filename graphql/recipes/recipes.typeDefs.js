@@ -34,11 +34,13 @@ const booksTypeDefs = gql`
         stock_used : Int
         mode : mode
     }
-
+    
     type recipe{
         _id : ID
         recipe_name : String
         ingredients : [recipe_ingridient]
+        available : Int
+        price : Int
         status : status
         deletedAt : Date
         createdAt : Date
@@ -47,6 +49,7 @@ const booksTypeDefs = gql`
 
     input recipeInput{
         recipe_name : String
+        price : Int
         ingredients : [recipe_ingridientInput]
     }
 

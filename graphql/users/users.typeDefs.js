@@ -1,17 +1,17 @@
 const {gql} = require('apollo-server-express')
 
-const booksTypeDefs = gql`
+const userTypeDefs = gql`
     scalar JSON
     scalar Date
     
+    enum userType{
+        Admin
+        User
+    }
+
     enum status{
         active
         deleted
-    }
-
-    enum userRole{
-        admin
-        user
     }
 
     input paginator {
@@ -25,14 +25,27 @@ const booksTypeDefs = gql`
         last_name : String
     }
 
+    type userPermission {
+        page : String
+        view : Boolean
+    }
+
+    type userPermission {
+        _id : ID
+        userType : userType
+        permission : [userPermission]
+    }
+
     type user{
         _id : ID
+        token : String
         first_name: String
         last_name: String
         email: String
-        entity : userRole
+        type : ID
         #password : String
         status: status
+        userType : userPermission
         remember_me : String
         deletedAt : Date
         createdAt : Date
@@ -43,7 +56,7 @@ const booksTypeDefs = gql`
         first_name: String
         last_name: String
         email: String
-        entity : userRole
+        type : ID
         password : String
         remember_me : Boolean
     }
@@ -56,10 +69,10 @@ const booksTypeDefs = gql`
     
     #mutation
     type Mutation {
-        loginUser(email : String, password : String) : JSON
+        loginUser(email : String, password : String) : user
         createUser(data : userInput) : user
         updateUser(id: ID, data : userInput) : JSON
         deleteUser(id: ID) : JSON
     }
 `
-module.exports = booksTypeDefs
+module.exports = userTypeDefs

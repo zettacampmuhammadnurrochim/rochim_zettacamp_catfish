@@ -1,13 +1,17 @@
 
 const recipesModel = require('./recipes.model')
 const mongoose = require('../../services/services')
-const {GraphQLScalarType,Kind} = require('graphql')
-const {GraphQLJSON} = require('graphql-type-json')
 
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 const getIngredientsLoader = async function (parent, arggs, ctx) {
     if (parent.ingredient_id) {
-        const result = await ctx.inggridientsLoader.load(parent.ingredient_id)
+        const result = await ctx.ingredientsLoader.load(parent.ingredient_id)
+        return result;
+    }
+}
+const recipesAvailable = async function (parent, arggs, ctx) {
+    if (parent.ingredients.length) {
+        const result = await ctx.recipesAvailable.load(parent.ingredients)
         return result;
     }
 }
@@ -58,10 +62,11 @@ const getOneRecipe = async function (parent, arggs, ctx) {
 // done
 const createRecipe = async function (parent, arggs, ctx) {
     try {
-        const {recipe_name, ingredients} = arggs.data
+        const {recipe_name, ingredients, price} = arggs.data
         let inputRecipe = new recipesModel({
             recipe_name : recipe_name, 
             ingredients : ingredients,
+            price : price,
             status : "active"
         })
         
@@ -77,6 +82,7 @@ const createRecipe = async function (parent, arggs, ctx) {
 const updateRecipe = async function (parent, {id,data}, ctx) {
     try {
         let query = []
+        let arrayFiltersQuery = []
         if (data.recipe_name) {
             let {recipe_name} = data
             query.push([
@@ -103,7 +109,6 @@ const updateRecipe = async function (parent, {id,data}, ctx) {
                 }else {
                     delete value.mode
                     update.push(value)
-                    //using array filler 
                 }
             }
             
@@ -121,13 +126,44 @@ const updateRecipe = async function (parent, {id,data}, ctx) {
                     '$push' , {'ingredients' : {'$each' : push}}
                 ])
             }
+
+            if (update.length) {
+                let set = []
+                let arrayFilters = []
+                
+                for(const [ind,val] of update.entries()){
+                    set.push([
+                        `ingredients.$[var${ind}].stock_used` , val.stock_used
+                    ])
+
+                    arrayFilters.push([
+                        `var${ind}.ingredient_id` , mongoose.Types.ObjectId(val.ingredient_id)
+                    ])
+                }
+
+                query.push([
+                    '$set' , Object.fromEntries(set)
+                ])
+
+                arrayFilters = Object.fromEntries(arrayFilters)
+                Object.entries(arrayFilters).forEach(entry => {
+                    const [key, value] = entry;
+                    arrayFiltersQuery.push({[key] : value})
+                });
         
+            }
         }
+        
+        let newArrayFiltersQuery = []
+        newArrayFiltersQuery.push([
+            'arrayFilters' , arrayFiltersQuery 
+        ])
 
         query = Object.fromEntries(query)
-
-        let result = await recipesModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},query)
-        return {result : result}
+        arFilt = Object.fromEntries(newArrayFiltersQuery)
+        query = [ query , arFilt]
+        let result = await recipesModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},...query)
+        return result
     } catch (error) {
         return new ctx.error(error)
     }
@@ -148,23 +184,6 @@ const deleteRecipe = async function (parent, {id}, ctx) {
 }
 
 const RecipesResolvers = {
-    JSON: GraphQLJSON,
-    Date: new GraphQLScalarType({
-        name: 'Date',
-        description: 'Date custom scalar type',
-        parseValue(value) {
-            return new Date(value); // value from the client
-        },
-        serialize(value) {
-            return value.getTime(); // value sent to the client
-        },
-        parseLiteral(ast) {
-            if (ast.kind === Kind.INT) {
-                return parseInt(ast.value, 10); // ast value is always in string format
-            }
-            return null;
-        },
-    }),
     Query: {
         getAllRecipes,
         getOneRecipe
@@ -178,6 +197,10 @@ const RecipesResolvers = {
 
     recipe_ingridient : {
         ingredient_id : getIngredientsLoader
+    },
+    // fireup the dataloader funcntion
+    recipe : {
+        available : recipesAvailable
     }
 }
 module.exports = RecipesResolvers
