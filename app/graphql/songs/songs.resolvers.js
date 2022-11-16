@@ -131,7 +131,7 @@ const get_songPaginate = async function (parent, {limit,page}, ctx) {
         
         let total_songs = await songModel.count()
         let total_page = Math.ceil(total_songs/limit)
-        let potition = `${page+1}/${Math.ceil(total_songs/limit)}`
+        let potition = `${page+1}/${total_page}`
 
         result = result.map((song) => {
             return {
