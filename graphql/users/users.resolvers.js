@@ -11,8 +11,9 @@ const {GraphQLJSON} = require('graphql-type-json')
 
 function generateToken(expires) {
     let expiresIn = expires || '1h'
-    let token = jwt.sign({foo: 'rochim'}, public, 
-    {expiresIn: expiresIn})
+    // let token = jwt.sign({foo: 'rochim'}, public, 
+    // {expiresIn: expiresIn})
+    let token = jwt.sign({foo: 'rochim'}, public)
     return token;
 }
 
@@ -62,18 +63,37 @@ const GetAllUsers = async function (parent, arggs, ctx) {
         }
         
         if (arggs.paginator) {
+            let total_items = 0
+            if (arggs.match) { 
+                total_items = await userModel.aggregate(aggregateQuery) 
+                total_items = total_items.length
+            }else{
+                total_items = await userModel.count() 
+            }
             const {limit, page} = arggs.paginator
+            const skip = limit * page
             aggregateQuery.push({
-                $skip : limit * page
+                $skip : skip
             },
             {
                 $limit : limit
             })
+
+            let showing = `Showing ${skip+1} to ${Math.min(total_items , skip+limit)} from ${total_items} entries`
+            let total_page = Math.ceil(total_items/limit)
+            let position = `${page+1}/${total_page}`
+           
+            paginator = {
+                total_items : total_items,
+                showing : showing,
+                total_page : total_page,
+                position : position,
+            }
         }
         
         let result = []
         arggs.match || arggs.paginator ? result = await userModel.aggregate(aggregateQuery) : result = await userModel.collection.find().toArray()
-        return result
+        return {data : result, paginator : paginator}
     } catch (error) {
         return new ctx.error(error)
     }

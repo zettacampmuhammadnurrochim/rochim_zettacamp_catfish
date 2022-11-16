@@ -1,6 +1,7 @@
 const ingredientsModel = require('./ingredients.model')
 const mongoose = require('../../services/services')
 const {checkIngredient} = require('./ingredients.utility')
+const { toInteger } = require('lodash')
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////
@@ -10,7 +11,7 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
         let aggregateQuery = []
 
         if (arggs.match) {
-            let indexMatch = aggregateQuery.push({$match : {$and : [{status : {$ne : 'deleted'}}]} }) - 1
+            let indexMatch = aggregateQuery.push({$match : {$and : []} }) - 1
             if (arggs.match.name) {
                 const search = new RegExp(arggs.match.name,'i');
                 aggregateQuery[indexMatch].$match.$and.push({
@@ -26,18 +27,38 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
             }
         }
         
+        let paginator = {}
         if (arggs.paginator) {
+            let total_items = 0
+            if (arggs.match) { 
+                total_items = await ingredientsModel.aggregate(aggregateQuery) 
+                total_items = total_items.length
+            }else{
+                total_items = await ingredientsModel.count() 
+            }
             const {limit, page} = arggs.paginator
+            const skip = limit * page
             aggregateQuery.push({
-                $skip : limit * page
+                $skip : skip
             },
             {
                 $limit : limit
             })
+
+            let showing = `Showing ${skip+1} to ${Math.min(total_items , skip+limit)} from ${total_items} entries`
+            let total_page = Math.ceil(total_items/limit)
+            let position = `${page+1}/${total_page}`
+           
+            paginator = {
+                total_items : total_items,
+                showing : showing,
+                total_page : total_page,
+                position : position,
+            }
         }
         let result = []
         arggs.match || arggs.paginator ? result = await ingredientsModel.aggregate(aggregateQuery) : result = await ingredientsModel.collection.find().toArray()
-        return result
+        return {data : result, paginator : paginator}
     } catch (error) {
         return new ctx.error(error)
     }

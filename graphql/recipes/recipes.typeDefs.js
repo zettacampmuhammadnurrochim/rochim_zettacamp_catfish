@@ -53,9 +53,14 @@ const booksTypeDefs = gql`
         ingredients : [recipe_ingridientInput]
     }
 
+    type recipesGetAll {
+        data : [recipe]
+        paginator : paginatorOutput
+    }
+
     #queries 
     type Query {
-        getAllRecipes(paginator : paginator, match : match) : [recipe]
+        getAllRecipes(paginator : paginator, match : match) : recipesGetAll
         getOneRecipe(id : ID) : recipe
     }
     

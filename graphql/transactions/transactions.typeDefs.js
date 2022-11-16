@@ -78,9 +78,14 @@ const booksTypeDefs = gql`
         detail_admin : user
     }
 
+    type transactionsGetAll {
+        data : [transaction]
+        paginator : paginatorOutput
+    }
+
     #queries 
     type Query {
-        getAllTransactions(paginator : paginator, match : matchTransaction) : [transaction]
+        getAllTransactions(paginator : paginator, match : matchTransaction) : transactionsGetAll
         getOneTransaction(id : ID) : recipe
     }
     

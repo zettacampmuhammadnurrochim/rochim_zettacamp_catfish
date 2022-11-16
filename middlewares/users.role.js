@@ -7,7 +7,6 @@ const isLogin = rule()(async (root, arggs, context, info) => {
 })
 
 const isAdmin = rule()(async (root, arggs, context, info) => {
-    
     const admin = await userModel.aggregate([
         {
             $match : {
@@ -58,11 +57,16 @@ module.exports = {
         GetAllUsers : and(isLogin, isAdmin),
         GetOneUser : and(isLogin, isAdmin),
         GetAllIngredients : and(isLogin, isAdmin),
-        getAllRecipes : and(isLogin, isAdmin)
+        getAllRecipes : and(isLogin, isAdmin),
+        GetOneIngredient : and(isLogin, isAdmin)
+
     },
     Mutation: {
         deleteUserType : and(isLogin, isAdmin),
-        createAllUsersType : and(isLogin, isAdmin)
+        createAllUsersType : and(isLogin, isAdmin),
+        createIngredient : and(isLogin, isAdmin),
+        updateIngredient : and(isLogin, isAdmin),
+        deleteIngredient : and(isLogin, isAdmin)
     },
 },{
   debug: true

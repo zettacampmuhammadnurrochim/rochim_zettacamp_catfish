@@ -19,6 +19,13 @@ const userTypeDefs = gql`
         page : Int
     }
 
+    type paginatorOutput {
+        total_items : Int
+        showing : String
+        total_page : Int
+        position : String
+    }
+
     input match {
         email : String
         first_name : String
@@ -61,9 +68,14 @@ const userTypeDefs = gql`
         remember_me : Boolean
     }
 
+    type usersGetAll {
+        data : [user]
+        paginator : paginatorOutput
+    }
+
     #queries 
     type Query {
-        GetAllUsers(paginator : paginator, match : match) : [user]
+        GetAllUsers(paginator : paginator, match : match) : usersGetAll
         GetOneUser(id : ID) : user
     }
     

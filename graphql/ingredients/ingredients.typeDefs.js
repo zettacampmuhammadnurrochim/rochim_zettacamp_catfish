@@ -17,6 +17,11 @@ const booksTypeDefs = gql`
         updatedAt : Date
     }
 
+    type ingredientsGetAll {
+        data : [ingredients]
+        paginator : paginatorOutput
+    }
+
     input paginator {
         limit : Int
         page : Int
@@ -30,7 +35,7 @@ const booksTypeDefs = gql`
 
     #queries 
     type Query {
-        GetAllIngredients(paginator : paginator, match : ingredientsInput) : [ingredients]
+        GetAllIngredients(paginator : paginator, match : ingredientsInput) : ingredientsGetAll
         GetOneIngredient(id : ID) : ingredients
     }
     
