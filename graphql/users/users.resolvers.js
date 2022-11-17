@@ -1,36 +1,11 @@
-const jwt = require('jsonwebtoken')
-const fs = require('fs');
-const path = require('path')
 const userModel = require('./users.model')
 const mongoose = require('../../services/services')
 const {GraphQLScalarType,Kind} = require('graphql')
 const bcrypt = require("bcrypt");
-let public = fs.readFileSync(path.join(__dirname, '../../public.key'))
 
+const {generateToken, remember_me, comparePassword} = require('./users.utility.js')
 const {GraphQLJSON} = require('graphql-type-json')
 
-function generateToken(expires) {
-    let expiresIn = expires || '1h'
-    // let token = jwt.sign({foo: 'rochim'}, public, 
-    // {expiresIn: expiresIn})
-    let token = jwt.sign({foo: 'rochim'}, public)
-    return token;
-}
-
-function remember_me(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
-function comparePassword(plaintextPassword, hash) {
-    const result = bcrypt.compare(plaintextPassword, hash);
-    return result;
-}
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////

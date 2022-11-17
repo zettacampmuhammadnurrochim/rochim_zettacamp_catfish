@@ -10,7 +10,6 @@ require('dotenv').config()
 // dataLoader
 let ingredientsLoader = require('./graphql/ingredients/ingredients.dataloader')
 let recipesLoader = require('./graphql/recipes/recipes.dataloader')
-let recipesAvailable = require('./graphql/recipes/recipesAvailable.dataloader.js')
 let usersLoader = require('./graphql/users/users.dataloader')
 let userTypesLoader = require('./graphql/userTypes/userType.dataloader')
 // middleware
@@ -47,7 +46,7 @@ async function startApolloServer(typeDefs, resolvers){
     const server = new ApolloServer({
         schema : schemaWithMiddleware,
         context : ({req}) => {
-            return {req : req, error: ApolloError, ingredientsLoader, recipesLoader, usersLoader, userTypesLoader, recipesAvailable}
+            return {req : req, error: ApolloError, ingredientsLoader, recipesLoader, usersLoader, userTypesLoader}
         }
     })
     await server.start()

@@ -1,7 +1,8 @@
 
 const recipesModel = require('./recipes.model')
 const mongoose = require('../../services/services')
-
+const {getAvailable} = require('./recipes.utility')
+const { result } = require('lodash')
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 const getIngredientsLoader = async function (parent, arggs, ctx) {
     if (parent.ingredient_id) {
@@ -11,7 +12,8 @@ const getIngredientsLoader = async function (parent, arggs, ctx) {
 }
 const recipesAvailable = async function (parent, arggs, ctx) {
     if (parent.ingredients.length) {
-        const result = await ctx.recipesAvailable.load(parent.ingredients)
+        // const result = await ctx.recipesAvailable.load(parent.ingredients)
+        const result = getAvailable(parent.ingredients)
         return result;
     }
 }

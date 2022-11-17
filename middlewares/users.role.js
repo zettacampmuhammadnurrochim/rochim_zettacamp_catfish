@@ -54,11 +54,17 @@ const isUser = rule()(async (root, arggs, context, info) => {
 module.exports = {
     Query: {
         getAllUsersType : and(isLogin, isAdmin),
+        
         GetAllUsers : and(isLogin, isAdmin),
         GetOneUser : and(isLogin, isAdmin),
+        
         GetAllIngredients : and(isLogin, isAdmin),
-        getAllRecipes : and(isLogin, isAdmin),
-        GetOneIngredient : and(isLogin, isAdmin)
+        GetOneIngredient : and(isLogin, isAdmin),
+        createIngredient : and(isLogin, isAdmin),
+        updateIngredient : and(isLogin, isAdmin),
+        deleteIngredient : and(isLogin, isAdmin),
+        
+        getAllRecipes : and(isLogin, isAdmin)
 
     },
     Mutation: {
