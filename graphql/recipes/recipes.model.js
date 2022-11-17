@@ -26,8 +26,15 @@ const recipesSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['active', 'deleted'],
+        enum: ['unpublish','publish', 'deleted'],
         required: [true, "status is required"]
+    },
+    description: {
+        type: String
+    },
+    image: {
+        type: String,
+        required: [true, "image is required"],
     },
     deletedAt: {
         type: Date

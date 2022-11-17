@@ -10,8 +10,9 @@ const booksTypeDefs = gql`
         update
     }
 
-    enum status{
-        active
+    enum statusRecipe{
+        unpublish
+        publish
         deleted
     }
 
@@ -22,6 +23,7 @@ const booksTypeDefs = gql`
 
     input match {
         name : String
+        status : statusRecipe
     }
 
     type recipe_ingridient {
@@ -41,7 +43,9 @@ const booksTypeDefs = gql`
         ingredients : [recipe_ingridient]
         available : Int
         price : Int
-        status : status
+        description : String
+        image : String
+        status : statusRecipe
         deletedAt : Date
         createdAt : Date
         updatedAt : Date
@@ -51,6 +55,9 @@ const booksTypeDefs = gql`
         recipe_name : String
         price : Int
         ingredients : [recipe_ingridientInput]
+        description : String
+        image : String
+        status : statusRecipe
     }
 
     type recipesGetAll {
@@ -67,6 +74,7 @@ const booksTypeDefs = gql`
     #mutation
     type Mutation {
         createRecipe(data : recipeInput) : recipe
+        publishRecipe(id : ID) : JSON
         updateRecipe(id : ID, data : recipeInput) : JSON
         deleteRecipe(id : ID) : JSON
     }

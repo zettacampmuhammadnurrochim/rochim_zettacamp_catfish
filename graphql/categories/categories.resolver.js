@@ -1,12 +1,10 @@
-const ingredientsModel = require('./ingredients.model')
+const categoriesModel = require('./categories.model')
 const mongoose = require('../../services/services')
-const {checkIngredient} = require('./ingredients.utility')
-const { toInteger } = require('lodash')
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////
 
-const GetAllIngredients = async function (parent, arggs, ctx) {
+const GetAllcategories = async function (parent, arggs, ctx) {
     try {
         let aggregateQuery = []
 
@@ -18,30 +16,17 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
                     'name' : search
                 })
             }
-            
-            if (arggs.match.status) {
-                const search = new RegExp(arggs.match.status,'i');
-                aggregateQuery[indexMatch].$match.$and.push({
-                    'status' : search
-                })
-            }
 
-            if (arggs.match.stock) {
-                const search = arggs.match.stock
-                aggregateQuery[indexMatch].$match.$and.push({
-                    'stock' : search
-                })
-            }
         }
         
         let paginator = {}
         if (arggs.paginator) {
             let total_items = 0
             if (arggs.match) { 
-                total_items = await ingredientsModel.aggregate(aggregateQuery) 
+                total_items = await categoriesModel.aggregate(aggregateQuery) 
                 total_items = total_items.length
             }else{
-                total_items = await ingredientsModel.count() 
+                total_items = await categoriesModel.count() 
             }
             const {limit, page} = arggs.paginator
             const skip = limit * page
@@ -64,17 +49,8 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
             }
         }
         let result = []
-        arggs.match || arggs.paginator ? result = await ingredientsModel.aggregate(aggregateQuery) : result = await ingredientsModel.collection.find().toArray()
+        arggs.match || arggs.paginator ? result = await categoriesModel.aggregate(aggregateQuery) : result = await categoriesModel.collection.find().toArray()
         return {data : result, paginator : paginator}
-    } catch (error) {
-        return new ctx.error(error)
-    }
-}
-
-const GetOneIngredient = async function (parent, arggs, ctx) {
-    try {
-        const result = await ingredientsModel.collection.findOne({_id : mongoose.Types.ObjectId(arggs.id), status : 'active'})
-        return result
     } catch (error) {
         return new ctx.error(error)
     }
@@ -82,16 +58,15 @@ const GetOneIngredient = async function (parent, arggs, ctx) {
 
 ///////////////////////////////////// mutation resolver ////////////////////////////////
 
-const createIngredient = async function (parent, arggs, ctx) {
+const createcategories = async function (parent, arggs, ctx) {
     try {
-        let inputIngredients = new ingredientsModel({
+        let inputcategoriess = new categoriesModel({
             name : arggs.data.name,
-            stock : arggs.data.stock,
-            status : "active"
+            description : arggs.data.description
         })
-        let validator = await inputIngredients.validate()
+        let validator = await inputcategoriess.validate()
         let result = {}
-        !validator ? result = await inputIngredients.save() : result = {}
+        !validator ? result = await inputcategoriess.save() : result = {}
 
         return result
     } catch (error) {
@@ -99,26 +74,13 @@ const createIngredient = async function (parent, arggs, ctx) {
     }
 }
 
-const updateIngredient = async function (parent, arggs, ctx) {
-    try {
-        const {id,name,stock} = arggs.data
-        let result = await ingredientsModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{
-            name : name,
-            stock : stock,
-        })
-        return {result : result}
-    } catch (error) {
-        return new ctx.error(error)
-    }
-}
-
-const deleteIngredient = async function (parent, {id}, ctx) {
+const deletecategories = async function (parent, {id}, ctx) {
     try {
         let result = {}
-        let checkRelations = await checkIngredient(id)
+        let checkRelations = await checkcategories(id)
         let recipeName = []
         if (!checkRelations.length) {
-            result = await ingredientsModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{
+            result = await categoriesModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{
                 status : "deleted"
             })
         }else{
@@ -136,14 +98,12 @@ const deleteIngredient = async function (parent, {id}, ctx) {
 
 const ingredientssResolvers = {
     Query: {
-        GetAllIngredients,
-        GetOneIngredient
+        GetAllcategories
     },
     
     Mutation: {
-        createIngredient,
-        updateIngredient,
-        deleteIngredient
+        createcategories,
+        deletecategories
     }
 }
 

@@ -8,11 +8,6 @@ const booksTypeDefs = gql`
         update
     }
 
-    enum status{
-        active
-        deleted
-    }
-
     enum status_recipe {
         outOfStock
         available

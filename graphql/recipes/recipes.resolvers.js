@@ -3,17 +3,20 @@ const recipesModel = require('./recipes.model')
 const mongoose = require('../../services/services')
 const {getAvailable} = require('./recipes.utility')
 const { result } = require('lodash')
-/////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
-const getIngredientsLoader = async function (parent, arggs, ctx) {
-    if (parent.ingredient_id) {
-        const result = await ctx.ingredientsLoader.load(parent.ingredient_id)
+const { Mongoose } = require('../../services/services')
+
+const recipesAvailable = async function (parent, arggs, ctx) {
+    if (parent.ingredients.length) {
+        const result = getAvailable(parent.ingredients)
         return result;
     }
 }
-const recipesAvailable = async function (parent, arggs, ctx) {
-    if (parent.ingredients.length) {
-        // const result = await ctx.recipesAvailable.load(parent.ingredients)
-        const result = getAvailable(parent.ingredients)
+
+/////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
+
+const getIngredientsLoader = async function (parent, arggs, ctx) {
+    if (parent.ingredient_id) {
+        const result = await ctx.ingredientsLoader.load(parent.ingredient_id)
         return result;
     }
 }
@@ -21,6 +24,7 @@ const recipesAvailable = async function (parent, arggs, ctx) {
 // done
 const getAllRecipes = async function (parent, arggs, ctx) {
     try {
+        
         let aggregateQuery = []
         if (arggs.match) {
             let indexMatch = aggregateQuery.push({$match : {$and : []} }) - 1
@@ -28,6 +32,13 @@ const getAllRecipes = async function (parent, arggs, ctx) {
                 const search = new RegExp(arggs.match.name,'i');
                 aggregateQuery[indexMatch].$match.$and.push({
                     'recipe_name' : search
+                })
+            }
+            
+            if (arggs.match.status) {
+                const search = arggs.match.status
+                aggregateQuery[indexMatch].$match.$and.push({
+                    'status' : search
                 })
             }
         }
@@ -64,6 +75,7 @@ const getAllRecipes = async function (parent, arggs, ctx) {
         let result = []
         
         arggs.match || arggs.paginator ? result = await recipesModel.aggregate(aggregateQuery) : result = await recipesModel.collection.find().toArray()
+
         return {data : result, paginator : paginator}
     } catch (error) {
         return new ctx.error(error)
@@ -83,12 +95,14 @@ const getOneRecipe = async function (parent, arggs, ctx) {
 // done
 const createRecipe = async function (parent, arggs, ctx) {
     try {
-        const {recipe_name, ingredients, price} = arggs.data
+        const {recipe_name, ingredients, price, description, image, status} = arggs.data
         let inputRecipe = new recipesModel({
             recipe_name : recipe_name, 
             ingredients : ingredients,
             price : price,
-            status : "active"
+            description : description,
+            image : image,
+            status : status
         })
         
         let validator = await inputRecipe.validate()
@@ -99,6 +113,18 @@ const createRecipe = async function (parent, arggs, ctx) {
         return new ctx.error(error)
     }
 }
+
+const publishRecipe = async function (parent, {id}, ctx) {
+    try {
+        let result = inputRecipe.updateOne({_id : Mongoose.Types.ObjectId(id)},{
+            status : "publish"
+        })
+        return result
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
 // done
 const updateRecipe = async function (parent, {id,data}, ctx) {
     try {
@@ -189,6 +215,35 @@ const updateRecipe = async function (parent, {id,data}, ctx) {
         return new ctx.error(error)
     }
 }
+
+const updateRecipePull = async function(parent, {id,data}, ctx){
+    const result = recipesModel.aggregate([
+        {        
+            $pull : { 
+                "ingredients.ingredient_id" : mongoose.Types.ObjectId(data.ingredient_id) 
+            }
+        }
+    ])
+    return result
+}
+
+const updateRecipePush = async function(parent, {id,data}, ctx){
+    const result = recipesModel.aggregate([
+        {        
+            $push : { 
+                "ingredients" : data  
+            }
+        }
+    ])
+    return result
+}
+
+const updateRecipeMain = async function(parent, {id,data}, ctx){
+    const result = recipesModel.updateOne({_id : mongoose.Types.ObjectId(id)},{
+
+    })
+    return result
+}
 // done
 const deleteRecipe = async function (parent, {id}, ctx) {
     try {
@@ -212,6 +267,7 @@ const RecipesResolvers = {
     
     Mutation: {
         createRecipe,
+        publishRecipe,
         updateRecipe,
         deleteRecipe
     },

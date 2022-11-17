@@ -1,11 +1,6 @@
 const {gql} = require('apollo-server-express')
 
 const booksTypeDefs = gql`
-    
-    enum status{
-        active
-        deleted
-    }
 
     type ingredients{
         _id : ID
@@ -30,6 +25,7 @@ const booksTypeDefs = gql`
     input ingredientsInput{
         id : ID
         name : String
+        status : status
         stock : Int
     }
 

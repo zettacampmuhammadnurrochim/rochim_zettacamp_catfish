@@ -6,7 +6,8 @@ const batchInggridients = async function (inggridientsIds) {
     const inggridients = await ingredientsModel.find({
         _id: {
             $in: inggridientsIds //array
-        }
+        },
+        status : "active"
     });
 
     const inggridientsById = keyBy(inggridients, '_id') // convert to object which's key by _id
