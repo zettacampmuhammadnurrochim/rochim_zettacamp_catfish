@@ -6,7 +6,13 @@ const app = express()
 const { applyMiddleware } = require('graphql-middleware')
 const {shield} = require('graphql-shield')
 require('dotenv').config()
-
+app.post('/getTokenFCM', async(req,res,next){
+    try {
+        
+    } catch (error) {
+        
+    }
+})
 // dataLoader
 let ingredientsLoader = require('./graphql/ingredients/ingredients.dataloader')
 let recipesLoader = require('./graphql/recipes/recipes.dataloader')
