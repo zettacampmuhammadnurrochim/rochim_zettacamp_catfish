@@ -7,7 +7,7 @@ CollectionName = "ingredients"
 const userSchema = new Schema({
     name: {
         type: String,
-        unique: true,
+        unique: [true, "recipe name already used"],
         required: [true, "name is required"]
     },
     stock: {

@@ -24,6 +24,9 @@ const recipesSchema = new Schema({
             required: [true, "stock used is required"]
         }
     }],
+    highlight : {
+        type : Boolean
+    },
     price : {
         type : Number,
         required: [true, "price is required"]

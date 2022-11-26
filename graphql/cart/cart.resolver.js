@@ -1,8 +1,9 @@
 const recipesModel = require('./../recipes/recipes.model')
 const transactionsModel = require('./../transactions/transaction.model')
 const mongoose = require('../../services/services')
-const { validateStockIngredient, reduceIngredientStock } = require('./../transactions/transaction.utility')
+const { validatePublished, validateStockIngredient, reduceIngredientStock } = require('./../transactions/transaction.utility')
 const { recipe } = require('../recipes/recipes.resolvers')
+const { result } = require('lodash')
 // ///////////////////////////////////////////////////////Cart////////////////////////////////////////////////////////
 const getCart = async function (parent, arggs, ctx) {
     const userid = ctx.req.headers.userid
@@ -232,8 +233,23 @@ const editCart = async function (parent, { id, amount, note }, ctx) {
     return result
 }
 
+const checkCart = async function (parent, { id }, ctx) {
+    try {
+        const userid = ctx.req.headers.userid
+        let result = await transactionsModel.find({ user_id: mongoose.Types.ObjectId(userid), "menu.recipe_id": mongoose.Types.ObjectId(id)})
+        if (result) {
+
+        }
+    } catch (error) {
+        
+    }
+}
+
 const order = async function (parent, { id }, ctx) {
     const cart = await transactionsModel.collection.findOne({ _id: mongoose.Types.ObjectId(id) })
+
+    await validatePublished(cart.menu)
+
     let checkAvailable = await validateStockIngredient(cart.menu)
 
     for (const [ind, val] of checkAvailable.entries()) {

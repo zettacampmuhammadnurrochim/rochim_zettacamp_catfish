@@ -1,6 +1,36 @@
+const { ApolloError } = require('apollo-server-express')
 const ingredientsModel = require('../ingredients/ingredients.model')
 const receipesModel = require('../recipes/recipes.model')
 const mongoose = require('../../services/services')
+
+const validatePublished = async (Recipes) => {
+    let result = []
+    let detailRecipe = new Map()
+
+    let recipeNameUnpublish = []
+    let isPublished = []
+    for (const recipe of Recipes) {
+        const recipe_ = await receipesModel.collection.findOne({ _id: recipe.recipe_id },{recipe_name :1 , status : 1})
+        const status = recipe_.status
+        if (status == "publish") {
+            isPublished.push(true)
+        }else{
+            recipeNameUnpublish.push(recipe_.recipe_name)
+            isPublished.push(false)
+        }
+        
+        detailRecipe.set(recipe_.recipe_name, status)
+        result.push(isPublished.includes(false))
+    }
+    // const detailResult = Object.fromEntries(detailRecipe)
+    ///////////////////////
+    if (isPublished.length) {
+        if (isPublished.includes(false)) {
+            throw new ApolloError(`menu ${recipeNameUnpublish} is unpublish`);
+        }
+    }
+    return 0
+}
 
 const validateStockIngredient = async (Recipes) => {
     let result = []
@@ -49,4 +79,4 @@ const reduceIngredientStock = async (Recipes) => {
     return true 
 }
 
-module.exports = {validateStockIngredient,reduceIngredientStock}
+module.exports = { validateStockIngredient, reduceIngredientStock, validatePublished }

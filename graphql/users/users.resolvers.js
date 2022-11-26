@@ -116,7 +116,7 @@ const createUser = async function (parent, arggs, ctx) {
 const loginUser = async function (parent, {email, password}, ctx) {
     try {
         const exist = await userModel.exists({email: email, status : 'active'})
-        if (!exist) return new ctx.error("your account isnt match with all data")
+        if (!exist) return new ctx.error("your email or password didnt match with all data")
         let Object_id = mongoose.Types.ObjectId(exist._id)
         
         const findUser = await userModel.aggregate([
@@ -153,7 +153,7 @@ const loginUser = async function (parent, {email, password}, ctx) {
             else logedin = false
         }
         else logedin = false
-        if (!logedin) return {result : "login failed"}
+        if (!logedin) return new ctx.error("your email or password didnt match with all data")
     } catch (error) {
         return new ctx.error(error)
     }

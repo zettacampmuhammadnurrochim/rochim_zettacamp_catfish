@@ -128,6 +128,17 @@ const updateStatusRecipe = async function (parent, {id,status}, ctx) {
     }
 }
 
+const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
+    try {
+        let result = recipesModel.updateOne({_id : mongoose.Types.ObjectId(id)},{
+            highlight : highlight
+        })
+        return result   
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
 // done
 const updateRecipe = async function (parent, {id,data}, ctx) {
     try {
@@ -444,7 +455,8 @@ const RecipesResolvers = {
         updateStatusRecipe,
         updateRecipe,
         updateRecipeMain,
-        deleteRecipe
+        deleteRecipe,
+        updateHighlightRecipe
     },
 
     recipe_ingridient : {

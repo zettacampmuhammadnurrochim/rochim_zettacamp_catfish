@@ -47,6 +47,7 @@ const booksTypeDefs = gql`
         recipe_name : String
         ingredients : [recipe_ingridient]
         available : Int
+        highlight : Boolean
         price : Int
         description : String
         image : String
@@ -60,6 +61,7 @@ const booksTypeDefs = gql`
     input recipeInput{
         recipe_name : String
         price : Int
+        highlight : Boolean
         ingredients : [recipe_ingridientInput]
         description : String
         image : String
@@ -83,6 +85,7 @@ const booksTypeDefs = gql`
         updateStatusRecipe(id : ID, status : statusRecipe) : JSON,
         updateRecipeMain(id : ID, data : recipeInput) : JSON
         updateRecipe(id : ID, data : recipeInput) : JSON
+        updateHighlightRecipe(id : ID, data : recipeInput) : JSON
         deleteRecipe(id : ID) : JSON
     }
 `
