@@ -4,7 +4,7 @@ const mongoose = require('../../services/services')
 
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////
 
-const GetAllcategories = async function (parent, arggs, ctx) {
+const GetAllCategories = async function (parent, arggs, ctx) {
     try {
         let aggregateQuery = []
 
@@ -58,7 +58,7 @@ const GetAllcategories = async function (parent, arggs, ctx) {
 
 ///////////////////////////////////// mutation resolver ////////////////////////////////
 
-const createcategories = async function (parent, arggs, ctx) {
+const createCategories = async function (parent, arggs, ctx) {
     try {
         let inputcategoriess = new categoriesModel({
             name : arggs.data.name,
@@ -74,7 +74,19 @@ const createcategories = async function (parent, arggs, ctx) {
     }
 }
 
-const deletecategories = async function (parent, {id}, ctx) {
+const updateCategories = async function (parent, {id,data}, ctx) {
+    try {
+        let {name,description} = data
+        let result = categoriesModel.updateOne({_id : mongoose.Types.ObjectId(id)},{
+            name : name,
+            description : description
+        })
+        return result
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+const deleteCategories = async function (parent, {id}, ctx) {
     try {
         let result = {}
         let checkRelations = await checkcategories(id)
@@ -98,12 +110,13 @@ const deletecategories = async function (parent, {id}, ctx) {
 
 const ingredientssResolvers = {
     Query: {
-        GetAllcategories
+        GetAllCategories
     },
     
     Mutation: {
-        createcategories,
-        deletecategories
+        createCategories,
+        updateCategories,
+        deleteCategories
     }
 }
 

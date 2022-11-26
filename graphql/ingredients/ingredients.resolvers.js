@@ -10,8 +10,8 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
     try {
         let aggregateQuery = []
 
+        let indexMatch = aggregateQuery.push({$match : {$and : [{status : {$ne : 'deleted'}}]} }) - 1
         if (arggs.match) {
-            let indexMatch = aggregateQuery.push({$match : {$and : []} }) - 1
             if (arggs.match.name) {
                 const search = new RegExp(arggs.match.name,'i');
                 aggregateQuery[indexMatch].$match.$and.push({

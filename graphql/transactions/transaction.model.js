@@ -7,7 +7,8 @@ CollectionName = "transactions"
 const userSchema = new Schema({
    user_id: {
       type: Schema.Types.ObjectId,
-      ref: "users"
+      ref: "users",
+      required: [true, "user id is required"]
    },
    admin_id: {
       type: Schema.Types.ObjectId,
@@ -33,10 +34,13 @@ const userSchema = new Schema({
    }],
    order_status: {
       type: String,
-      enum: ['success', 'failed']
+      enum: ['pending', 'success', 'failed']
    },
    order_date: {
       type: Date
+   },
+   total_price: {
+      type: Number
    },
    status: {
       type: String,

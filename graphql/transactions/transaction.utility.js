@@ -7,7 +7,8 @@ const validateStockIngredient = async (Recipes) => {
     let detailIngredient = new Map()
     let detailRecipe = new Map()
     for(const recipe of Recipes){
-        const recipe_ = await receipesModel.collection.findOne({_id : mongoose.Types.ObjectId(recipe.recipe_id), status : 'active'})
+        
+        const recipe_ = await receipesModel.collection.findOne({_id : recipe.recipe_id})
         const amount = recipe.amount
         const ingredients = recipe_.ingredients
         // check ingredients if sufficient
@@ -33,14 +34,14 @@ const validateStockIngredient = async (Recipes) => {
 
 const reduceIngredientStock = async (Recipes) => {
     for(const recipe of Recipes){
-        const recipe_ = await receipesModel.collection.findOne({_id : mongoose.Types.ObjectId(recipe.recipe_id), status : 'active'})
+        const recipe_ = await receipesModel.collection.findOne({_id : recipe.recipe_id})
         const amount = recipe.amount
         const ingredients = recipe_.ingredients
         for(const recipeIng of ingredients)
         {
             let reduce = await ingredientsModel.updateOne({_id : mongoose.Types.ObjectId(recipeIng.ingredient_id),status : 'active'},{
                 $inc : {
-                    stock : -amount
+                    stock : - (amount * recipeIng.stock_used)
                 }
             })
         }

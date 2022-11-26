@@ -1,6 +1,6 @@
 const {gql} = require('apollo-server-express')
 
-const bocategorieypeDefs = gql`
+const categoriesTypeDefs = gql`
 
     type category {
         name : String
@@ -14,13 +14,14 @@ const bocategorieypeDefs = gql`
 
     #queries 
     type Query {
-        GetAllcategories(paginator : paginator, match : ingredientsInput) : [category]
+        GetAllCategories(paginator : paginator, match : ingredientsInput) : [category]
     }
     
     #mutation
     type Mutation {
-        createcategories(data : categoryInput) : category
-        deletecategories
+        createCategories(data : categoryInput) : category
+        updateCategories(id : ID, data : categoryInput) : JSON
+        deleteCategories(id : ID) : JSON
     }
 `
 module.exports = categoriesTypeDefs

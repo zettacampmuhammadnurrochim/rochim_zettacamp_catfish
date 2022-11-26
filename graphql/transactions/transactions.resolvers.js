@@ -19,6 +19,59 @@ const getUsersLoader = async function (parent, arggs, ctx) {
 }
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////
 // already test
+const getUserTransactionHistory = async function (parent, arggs, ctx) {
+    try {
+        const userid = ctx.req.headers.userid
+        let aggregateQuery = []
+        let matchQuery = {$match : {$and : [
+            {
+            "user_id" : mongoose.Types.ObjectId(userid)
+            },
+            {
+            "order_status" : {$ne : "pending"}
+            }
+        ]} }
+
+        aggregateQuery.push(matchQuery)
+        
+        if (arggs.paginator) {
+            let total_items = 0
+            if (arggs.match) { 
+                total_items = await transactionsModel.aggregate(aggregateQuery) 
+                total_items = total_items.length
+            }else{
+                total_items = await transactionsModel.count() 
+            }
+            const {limit, page} = arggs.paginator
+            const skip = limit * page
+            aggregateQuery.push({
+                $skip : skip
+            },
+            {
+                $limit : limit
+            })
+
+            let showing = `Showing ${skip+1} to ${Math.min(total_items , skip+limit)} from ${total_items} entries`
+            let total_page = Math.ceil(total_items/limit)
+            let position = `${page+1}/${total_page}`
+           
+            paginator = {
+                total_items : total_items,
+                showing : showing,
+                total_page : total_page,
+                position : position,
+            }
+        }
+        
+        let result = []
+        arggs.match || arggs.paginator ? result = await transactionsModel.aggregate(aggregateQuery) : result = await transactionsModel.collection.find({status : 'active'}).toArray()
+     
+        return {data : result, paginator : paginator}
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
 const getAllTransactions = async function (parent, arggs, ctx) {
     try {
         let aggregateQuery = []
@@ -156,22 +209,20 @@ const getOneTransaction = async function (parent, arggs, ctx) {
 // done
 const createTransaction = async function (parent, {type,data}, ctx) {
     try {
-        let BatchRecipes = []
         let menu = []
         const {user_id,admin_id} = type
         for(const recipe of data) {
-            BatchRecipes.push({recipe_id : recipe.recipe_id, amount : recipe.amount})
             menu.push({
                 recipe_id : mongoose.Types.ObjectId(recipe.recipe_id),
                 amount : recipe.amount,
                 note : recipe.note
             })
         }
-        let checkAvailable = await validateStockIngredient(BatchRecipes)
+        let checkAvailable = await validateStockIngredient(menu)
         for(const [ind,val] of checkAvailable.entries()){
             val ? menu[ind].status_recipe = 'outOfStock' : menu[ind].status_recipe = 'available' 
         }
-        checkAvailable = checkAvailable.includes(true) // if result true mean that all recipe is able to create
+        checkAvailable = checkAvailable.includes(true) // if result true mean that all recipe is not able to create
         let order_status = ''
         
         checkAvailable ? order_status = 'failed' : order_status = 'success'
@@ -185,7 +236,7 @@ const createTransaction = async function (parent, {type,data}, ctx) {
                 status : 'active'
             })
 
-            order_status == 'success' ? await reduceIngredientStock(BatchRecipes) : null
+        order_status == 'success' ? await reduceIngredientStock(menu) : null
         
         return result
     } catch (error) {
@@ -218,7 +269,8 @@ const deleteTransaction = async function (parent, {id}, ctx) {
 const TransactionsResolvers = {
     Query: {
         getAllTransactions,
-        getOneTransaction
+        getOneTransaction,
+        getUserTransactionHistory
     },
     
     Mutation: {

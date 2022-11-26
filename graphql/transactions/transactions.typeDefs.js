@@ -2,6 +2,12 @@ const {gql} = require('apollo-server-express')
 
 const booksTypeDefs = gql`
     
+    enum order_status{
+        pending
+        success
+        failed
+    }
+
     enum mode{
         push
         pull
@@ -21,7 +27,7 @@ const booksTypeDefs = gql`
     input matchTransaction {
         last_name_user : String
         recipe_name : String
-        order_status : String
+        order_status : order_status
         order_date  : Date
     }
 
@@ -30,11 +36,13 @@ const booksTypeDefs = gql`
         amount : Int
         note : String
         status_recipe : status_recipe
+        _id : ID
     }
 
-    enum order_status{
-        success
-        failed
+    input transaction_menusInput{
+        recipe_id : ID
+        amount : Int
+        note : String
     }
 
     type transaction{
@@ -43,6 +51,7 @@ const booksTypeDefs = gql`
         admin_id : admin_detail
         menu : [transaction_menus]
         order_status : order_status
+        total_price : Int
         order_date : Date
         status : status
         user_name : String
@@ -52,12 +61,11 @@ const booksTypeDefs = gql`
         deletedAt : Date
         createdAt : Date
         updatedAt : Date
+        default : JSON
     }
 
     input transactionInput{
-        recipe_id : ID
-        amount : Int
-        note : String
+        menu : [transaction_menusInput]
     }
 
     input type {
@@ -81,6 +89,7 @@ const booksTypeDefs = gql`
     #queries 
     type Query {
         getAllTransactions(paginator : paginator, match : matchTransaction) : transactionsGetAll
+        getUserTransactionHistory(paginator : paginator, match : matchTransaction) : transactionsGetAll
         getOneTransaction(id : ID) : recipe
     }
     

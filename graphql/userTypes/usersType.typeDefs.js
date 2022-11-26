@@ -8,7 +8,7 @@ const userTypeTypeDefs = gql`
     }
 
     type userType {
-        userType : String
+        role : String
         permission : permission
     }
 
@@ -18,7 +18,7 @@ const userTypeTypeDefs = gql`
     }
 
     input userTypeInput {
-        userType : String
+        role : String
         permission : [permissionInput]
     }
 

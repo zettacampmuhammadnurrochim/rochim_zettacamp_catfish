@@ -4,7 +4,7 @@ const userTypeDefs = gql`
     scalar JSON
     scalar Date
     
-    enum userType{
+    enum user_type{
         Admin
         User
     }
@@ -39,7 +39,7 @@ const userTypeDefs = gql`
 
     type userPermission {
         _id : ID
-        userType : userType
+        role : user_type
         permission : [userPermission]
     }
 

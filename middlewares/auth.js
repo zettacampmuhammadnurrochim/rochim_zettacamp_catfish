@@ -5,7 +5,7 @@ const { ApolloError } = require('apollo-server-express');
 let private = fs.readFileSync(path.join(__dirname, '../private.key'))
 
 const userAuth = async (resolve, root, args, context, info) => {
-    let token = context.req.headers.authorization || false
+    let token = context.req.headers.authorization || null
     if (token !== null) {
         token = token.replace('Bearer ', '').replace(' ', '')
         let decode = jwt.decode(token, private);
@@ -27,6 +27,9 @@ module.exports = {
         GetAllUsers : userAuth,
         GetOneUser : userAuth,
         GetAllIngredients : userAuth,
-        getAllRecipes : userAuth
+    },
+    Mutation : {
+        addToCart : userAuth,
+        reduceCart : userAuth
     }
 };

@@ -37,6 +37,11 @@ const booksTypeDefs = gql`
         mode : mode
     }
     
+    type detailCategories{
+        name : String
+        description : String    
+    }
+
     type recipe{
         _id : ID
         recipe_name : String
@@ -46,6 +51,7 @@ const booksTypeDefs = gql`
         description : String
         image : String
         status : statusRecipe
+        categories : detailCategories
         deletedAt : Date
         createdAt : Date
         updatedAt : Date
@@ -74,7 +80,8 @@ const booksTypeDefs = gql`
     #mutation
     type Mutation {
         createRecipe(data : recipeInput) : recipe
-        publishRecipe(id : ID) : JSON
+        updateStatusRecipe(id : ID, status : statusRecipe) : JSON,
+        updateRecipeMain(id : ID, data : recipeInput) : JSON
         updateRecipe(id : ID, data : recipeInput) : JSON
         deleteRecipe(id : ID) : JSON
     }

@@ -10,6 +10,10 @@ const recipesSchema = new Schema({
         required: [true, "recipe is required"],
         unique : [true, "recipe already added"]
     },
+    categories: {
+        type: Schema.Types.ObjectId,
+        ref: "categories"
+    },
     ingredients: [{
         ingredient_id: {
             type: Schema.Types.ObjectId,
