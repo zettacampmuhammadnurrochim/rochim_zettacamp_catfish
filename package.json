@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^3.11.1",
+    "axios": "^1.2.0",
     "bcrypt": "^5.1.0",
     "dataloader": "^2.1.0",
     "dotenv": "^16.0.3",
@@ -23,6 +24,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongoose": "^6.7.2",
+    "node-fetch": "^2.6.7",
     "nodemon": "^2.0.14-alpha.1",
     "path": "^0.12.7"
   }

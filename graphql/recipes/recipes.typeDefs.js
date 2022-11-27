@@ -49,6 +49,7 @@ const booksTypeDefs = gql`
         available : Int
         highlight : Boolean
         price : Int
+        disc : Int
         description : String
         image : String
         status : statusRecipe
@@ -56,11 +57,13 @@ const booksTypeDefs = gql`
         deletedAt : Date
         createdAt : Date
         updatedAt : Date
+        sentReport : String
     }
 
     input recipeInput{
         recipe_name : String
         price : Int
+        disc : Int
         highlight : Boolean
         ingredients : [recipe_ingridientInput]
         description : String
@@ -85,7 +88,7 @@ const booksTypeDefs = gql`
         updateStatusRecipe(id : ID, status : statusRecipe) : JSON,
         updateRecipeMain(id : ID, data : recipeInput) : JSON
         updateRecipe(id : ID, data : recipeInput) : JSON
-        updateHighlightRecipe(id : ID, data : recipeInput) : JSON
+        updateHighlightRecipe(id : ID, highlight : Boolean, disc : Int) : recipe
         deleteRecipe(id : ID) : JSON
     }
 `

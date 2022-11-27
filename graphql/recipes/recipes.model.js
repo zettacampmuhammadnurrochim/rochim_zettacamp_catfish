@@ -31,6 +31,9 @@ const recipesSchema = new Schema({
         type : Number,
         required: [true, "price is required"]
     },
+    disc : {
+        type : Number,
+    },
     status: {
         type: String,
         enum: ['unpublish','publish', 'deleted'],

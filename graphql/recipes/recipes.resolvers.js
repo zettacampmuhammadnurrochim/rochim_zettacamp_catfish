@@ -4,6 +4,7 @@ const mongoose = require('../../services/services')
 const {getAvailable} = require('./recipes.utility')
 const { result } = require('lodash')
 const { Mongoose } = require('../../services/services')
+const { sendMessages } = require('./../../firebase/firebase.utility')
 
 const recipesAvailable = async function (parent, arggs, ctx) {
     if (parent.ingredients.length) {
@@ -128,12 +129,25 @@ const updateStatusRecipe = async function (parent, {id,status}, ctx) {
     }
 }
 
-const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
+const updateHighlightRecipe = async function (parent, {id,highlight,disc}, ctx) {
     try {
-        let result = recipesModel.updateOne({_id : mongoose.Types.ObjectId(id)},{
-            highlight : highlight
+        if (!highlight) {
+            disc = 0
+        }
+        let result = await recipesModel.findOneAndUpdate({_id : mongoose.Types.ObjectId(id)},{
+            highlight : highlight,
+            disc : disc 
+        },{
+            new : true
         })
-        return result   
+        let isSent = null
+
+        if (highlight) {
+            isSent = sendMessages(result)
+        }
+
+        return { ...result, sentReport : isSent }   
+        
     } catch (error) {
         return new ctx.error(error)
     }

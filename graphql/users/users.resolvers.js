@@ -1,4 +1,5 @@
 const userModel = require('./users.model')
+const messagingTokenModel = require('./messagingToken.model')
 const mongoose = require('../../services/services')
 const {GraphQLScalarType,Kind} = require('graphql')
 const bcrypt = require("bcrypt");
@@ -113,7 +114,7 @@ const createUser = async function (parent, arggs, ctx) {
     }
 }
 // done
-const loginUser = async function (parent, {email, password}, ctx) {
+const loginUser = async function (parent, {email, password}, ctx, info) {
     try {
         const exist = await userModel.exists({email: email, status : 'active'})
         if (!exist) return new ctx.error("your email or password didnt match with all data")
@@ -190,6 +191,22 @@ const deleteUser = async function (parent, {id}, ctx) {
         return new ctx.error(error)
     }
 }
+
+const saveTokenFCM = async function (parent, {token}, ctx) {
+    try {
+        const ua = ctx.req.headers['user-agent']
+        const result = messagingTokenModel.insertOne({
+            "userAgent" : ua,
+            token : token
+        })
+        return {result : result}
+    } catch (error) {
+        return new ctx.error(error)
+    }
+
+}
+
+
 
 const usersResolvers = {
     JSON: GraphQLJSON,
