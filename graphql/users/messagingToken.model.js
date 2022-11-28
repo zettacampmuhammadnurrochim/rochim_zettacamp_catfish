@@ -8,7 +8,8 @@ const userSchema = new Schema({
   },
   token: {
     type: String,
-    required: [true, "token is required"]
+    required: [true, "token is required"],
+    unique : true
   },
   deletedAt: {
     type: Date

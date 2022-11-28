@@ -24,6 +24,9 @@ const booksTypeDefs = gql`
     input match {
         name : String
         status : statusRecipe
+        highlight : Boolean
+        specialOver : Boolean
+        categories : ID
     }
 
     type recipe_ingridient {
@@ -48,6 +51,7 @@ const booksTypeDefs = gql`
         ingredients : [recipe_ingridient]
         available : Int
         highlight : Boolean
+        specialOver : Boolean
         price : Int
         disc : Int
         description : String
@@ -65,6 +69,8 @@ const booksTypeDefs = gql`
         price : Int
         disc : Int
         highlight : Boolean
+        specialOver : Boolean
+        categories : String
         ingredients : [recipe_ingridientInput]
         description : String
         image : String
@@ -88,7 +94,8 @@ const booksTypeDefs = gql`
         updateStatusRecipe(id : ID, status : statusRecipe) : JSON,
         updateRecipeMain(id : ID, data : recipeInput) : JSON
         updateRecipe(id : ID, data : recipeInput) : JSON
-        updateHighlightRecipe(id : ID, highlight : Boolean, disc : Int) : recipe
+        updateHighlightRecipe(id : ID, highlight : Boolean) : recipe
+        updateSpecialOver(id : ID, specialOver : Boolean, disc : Int) : recipe
         deleteRecipe(id : ID) : JSON
     }
 `

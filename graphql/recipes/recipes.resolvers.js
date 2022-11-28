@@ -2,8 +2,6 @@ const recipesModel = require('./recipes.model')
 const transactionsModel = require('./../transactions/transaction.model')
 const mongoose = require('../../services/services')
 const {getAvailable} = require('./recipes.utility')
-const { result } = require('lodash')
-const { Mongoose } = require('../../services/services')
 const { sendMessages } = require('./../../firebase/firebase.utility')
 
 const recipesAvailable = async function (parent, arggs, ctx) {
@@ -45,6 +43,27 @@ const getAllRecipes = async function (parent, arggs, ctx) {
                 const search = arggs.match.status
                 aggregateQuery[indexMatch].$match.$and.push({
                     'status' : search
+                })
+            }
+
+            if (arggs.match.highlight) {
+                const search = arggs.match.highlight
+                aggregateQuery[indexMatch].$match.$and.push({
+                    'highlight': search
+                })
+            }
+            
+            if (arggs.match.specialOver) {
+                const search = arggs.match.specialOver
+                aggregateQuery[indexMatch].$match.$and.push({
+                    'specialOver': search
+                })
+            }
+
+            if (arggs.match.categories) {
+                const search = arggs.match.categories
+                aggregateQuery[indexMatch].$match.$and.push({
+                    'categories': search
                 })
             }
         }
@@ -99,11 +118,12 @@ const getOneRecipe = async function (parent, arggs, ctx) {
 // done
 const createRecipe = async function (parent, arggs, ctx) {
     try {
-        const {recipe_name, ingredients, price, description, image} = arggs.data
+        const {recipe_name, ingredients, price, description, image, categories} = arggs.data
         let inputRecipe = new recipesModel({
-            recipe_name : recipe_name, 
+            recipe_name: recipe_name.toLowerCase(), 
             ingredients : ingredients,
             price : price,
+            categories: categories,
             description : description,
             image : image,
             status : "unpublish"
@@ -129,24 +149,37 @@ const updateStatusRecipe = async function (parent, {id,status}, ctx) {
     }
 }
 
-const updateHighlightRecipe = async function (parent, {id,highlight,disc}, ctx) {
+const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
     try {
-        if (!highlight) {
-            disc = 0
-        }
+        !specialOver ? disc = 0 : ''
         let result = await recipesModel.findOneAndUpdate({_id : mongoose.Types.ObjectId(id)},{
-            highlight : highlight,
+            specialOver : specialOver,
             disc : disc 
         },{
             new : true
         })
-        let isSent = null
+        let isSent = ""
 
-        if (highlight) {
+        console.log(specialOver);
+        if (specialOver) {
             isSent = sendMessages(result)
         }
 
-        return { ...result, sentReport : isSent }   
+        return { ...result._doc, sentReport : isSent }        
+    } catch (error) {
+        return new ctx.error(error)
+    }
+}
+
+const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
+    try {
+        let result = await recipesModel.findOneAndUpdate({_id : mongoose.Types.ObjectId(id)},{
+            highlight : highlight
+        },{
+            new : true
+        })
+
+        return result
         
     } catch (error) {
         return new ctx.error(error)
@@ -470,6 +503,7 @@ const RecipesResolvers = {
         updateRecipe,
         updateRecipeMain,
         deleteRecipe,
+        updateSpecialOver,
         updateHighlightRecipe
     },
 

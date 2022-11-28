@@ -29,7 +29,11 @@ const userSchema = new Schema({
       },
       status_recipe: {
          type: String,
-         enum : ['outOfStock','available']
+         enum: ['outOfStock','available']
+      },
+      price : {
+         pcs : {type : Number},
+         total : {type : Number},
       }
    }],
    order_status: {

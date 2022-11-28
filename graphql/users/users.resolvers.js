@@ -195,10 +195,12 @@ const deleteUser = async function (parent, {id}, ctx) {
 const saveTokenFCM = async function (parent, {token}, ctx) {
     try {
         const ua = ctx.req.headers['user-agent']
-        const result = messagingTokenModel.insertOne({
+
+        const result = await messagingTokenModel.create({
             "userAgent" : ua,
             token : token
         })
+        console.log({ result: result });
         return {result : result}
     } catch (error) {
         return new ctx.error(error)
@@ -235,7 +237,8 @@ const usersResolvers = {
         loginUser,
         createUser,
         updateUser,
-        deleteUser
+        deleteUser,
+        saveTokenFCM
     }
 }
 

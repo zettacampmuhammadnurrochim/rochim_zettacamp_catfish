@@ -85,7 +85,7 @@ const GetOneIngredient = async function (parent, arggs, ctx) {
 const createIngredient = async function (parent, arggs, ctx) {
     try {
         let inputIngredients = new ingredientsModel({
-            name: new RegExp(arggs.data.name.toUpperCase()),
+            name: arggs.data.name.toLowerCase(),
             stock : arggs.data.stock,
             status : "active"
         })

@@ -31,11 +31,17 @@ const booksTypeDefs = gql`
         order_date  : Date
     }
 
+    type transaction_menuPrice{
+        pcs : Int
+        total : Int
+    }
+
     type transaction_menus{
         recipe_id : recipe
         amount : Int
         note : String
         status_recipe : status_recipe
+        price : [transaction_menuPrice]
         _id : ID
     }
 

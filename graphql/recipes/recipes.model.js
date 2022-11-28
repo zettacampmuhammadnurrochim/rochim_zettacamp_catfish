@@ -27,6 +27,9 @@ const recipesSchema = new Schema({
     highlight : {
         type : Boolean
     },
+    specialOver : {
+        type : Boolean
+    },
     price : {
         type : Number,
         required: [true, "price is required"]

@@ -16,8 +16,8 @@ const addToCart = async function (parent, { id, amount, note }, ctx) {
         return ctx.error("amount of menu must filled")
     }
     note = note || null
-
     const userid = ctx.req.headers.userid
+    // 1. cek jika sudah ada cart
     const checkAvailable = await transactionsModel.aggregate([
         {
             $match: {
@@ -35,8 +35,11 @@ const addToCart = async function (parent, { id, amount, note }, ctx) {
 
     let result = {}
     if (!checkAvailable.length) {
+    // 2. jika belum ada cart buat baru di colection transactions
         let getPrice = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(id) }, { price: 1 })
-        const price = getPrice.price * amount
+        let priceAfterDisc = 0
+        getPrice.disc > 0 && getPrice.disc != 'undefined' ? priceAfterDisc = getPrice.price - (getPrice.price * (getPrice.disc / 100)) : priceAfterDisc = getPrice.price
+        const price = (priceAfterDisc * amount)
         let values = {
             "user_id": mongoose.Types.ObjectId(userid),
             "menu": [{
@@ -60,10 +63,13 @@ const addToCart = async function (parent, { id, amount, note }, ctx) {
     else {
         let totalHarga = checkAvailable[0].total_price
         let getPrice = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(id) }, { price: 1 })
-        const price = totalHarga + (getPrice.price * amount)
+        let priceAfterDisc = 0
+        getPrice.disc > 0 && getPrice.disc != 'undefined' ? priceAfterDisc = getPrice.price - (getPrice.price * (getPrice.disc / 100)) : priceAfterDisc = getPrice.price
+        const price = totalHarga + (priceAfterDisc * amount)
         
+        console.log(mongoose.Types.ObjectId(id));
         for (const items of checkAvailable[0].menu){
-            if (items.note == note) {
+            if (items.note == note && items.recipe_id == mongoose.Types.ObjectId(id)) {
                 idToUpdate = items._id
                 result = await transactionsModel.findOneAndUpdate(
                     {
@@ -102,8 +108,6 @@ const addToCart = async function (parent, { id, amount, note }, ctx) {
                 new: true,
             }
         )
-
-
     }
     return result
 }
@@ -136,7 +140,10 @@ const reduceCart = async function (parent, { id }, ctx) {
         }
 
         let getPrice = await recipesModel.findOne({ _id: idRecipe }, { price: 1 })
-        const price = getPrice.price * getAmountAdded
+        let priceAfterDisc = 0
+        getPrice.disc > 0 && getPrice.disc != 'undefined' ? priceAfterDisc = getPrice.price - (getPrice.price * (getPrice.disc / 100)) : priceAfterDisc = getPrice.price
+        const price = priceAfterDisc * getAmountAdded
+
         
         result = await transactionsModel.findOneAndUpdate(
             { user_id: mongoose.Types.ObjectId(userid), "order_status": "pending" },
@@ -246,9 +253,24 @@ const checkCart = async function (parent, { id }, ctx) {
 }
 
 const order = async function (parent, { id }, ctx) {
-    const cart = await transactionsModel.collection.findOne({ _id: mongoose.Types.ObjectId(id) })
-
+    let cart = await transactionsModel.collection.findOne({ _id: mongoose.Types.ObjectId(id) })
     await validatePublished(cart.menu)
+    let newMenu = []
+
+    for(const menu of cart.menu){
+        let dataMenu = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(menu.recipe_id) })
+        let pcs = dataMenu.price
+        let total = pcs * menu.amount
+        newMenu.push({
+            ...menu,
+            price: {
+                pcs: pcs,
+                total: total
+            }
+        })
+    }
+
+    cart.menu = newMenu
 
     let checkAvailable = await validateStockIngredient(cart.menu)
 
