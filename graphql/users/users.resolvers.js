@@ -40,7 +40,7 @@ const GetAllUsers = async function (parent, arggs, ctx) {
         
         if (arggs.paginator) {
             let total_items = 0
-            if (arggs.match) { 
+            if (arggs.match && aggregateQuery.length) {  
                 total_items = await userModel.aggregate(aggregateQuery) 
                 total_items = total_items.length
             }else{
@@ -200,7 +200,6 @@ const saveTokenFCM = async function (parent, {token}, ctx) {
             "userAgent" : ua,
             token : token
         })
-        console.log({ result: result });
         return {result : result}
     } catch (error) {
         return new ctx.error(error)

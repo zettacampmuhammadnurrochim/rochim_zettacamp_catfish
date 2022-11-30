@@ -36,7 +36,7 @@ const getUserTransactionHistory = async function (parent, arggs, ctx) {
         
         if (arggs.paginator) {
             let total_items = 0
-            if (arggs.match) { 
+            if (arggs.match && aggregateQuery.length) {  
                 total_items = await transactionsModel.aggregate(aggregateQuery) 
                 total_items = total_items.length
             }else{
@@ -62,10 +62,10 @@ const getUserTransactionHistory = async function (parent, arggs, ctx) {
                 position : position,
             }
         }
-        
+        console.log(aggregateQuery);
         let result = []
         arggs.match || arggs.paginator ? result = await transactionsModel.aggregate(aggregateQuery) : result = await transactionsModel.collection.find({status : 'active'}).toArray()
-     
+     console.log(result[0].menu[0].price);
         return {data : result, paginator : paginator}
     } catch (error) {
         return new ctx.error(error)
@@ -160,7 +160,7 @@ const getAllTransactions = async function (parent, arggs, ctx) {
         
         if (arggs.paginator) {
             let total_items = 0
-            if (arggs.match) { 
+            if (arggs.match && aggregateQuery.length) {  
                 total_items = await transactionsModel.aggregate(aggregateQuery) 
                 total_items = total_items.length
             }else{

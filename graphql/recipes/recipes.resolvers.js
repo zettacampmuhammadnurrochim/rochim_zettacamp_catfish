@@ -28,7 +28,6 @@ const recipeCategories = async function (parent, arggs, ctx) {
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////
 // done
 const getAllRecipes = async function (parent, arggs, ctx) {
-
         let aggregateQuery = []
         let indexMatch = aggregateQuery.push({$match : {$and : [{status : {$ne : "deleted"}}]} }) - 1
         if (arggs.match) {
@@ -44,6 +43,8 @@ const getAllRecipes = async function (parent, arggs, ctx) {
                 aggregateQuery[indexMatch].$match.$and.push({
                     'status' : search
                 })
+            }else {
+                delete arggs.match.status
             }
 
             if (arggs.match.highlight) {
@@ -66,11 +67,20 @@ const getAllRecipes = async function (parent, arggs, ctx) {
                     'categories': search
                 })
             }
+
+            if (!aggregateQuery[indexMatch].$match.$and.length) {
+                aggregateQuery.splice(indexMatch, 1)
+            }
+        }
+
+        if (!aggregateQuery.length) {
+            arggs.match = false
+            arggs.paginator = false
         }
         
         if (arggs.paginator) {
             let total_items = 0
-            if (arggs.match) { 
+            if (arggs.match && aggregateQuery.length) {  
                 total_items = await recipesModel.aggregate(aggregateQuery) 
                 total_items = total_items.length
             }else{

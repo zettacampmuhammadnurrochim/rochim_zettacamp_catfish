@@ -9,21 +9,23 @@ const { toInteger } = require('lodash')
 const GetAllIngredients = async function (parent, arggs, ctx) {
     try {
         let aggregateQuery = []
-
         if (arggs.match) {
             let indexMatch = aggregateQuery.push({$match : {$and : []} }) - 1
+
             if (arggs.match.name) {
                 const search = new RegExp(arggs.match.name,'i');
                 aggregateQuery[indexMatch].$match.$and.push({
                     'name' : search
                 })
             }
-            
+
             if (arggs.match.status) {
-                const search = new RegExp(arggs.match.status,'i');
+                const search = new RegExp(arggs.match.status, 'i');
                 aggregateQuery[indexMatch].$match.$and.push({
-                    'status' : search
+                    'status': search
                 })
+            } else {
+                delete arggs.match.status
             }
 
             if (arggs.match.stock) {
@@ -32,12 +34,21 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
                     'stock' : search
                 })
             }
-        }
         
+            if (!aggregateQuery[indexMatch].$match.$and.length) {
+                aggregateQuery.splice(indexMatch, 1)
+            }
+        }
+
+        if (!aggregateQuery.length) {
+            arggs.match = false
+            arggs.paginator = false
+        }
+        // paginator adalah hal wajib yang selalu diletakkan di akhir aggregatequeryPush
         let paginator = {}
         if (arggs.paginator) {
             let total_items = 0
-            if (arggs.match) { 
+            if (arggs.match && aggregateQuery.length) { 
                 total_items = await ingredientsModel.aggregate(aggregateQuery) 
                 total_items = total_items.length
             }else{
@@ -64,6 +75,7 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
             }
         }
         let result = []
+        
         arggs.match || arggs.paginator ? result = await ingredientsModel.aggregate(aggregateQuery) : result = await ingredientsModel.collection.find().toArray()
         return {data : result, paginator : paginator}
     } catch (error) {

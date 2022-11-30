@@ -22,7 +22,7 @@ const GetAllCategories = async function (parent, arggs, ctx) {
         let paginator = {}
         if (arggs.paginator) {
             let total_items = 0
-            if (arggs.match) { 
+            if (arggs.match && aggregateQuery.length) {  
                 total_items = await categoriesModel.aggregate(aggregateQuery) 
                 total_items = total_items.length
             }else{

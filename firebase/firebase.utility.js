@@ -28,8 +28,10 @@ const sendMessages = async (recipe)=>{
         'body' : JSON.stringify(notification_body)
     })
     .then((e)=>{
+        console.log('success sent');
         return 'success update and sent'
     }).catch((e) =>{
+        console.log('error sent');
         return 'error cant send notification'+e
     })
     

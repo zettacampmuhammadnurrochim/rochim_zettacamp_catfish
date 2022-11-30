@@ -41,7 +41,7 @@ const booksTypeDefs = gql`
         amount : Int
         note : String
         status_recipe : status_recipe
-        price : [transaction_menuPrice]
+        price : transaction_menuPrice
         _id : ID
     }
 

@@ -67,7 +67,6 @@ const addToCart = async function (parent, { id, amount, note }, ctx) {
         getPrice.disc > 0 && getPrice.disc != 'undefined' ? priceAfterDisc = getPrice.price - (getPrice.price * (getPrice.disc / 100)) : priceAfterDisc = getPrice.price
         const price = totalHarga + (priceAfterDisc * amount)
         
-        console.log(mongoose.Types.ObjectId(id));
         for (const items of checkAvailable[0].menu){
             if (items.note == note && items.recipe_id == mongoose.Types.ObjectId(id)) {
                 idToUpdate = items._id
