@@ -10,7 +10,7 @@ const {GraphQLJSON} = require('graphql-type-json')
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////
-// done
+
 const GetAllUsers = async function (parent, arggs, ctx) {
     try {
         let aggregateQuery = []
@@ -74,7 +74,7 @@ const GetAllUsers = async function (parent, arggs, ctx) {
         return new ctx.error(error)
     }
 }
-// done
+
 const GetOneUser = async function (parent, arggs, ctx) {
     try {
         const result = await userModel.collection.findOne({_id : mongoose.Types.ObjectId(arggs.id)})
@@ -85,7 +85,7 @@ const GetOneUser = async function (parent, arggs, ctx) {
 }
 
 ///////////////////////////////////// mutation resolver ////////////////////////////////
-// done
+
 const createUser = async function (parent, arggs, ctx) {
     try {
         let remember_token = ""
@@ -113,7 +113,7 @@ const createUser = async function (parent, arggs, ctx) {
         return new ctx.error(error)
     }
 }
-// done
+
 const loginUser = async function (parent, {email, password}, ctx, info) {
     try {
         const exist = await userModel.exists({email: email, status : 'active'})
@@ -159,7 +159,7 @@ const loginUser = async function (parent, {email, password}, ctx, info) {
         return new ctx.error(error)
     }
 }
-// done
+
 const updateUser = async function (parent, {id,data}, ctx) {
     try {
         let {email, type, last_name, first_name, password} = data
@@ -177,7 +177,7 @@ const updateUser = async function (parent, {id,data}, ctx) {
         return new ctx.error(error)
     }
 }
-// done
+
 const deleteUser = async function (parent, {id}, ctx) {
     try {
         let result = await userModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{

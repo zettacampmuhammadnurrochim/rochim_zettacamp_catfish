@@ -62,10 +62,8 @@ const getUserTransactionHistory = async function (parent, arggs, ctx) {
                 position : position,
             }
         }
-        console.log(aggregateQuery);
         let result = []
         arggs.match || arggs.paginator ? result = await transactionsModel.aggregate(aggregateQuery) : result = await transactionsModel.collection.find({status : 'active'}).toArray()
-     console.log(result[0].menu[0].price);
         return {data : result, paginator : paginator}
     } catch (error) {
         return new ctx.error(error)
@@ -195,7 +193,7 @@ const getAllTransactions = async function (parent, arggs, ctx) {
         return new ctx.error(error)
     }
 }
-// done
+
 const getOneTransaction = async function (parent, arggs, ctx) {
     try {
         const result = await transactionsModel.collection.findOne({_id : mongoose.Types.ObjectId(arggs.id)})
@@ -206,7 +204,7 @@ const getOneTransaction = async function (parent, arggs, ctx) {
 }
 
 ///////////////////////////////////// mutation resolver ////////////////////////////////
-// done
+
 const createTransaction = async function (parent, {type,data}, ctx) {
     try {
         let menu = []
@@ -243,7 +241,7 @@ const createTransaction = async function (parent, {type,data}, ctx) {
         return new ctx.error(error)
     }
 }
-// done
+
 const updateTransaction = async function (parent, {id,data}, ctx) {
     try {
         
@@ -251,7 +249,7 @@ const updateTransaction = async function (parent, {id,data}, ctx) {
         return new ctx.error(error)
     }
 }
-// done
+
 const deleteTransaction = async function (parent, {id}, ctx) {
     try {
         let result = await transactionsModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{

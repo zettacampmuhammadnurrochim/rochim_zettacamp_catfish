@@ -26,7 +26,7 @@ const recipeCategories = async function (parent, arggs, ctx) {
     }
 }
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////
-// done
+
 const getAllRecipes = async function (parent, arggs, ctx) {
         let aggregateQuery = []
         let indexMatch = aggregateQuery.push({$match : {$and : [{status : {$ne : "deleted"}}]} }) - 1
@@ -114,7 +114,7 @@ const getAllRecipes = async function (parent, arggs, ctx) {
         return {data : result, paginator : paginator}
   
 }
-// done
+
 const getOneRecipe = async function (parent, arggs, ctx) {
     try {
         const result = await recipesModel.collection.findOne({_id : mongoose.Types.ObjectId(arggs.id)})
@@ -125,10 +125,24 @@ const getOneRecipe = async function (parent, arggs, ctx) {
 }
 
 ///////////////////////////////////// mutation resolver ////////////////////////////////
-// done
+
 const createRecipe = async function (parent, arggs, ctx) {
     try {
         const {recipe_name, ingredients, price, description, image, categories} = arggs.data
+        let ingredient_id = []
+        for(const ingredient of ingredients){
+            ingredient_id.push(ingredient.ingredient_id)
+        }
+
+        uniqueIngredients = new Set(ingredient_id)
+        if (ingredient_id !== uniqueIngredients.size) {
+
+            let duplicates = ingredient_id.filter((e, i, a) => a.indexOf(e) !== i)
+
+            return new ctx.error('contain duplicate ingredients', duplicates)
+        }
+            
+
         let inputRecipe = new recipesModel({
             recipe_name: recipe_name.toLowerCase(), 
             ingredients : ingredients,
@@ -161,6 +175,17 @@ const updateStatusRecipe = async function (parent, {id,status}, ctx) {
 
 const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
     try {
+        // just allow 3 special over
+        let checklength = await recipesModel.find({ specialOver: true})
+        if (checklength.length > 4) {
+            for (let index = 0; index < checklength.length - 4; index++) {
+                updateTofalse = await recipesModel.updateOne({ _id: checklength[index]._id }, {
+                    specialOver: false,
+                    disc: 0
+                })
+            }
+        }
+        
         !specialOver ? disc = 0 : ''
         let result = await recipesModel.findOneAndUpdate({_id : mongoose.Types.ObjectId(id)},{
             specialOver : specialOver,
@@ -170,7 +195,6 @@ const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
         })
         let isSent = ""
 
-        console.log(specialOver);
         if (specialOver) {
             isSent = sendMessages(result)
         }
@@ -183,6 +207,16 @@ const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
 
 const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
     try {
+
+        let checklength = await recipesModel.find({ highlight: true })
+        if (checklength.length > 1) {
+            for (let index = 0; index < checklength.length - 1; index++) {
+                updateTofalse = await recipesModel.updateOne({ _id: checklength[index]._id }, {
+                    highlight: false
+                })
+            }
+        }
+
         let result = await recipesModel.findOneAndUpdate({_id : mongoose.Types.ObjectId(id)},{
             highlight : highlight
         },{
@@ -196,7 +230,7 @@ const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
     }
 }
 
-// done
+
 const updateRecipe = async function (parent, {id,data}, ctx) {
     try {
         let query = []
@@ -333,7 +367,7 @@ const updateRecipeMain = async function(parent, {id,data}, ctx){
          return new ctx.error(error)
     }
 }
-// done
+
 const deleteRecipe = async function (parent, {id}, ctx) {
     try {
         let result = await recipesModel.updateOne({_id : mongoose.Types.ObjectId(id)},{
