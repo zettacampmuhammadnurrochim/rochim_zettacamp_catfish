@@ -7,7 +7,7 @@ const { result } = require('lodash')
 // ///////////////////////////////////////////////////////Cart////////////////////////////////////////////////////////
 const getCart = async function (parent, arggs, ctx) {
     const userid = ctx.req.headers.userid
-    const result = await transactionsModel.findOne({ user_id: mongoose.Types.ObjectId(userid), order_status: "pending" })
+    let result = await transactionsModel.findOne({ user_id: mongoose.Types.ObjectId(userid), order_status: "pending" })
     return result
 }
 

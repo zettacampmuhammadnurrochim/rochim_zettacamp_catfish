@@ -63,6 +63,7 @@ const getUserTransactionHistory = async function (parent, arggs, ctx) {
             }
         }
         let result = []
+        console.log(aggregateQuery[0].$match.$and);
         arggs.match || arggs.paginator ? result = await transactionsModel.aggregate(aggregateQuery) : result = await transactionsModel.collection.find({status : 'active'}).toArray()
         return {data : result, paginator : paginator}
     } catch (error) {

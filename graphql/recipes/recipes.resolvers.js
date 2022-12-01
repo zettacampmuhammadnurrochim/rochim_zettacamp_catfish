@@ -59,6 +59,12 @@ const getAllRecipes = async function (parent, arggs, ctx) {
                 aggregateQuery[indexMatch].$match.$and.push({
                     'specialOver': search
                 })
+                
+                aggregateQuery.push({
+                    $sort : {
+                        disc : -1
+                    }
+                })
             }
 
             if (arggs.match.categories) {
@@ -75,8 +81,10 @@ const getAllRecipes = async function (parent, arggs, ctx) {
 
         if (!aggregateQuery.length) {
             arggs.match = false
-            arggs.paginator = false
         }
+        // tambahan
+
+        // end of tambhan
         
         if (arggs.paginator) {
             let total_items = 0
@@ -209,8 +217,8 @@ const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
     try {
 
         let checklength = await recipesModel.find({ highlight: true })
-        if (checklength.length > 1) {
-            for (let index = 0; index < checklength.length - 1; index++) {
+        if (checklength.length) {
+            for (let index = 0; index < checklength.length; index++) {
                 updateTofalse = await recipesModel.updateOne({ _id: checklength[index]._id }, {
                     highlight: false
                 })
@@ -229,7 +237,6 @@ const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
         return new ctx.error(error)
     }
 }
-
 
 const updateRecipe = async function (parent, {id,data}, ctx) {
     try {

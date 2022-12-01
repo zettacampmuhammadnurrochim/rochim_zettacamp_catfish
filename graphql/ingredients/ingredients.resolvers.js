@@ -42,7 +42,6 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
 
         if (!aggregateQuery.length) {
             arggs.match = false
-            arggs.paginator = false
         }
         // paginator adalah hal wajib yang selalu diletakkan di akhir aggregatequeryPush
         let paginator = {}
@@ -75,7 +74,6 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
             }
         }
         let result = []
-        
         arggs.match || arggs.paginator ? result = await ingredientsModel.aggregate(aggregateQuery) : result = await ingredientsModel.collection.find().toArray()
         return {data : result, paginator : paginator}
     } catch (error) {
