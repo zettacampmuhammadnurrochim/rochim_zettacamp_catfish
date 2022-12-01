@@ -25,6 +25,9 @@ const userSchema = new Schema({
     },
     unique: [true, "email already used"]
   },
+  credit : {
+    type : Number
+  },
   password: {
     type: String,
     required: [true, "password is required"],

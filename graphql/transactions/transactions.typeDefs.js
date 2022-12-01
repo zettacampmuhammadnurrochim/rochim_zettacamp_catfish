@@ -92,11 +92,17 @@ const booksTypeDefs = gql`
         paginator : paginatorOutput
     }
 
+    type balance { 
+        data : [transaction]
+        balance : Int
+    }
+
     #queries 
     type Query {
         getAllTransactions(paginator : paginator, match : matchTransaction) : transactionsGetAll
         getUserTransactionHistory(paginator : paginator, match : matchTransaction) : transactionsGetAll
         getOneTransaction(id : ID) : recipe
+        getBalance: balance
     }
     
     #mutation

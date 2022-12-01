@@ -1,7 +1,7 @@
 const recipesModel = require('./../recipes/recipes.model')
 const transactionsModel = require('./../transactions/transaction.model')
 const mongoose = require('../../services/services')
-const { validatePublished, validateStockIngredient, reduceIngredientStock } = require('./../transactions/transaction.utility')
+const { validatePublished, validateStockIngredient, reduceIngredientStock, validateCredit } = require('./../transactions/transaction.utility')
 const { recipe } = require('../recipes/recipes.resolvers')
 const { result } = require('lodash')
 // ///////////////////////////////////////////////////////Cart////////////////////////////////////////////////////////
@@ -221,7 +221,7 @@ const editCart = async function (parent, { id, amount, note }, ctx) {
     } else {
         price = totalHarga
     }
-
+    
     result = await transactionsModel.findOneAndUpdate(
         { "user_id": mongoose.Types.ObjectId(userid), "order_status": "pending", "menu._id": mongoose.Types.ObjectId(id) },
         {
@@ -270,7 +270,10 @@ const order = async function (parent, { id }, ctx) {
     }
 
     cart.menu = newMenu
-
+    const valCredit = await validateCredit(ctx.req.headers.userid, cart.total_price)
+    if (!valCredit) {
+        return new ctx.error("your credit is insufficient")
+    }
     let checkAvailable = await validateStockIngredient(cart.menu)
 
     for (const [ind, val] of checkAvailable.entries()) {

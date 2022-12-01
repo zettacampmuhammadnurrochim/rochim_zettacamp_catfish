@@ -1,6 +1,7 @@
 const { ApolloError } = require('apollo-server-express')
 const ingredientsModel = require('../ingredients/ingredients.model')
 const receipesModel = require('../recipes/recipes.model')
+const usersModel = require('../users/users.model')
 const mongoose = require('../../services/services')
 
 const validatePublished = async (Recipes) => {
@@ -79,4 +80,16 @@ const reduceIngredientStock = async (Recipes) => {
     return true 
 }
 
-module.exports = { validateStockIngredient, reduceIngredientStock, validatePublished }
+const validateCredit = async (userid, total_price) => {
+    const dataUser = await usersModel.collection.findOne({_id: mongoose.Types.ObjectId(userid)})
+    console.log(userid);
+    console.log(dataUser);
+    credit = dataUser.credit
+    if (credit >= total_price) {
+        return true
+    }else{
+        return false
+    }
+}
+
+module.exports = { validateStockIngredient, reduceIngredientStock, validatePublished, validateCredit}

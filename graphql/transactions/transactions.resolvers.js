@@ -204,6 +204,16 @@ const getOneTransaction = async function (parent, arggs, ctx) {
     }
 }
 
+const getBalance = async () => {
+    const data = await transactionsModel.collection.find({"order_status" : "success"}).toArray()
+    console.log(data);
+    balance = 0
+    for(const transaction of data){
+        balance = balance + transaction.total_price
+    }
+    return {data : data , balance : balance}
+}
+
 ///////////////////////////////////// mutation resolver ////////////////////////////////
 
 const createTransaction = async function (parent, {type,data}, ctx) {
@@ -269,7 +279,8 @@ const TransactionsResolvers = {
     Query: {
         getAllTransactions,
         getOneTransaction,
-        getUserTransactionHistory
+        getUserTransactionHistory,
+        getBalance
     },
     
     Mutation: {
