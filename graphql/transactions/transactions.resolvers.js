@@ -204,14 +204,47 @@ const getOneTransaction = async function (parent, arggs, ctx) {
     }
 }
 
-const getBalance = async () => {
-    const data = await transactionsModel.collection.find({"order_status" : "success"}).toArray()
-    console.log(data);
+const getBalance = async (parent, arggs, ctx) => {
+    let aggregateQuery = []
+    if (arggs.paginator) {
+            let total_items = 0
+            if (arggs.match && aggregateQuery.length) {  
+                total_items = await transactionsModel.aggregate(aggregateQuery) 
+                total_items = total_items.length
+            }else{
+                total_items = await transactionsModel.count() 
+            }
+            const {limit, page} = arggs.paginator
+            const skip = limit * page
+            aggregateQuery.push({
+                $skip : skip
+            },
+            {
+                $limit : limit
+            })
+
+            let showing = `Showing ${skip+1} to ${Math.min(total_items , skip+limit)} from ${total_items} entries`
+            let total_page = Math.ceil(total_items/limit)
+            let position = `${page+1}/${total_page}`
+           
+            paginator = {
+                total_items : total_items,
+                showing : showing,
+                total_page : total_page,
+                position : position,
+            }
+        }
+
+    let result = []
+    arggs.paginator ? result = await transactionsModel.aggregate(aggregateQuery) : result = await transactionsModel.collection.find({ "order_status": "success" }).toArray()
+
+    const dataBalance = await transactionsModel.find({"order_status" : "success"}).select("total_price")
     balance = 0
-    for(const transaction of data){
+    for (const transaction of dataBalance){
         balance = balance + transaction.total_price
     }
-    return {data : data , balance : balance}
+
+    return { data: result, paginator: paginator, balance : balance}
 }
 
 ///////////////////////////////////// mutation resolver ////////////////////////////////

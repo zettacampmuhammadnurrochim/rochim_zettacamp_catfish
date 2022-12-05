@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const messagingTokenModel = require('./../graphql/users/messagingToken.model')
+require('dotenv').config()
 
 const sendMessages = async (recipe)=>{
     let tokens = await messagingTokenModel.collection.find().toArray()
@@ -22,7 +23,7 @@ const sendMessages = async (recipe)=>{
     fetch('https://fcm.googleapis.com/fcm/send', {
         'method' : 'POST',
         'headers' : {
-            'Authorization': 'key=' +'AAAAq9enYfY:APA91bFuKf440FKsS2b1i5zWeYwR_QEqU8zV7JI00OqIFQpWyuRqk1MkiZZT21uu3TLXVwmIwYOMSi4L7E8OT-Cg6AjaI75PC-CXzRaQpdtDjkErLU5vJcZ8rrBWfWKZdHIEyYd0sk-_',
+            'Authorization': `key= ${process.env.SERVER_FCM} `,
             'Content-Type' : 'application/json'
         },
         'body' : JSON.stringify(notification_body)

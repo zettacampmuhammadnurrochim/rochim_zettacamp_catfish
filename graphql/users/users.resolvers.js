@@ -96,7 +96,7 @@ const createUser = async function (parent, arggs, ctx) {
             last_name : arggs.data.last_name,
             email : arggs.data.email,
             credit : 200000,
-            type : mongoose.Types.ObjectId(arggs.data.type),
+            type: arggs.data.type ? mongoose.Types.ObjectId(arggs.data.type) : mongoose.Types.ObjectId("6371dac209cbcd48c33d4936"),
             password : await bcrypt.hash(arggs.data.password, 10),
             remember_me : remember_token,
             status : "active"
@@ -208,7 +208,13 @@ const saveTokenFCM = async function (parent, {token}, ctx) {
 
 }
 
-
+const getBalanceCredit = async function (parent, arggs, ctx) {
+    let result = userModel.findOne({
+        _id: mongoose.Types.ObjectId(ctx.req.headers.userid)
+    }).select(['credit'])
+    console.log(result);
+    return result
+}
 
 const usersResolvers = {
     JSON: GraphQLJSON,
@@ -230,7 +236,8 @@ const usersResolvers = {
     }),
     Query: {
         GetAllUsers,
-        GetOneUser
+        GetOneUser,
+        getBalanceCredit
     },
     
     Mutation: {

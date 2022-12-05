@@ -94,6 +94,7 @@ const booksTypeDefs = gql`
 
     type balance { 
         data : [transaction]
+        paginator : paginatorOutput
         balance : Int
     }
 
@@ -102,7 +103,7 @@ const booksTypeDefs = gql`
         getAllTransactions(paginator : paginator, match : matchTransaction) : transactionsGetAll
         getUserTransactionHistory(paginator : paginator, match : matchTransaction) : transactionsGetAll
         getOneTransaction(id : ID) : recipe
-        getBalance: balance
+        getBalance(paginator : paginator): balance
     }
     
     #mutation

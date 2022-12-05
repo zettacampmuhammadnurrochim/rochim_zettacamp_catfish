@@ -184,9 +184,10 @@ const updateStatusRecipe = async function (parent, {id,status}, ctx) {
 const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
     try {
         // just allow 3 special over
-        let checklength = await recipesModel.find({ specialOver: true})
-        if (checklength.length > 4) {
-            for (let index = 0; index < checklength.length - 4; index++) {
+        let checklength = await recipesModel.find({ specialOver: true }).sort({ "updatedAt": 1})
+        console.log(checklength);
+        if (checklength.length > 2) {
+            for (let index = 0; index < checklength.length - 2; index++) {
                 updateTofalse = await recipesModel.updateOne({ _id: checklength[index]._id }, {
                     specialOver: false,
                     disc: 0
@@ -216,7 +217,7 @@ const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
 const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
     try {
 
-        let checklength = await recipesModel.find({ highlight: true })
+        let checklength = await recipesModel.find({ highlight: true }).sort({ "updatedAt": 1 })
         if (checklength.length) {
             for (let index = 0; index < checklength.length; index++) {
                 updateTofalse = await recipesModel.updateOne({ _id: checklength[index]._id }, {

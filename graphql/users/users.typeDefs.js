@@ -49,6 +49,7 @@ const userTypeDefs = gql`
         first_name: String
         last_name: String
         email: String
+        credit: Int
         type : ID
         #password : String
         status: status
@@ -63,6 +64,7 @@ const userTypeDefs = gql`
         first_name: String
         last_name: String
         email: String
+        credit: Int
         type : ID
         password : String
         remember_me : Boolean
@@ -77,6 +79,7 @@ const userTypeDefs = gql`
     type Query {
         GetAllUsers(paginator : paginator, match : match) : usersGetAll
         GetOneUser(id : ID) : user
+        getBalanceCredit : JSON
     }
     
     #mutation
