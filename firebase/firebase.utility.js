@@ -7,7 +7,7 @@ const sendMessages = async (recipe)=>{
     tokens = tokens.map((e) => e.token)
     
     let notification = {
-        'title' : `new highlights menu`,
+        'title' : `new special offer`,
         'body'  : `${recipe.recipe_name} is discount ${recipe.disc}% right now`,
         'receiver' : 'lovely users',
         'icon'  : recipe.image,

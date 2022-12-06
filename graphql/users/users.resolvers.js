@@ -3,8 +3,8 @@ const messagingTokenModel = require('./messagingToken.model')
 const mongoose = require('../../services/services')
 const {GraphQLScalarType,Kind} = require('graphql')
 const bcrypt = require("bcrypt");
-
 const {generateToken, remember_me, comparePassword} = require('./users.utility.js')
+const nodemailer = require('nodemailer');
 const {GraphQLJSON} = require('graphql-type-json')
 
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
@@ -215,6 +215,40 @@ const getBalanceCredit = async function (parent, arggs, ctx) {
     return result
 }
 
+const reqForgetPassword = async function (parent, {email}, ctx) {
+    let find = await userModel.collection.findOne({email : email})
+    if (!find) {return new ctx.error('email no registered before')}
+    else{
+        let token = generateToken().replace('.', '')
+        await userModel.updateOne({email : email},{
+            token: token
+        })
+    }
+
+    let transporter = nodemailer.createTransport({
+        host: 'mail.donormerahyogyakarta.com',
+        port: 465,
+        secure: true, 
+        auth: {
+            user: 'mbakatik@donormerahyogyakarta.com',
+            pass: 'Zettaku123'
+        }
+    });
+
+    let mailOptions = {
+        from: '"mbak atik resto - forgot password" <mbakatik@donormerahyogyakarta.com>', 
+        to: email, 
+        subject: "This is Coding Day Send Email Example", 
+        text: "Coding Day?", 
+        html: "<h1>Coding Day</h1>", 
+    };  
+
+    let info = await transporter.sendMail(mailOptions);
+
+    return {messageSent : info}
+
+}
+
 const usersResolvers = {
     JSON: GraphQLJSON,
     Date: new GraphQLScalarType({
@@ -244,7 +278,8 @@ const usersResolvers = {
         createUser,
         updateUser,
         deleteUser,
-        saveTokenFCM
+        saveTokenFCM,
+        reqForgetPassword
     }
 }
 

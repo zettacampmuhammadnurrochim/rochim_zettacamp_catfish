@@ -89,6 +89,7 @@ const userTypeDefs = gql`
         updateUser(id: ID, data : userInput) : JSON
         deleteUser(id: ID) : JSON
         saveTokenFCM(token : String) : JSON
+        reqForgetPassword(email : String) : JSON
     }
 `
 module.exports = userTypeDefs

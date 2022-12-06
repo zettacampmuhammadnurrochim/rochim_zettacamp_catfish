@@ -223,7 +223,7 @@ const editCart = async function (parent, { id, amount, note }, ctx) {
         price = totalHarga
     }
     
-    result = await transactionsModel.findOneAndUpdate(
+    let result = await transactionsModel.findOneAndUpdate(
         { "user_id": mongoose.Types.ObjectId(userid), "order_status": "pending", "menu._id": mongoose.Types.ObjectId(id) },
         {
             $set: {

@@ -41,6 +41,9 @@ const userSchema = new Schema({
   remember_me: {
     type: String
   },
+  token: {
+    type: String
+  },
   status: {
     type: String,
     enum: ['active', 'deleted'],
