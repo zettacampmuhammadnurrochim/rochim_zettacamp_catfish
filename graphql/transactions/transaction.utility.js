@@ -82,8 +82,7 @@ const reduceIngredientStock = async (Recipes) => {
 
 const validateCredit = async (userid, total_price) => {
     const dataUser = await usersModel.collection.findOne({_id: mongoose.Types.ObjectId(userid)})
-    console.log(userid);
-    console.log(dataUser);
+
     credit = dataUser.credit
     if (credit >= total_price) {
         return true

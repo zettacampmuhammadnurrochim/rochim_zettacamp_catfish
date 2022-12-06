@@ -183,21 +183,40 @@ const updateStatusRecipe = async function (parent, {id,status}, ctx) {
 
 const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
     try {
+        
+        
         // just allow 3 special over
-        let checklength = await recipesModel.find({ specialOver: true }).sort({ "updatedAt": 1})
 
-        if (checklength.length > 2) {
+        let checklength = await recipesModel.find({ specialOver: true }).sort({ "updatedAt": 1})
+        let ids = []
+        for(const menu of checklength){
+            ids.push(menu._id.toString())
+            if (menu._id.toString() == id) {
+                await recipesModel.updateOne({ _id: mongoose.Types.ObjectId(id) }, {
+                    specialOver: false,
+                    disc: 0
+                })
+                return new ctx.error('removed')
+            }
+        }
+
+        let includes = ids.includes(id)
+
+        let ingredients = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(id) }).select(["ingredients"])
+        let available = await getAvailable(ingredients.ingredients);
+        if (!available) {return new ctx.error("menu ingredients insufficient")}
+
+        if (checklength.length > 2 && !includes) {
             for (let index = 0; index < checklength.length - 2; index++) {
-                if (checklength[index]._id.toString() !== id) {
-                    updateTofalse = await recipesModel.updateOne({ _id: checklength[index]._id }, {
-                        specialOver: false,
-                        disc: 0
-                    })
-                }
+                updateTofalse = await recipesModel.updateOne({ _id: checklength[index]._id }, {
+                    specialOver: false,
+                    disc: 0
+                })
             }
         }
         
         !specialOver ? disc = 0 : ''
+        disc == 0 ? specialOver = false : specialOver = true 
         let result = await recipesModel.findOneAndUpdate({_id : mongoose.Types.ObjectId(id)},{
             specialOver : specialOver,
             disc : disc 

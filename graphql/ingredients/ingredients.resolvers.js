@@ -128,9 +128,10 @@ const deleteIngredient = async function (parent, {id}, ctx) {
         let checkRelations = await checkIngredient(id)
         let recipeName = []
         if (!checkRelations.length) {
-            result = await ingredientsModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{
-                status : "deleted"
-            })
+            // result = await ingredientsModel.updateOne({_id : mongoose.Types.ObjectId(id), status : 'active'},{
+            //     status : "deleted"
+            // })
+            result = await ingredientsModel.deleteOne({_id : mongoose.Types.ObjectId(id), status : 'active'})
         }else{
             for(const val of checkRelations){
                 recipeName.push(val.recipe_name)

@@ -201,11 +201,11 @@ const clearCart = async function (parent, arggs, ctx) {
 
 const editCart = async function (parent, { id, amount, note }, ctx) {
 
-    const userid = ctx.req.headers.userid
-    const getTotalHarga = await transactionsModel.findOne({ "user_id": mongoose.Types.ObjectId(userid), "order_status": "pending" })
+    let userid = ctx.req.headers.userid
+    let getTotalHarga = await transactionsModel.findOne({ "user_id": mongoose.Types.ObjectId(userid), "order_status": "pending" })
 
     let { recipe_id, amountDeclared } = await (async function (data) {
-        for (const cartItem of data) {
+        for (let cartItem of data) {
             if (cartItem._id.toString() == id) {
                 return { recipe_id: cartItem.recipe_id, amountDeclared: cartItem.amount }
             }

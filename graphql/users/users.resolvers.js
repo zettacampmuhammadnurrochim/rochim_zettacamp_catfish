@@ -212,7 +212,6 @@ const getBalanceCredit = async function (parent, arggs, ctx) {
     let result = userModel.findOne({
         _id: mongoose.Types.ObjectId(ctx.req.headers.userid)
     }).select(['credit'])
-    console.log(result);
     return result
 }
 
