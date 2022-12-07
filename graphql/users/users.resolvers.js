@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const {generateToken, remember_me, comparePassword} = require('./users.utility.js')
 const nodemailer = require('nodemailer');
 const {GraphQLJSON} = require('graphql-type-json')
+require('dotenv').config()
 
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 
@@ -216,37 +217,57 @@ const getBalanceCredit = async function (parent, arggs, ctx) {
 }
 
 const reqForgetPassword = async function (parent, {email}, ctx) {
+    let address = ""
     let find = await userModel.collection.findOne({email : email})
-    if (!find) {return new ctx.error('email no registered before')}
+    if (!find) {return new ctx.error('email not registered before')}
     else{
-        let token = generateToken().replace('.', '')
-        await userModel.updateOne({email : email},{
+        let token = generateToken()
+        let update = await userModel.updateOne({email : email},{
             token: token
         })
+        address = `${process.env.DOMAIN}/PasswordReset/${token}`
     }
 
+    // let transporter = nodemailer.createTransport({
+    //     host: 'mail.donormerahyogyakarta.com',
+    //     port: 465,
+    //     secure: true, 
+    //     auth: {
+    //         user: process.env.EMAIL,
+    //         pass: process.env.PASS
+    //     }
+    // });
+
     let transporter = nodemailer.createTransport({
-        host: 'mail.donormerahyogyakarta.com',
-        port: 465,
-        secure: true, 
+        service: 'gmail', 
         auth: {
-            user: 'mbakatik@donormerahyogyakarta.com',
-            pass: 'Zettaku123'
+            user: "mamadanjar@gmail.com",
+            pass: "fruvulchguatdzgi "
         }
     });
 
     let mailOptions = {
-        from: '"mbak atik resto - forgot password" <mbakatik@donormerahyogyakarta.com>', 
+        from: '"mbak atik resto - forgot password" <' + process.env.EMAIL +'>', 
         to: email, 
-        subject: "This is Coding Day Send Email Example", 
-        text: "Coding Day?", 
-        html: "<h1>Coding Day</h1>", 
+        subject: "email confirmation to reset password",  
+        html: "<p>click this link to reset passworrd</p><a href='"+address+"'>click</a>", 
     };  
 
     let info = await transporter.sendMail(mailOptions);
 
     return {messageSent : info}
+}
 
+const cekUserToken = async function (parent, {token}, ctx) {
+    result = await userModel.count({token : token})
+    return result
+}
+
+const updatePassword = async function (parent, {token,pass}, ctx) {
+    result = await userModel.updateOne({token : token},{
+        password: await bcrypt.hash(pass, 10),
+    })
+    return result
 }
 
 const usersResolvers = {
@@ -270,7 +291,8 @@ const usersResolvers = {
     Query: {
         GetAllUsers,
         GetOneUser,
-        getBalanceCredit
+        getBalanceCredit,
+        cekUserToken
     },
     
     Mutation: {
@@ -279,7 +301,8 @@ const usersResolvers = {
         updateUser,
         deleteUser,
         saveTokenFCM,
-        reqForgetPassword
+        reqForgetPassword,
+        updatePassword
     }
 }
 

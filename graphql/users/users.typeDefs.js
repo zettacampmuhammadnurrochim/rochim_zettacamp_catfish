@@ -80,6 +80,7 @@ const userTypeDefs = gql`
         GetAllUsers(paginator : paginator, match : match) : usersGetAll
         GetOneUser(id : ID) : user
         getBalanceCredit : JSON
+        cekUserToken(token : String) : Boolean
     }
     
     #mutation
@@ -90,6 +91,7 @@ const userTypeDefs = gql`
         deleteUser(id: ID) : JSON
         saveTokenFCM(token : String) : JSON
         reqForgetPassword(email : String) : JSON
+        updatePassword(token : String, pass : String) : JSON
     }
 `
 module.exports = userTypeDefs
