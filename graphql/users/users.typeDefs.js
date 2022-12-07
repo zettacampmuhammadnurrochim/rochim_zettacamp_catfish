@@ -46,6 +46,7 @@ const userTypeDefs = gql`
     type user{
         _id : ID
         token : String
+        tokenFP : String
         first_name: String
         last_name: String
         email: String

@@ -148,6 +148,7 @@ const loginUser = async function (parent, {email, password}, ctx, info) {
             const result = await comparePassword(password, hashed)
             if (result) {
                 let token = generateToken('1h')
+                console.log(token);
                 return {
                     token : token , 
                     ...findUser[0]
@@ -223,7 +224,7 @@ const reqForgetPassword = async function (parent, {email}, ctx) {
     else{
         let token = generateToken()
         let update = await userModel.updateOne({email : email},{
-            token: token
+            tokenFP : token
         })
         address = `${process.env.DOMAIN}/PasswordReset/${token}`
     }

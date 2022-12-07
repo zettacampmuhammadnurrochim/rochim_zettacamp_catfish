@@ -41,7 +41,7 @@ const userSchema = new Schema({
   remember_me: {
     type: String
   },
-  token: {
+  tokenFP: {
     type: String
   },
   status: {
