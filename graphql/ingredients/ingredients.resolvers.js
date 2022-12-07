@@ -7,8 +7,9 @@ const { toInteger } = require('lodash')
 /////////////////////////////////////////////////////query function////////////////////////////////////////////////////
 
 const GetAllIngredients = async function (parent, arggs, ctx) {
-    // try {
+    try {
         let aggregateQuery = []
+        let querySort = { $sort: {} }
         if (arggs.match) {
             let indexMatch = aggregateQuery.push({$match : {$and : []} }) - 1
 
@@ -43,6 +44,9 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
         if (!aggregateQuery.length) {
             arggs.match = false
         }
+
+        querySort.$sort.createdAt = -1
+        aggregateQuery.push(querySort)
         // paginator adalah hal wajib yang selalu diletakkan di akhir aggregatequeryPush
         let paginator = {}
         if (arggs.paginator) {
@@ -76,9 +80,9 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
         let result = []
         arggs.match || arggs.paginator ? result = await ingredientsModel.aggregate(aggregateQuery) : result = await ingredientsModel.collection.find().toArray()
         return {data : result, paginator : paginator}
-    // } catch (error) {
-    //     return new ctx.error(error)
-    // }
+    } catch (error) {
+        return new ctx.error(error)
+    }
 }
 
 const GetOneIngredient = async function (parent, arggs, ctx) {

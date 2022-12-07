@@ -29,6 +29,7 @@ const recipeCategories = async function (parent, arggs, ctx) {
 
 const getAllRecipes = async function (parent, arggs, ctx) {
         let aggregateQuery = []
+        let querySort = {$sort : {}}
         let indexMatch = aggregateQuery.push({$match : {$and : [{status : {$ne : "deleted"}}]} }) - 1
         if (arggs.match) {
             if (arggs.match.name) {
@@ -59,12 +60,8 @@ const getAllRecipes = async function (parent, arggs, ctx) {
                 aggregateQuery[indexMatch].$match.$and.push({
                     'specialOver': search
                 })
-                
-                aggregateQuery.push({
-                    $sort : {
-                        disc : -1
-                    }
-                })
+
+                querySort.$sort.disc = -1
             }
 
             if (arggs.match.categories) {
@@ -85,7 +82,8 @@ const getAllRecipes = async function (parent, arggs, ctx) {
         // tambahan
 
         // end of tambhan
-        
+        querySort.$sort.createdAt = -1
+        aggregateQuery.push(querySort)
         if (arggs.paginator) {
             let total_items = 0
             if (arggs.match && aggregateQuery.length) {  
@@ -116,8 +114,7 @@ const getAllRecipes = async function (parent, arggs, ctx) {
         }
         
         let result = []
-        
-        arggs.match || arggs.paginator ? result = await recipesModel.aggregate(aggregateQuery) : result = await recipesModel.collection.find().toArray()
+    arggs.match || arggs.paginator ? result = await recipesModel.aggregate(aggregateQuery) : result = await recipesModel.find().sort({ createdAt: -1 })
 
         return {data : result, paginator : paginator}
   
@@ -143,10 +140,10 @@ const createRecipe = async function (parent, arggs, ctx) {
         }
 
         uniqueIngredients = new Set(ingredient_id)
-        if (ingredient_id !== uniqueIngredients.size) {
+        if (ingredient_id.length !== uniqueIngredients.size) {
 
             let duplicates = ingredient_id.filter((e, i, a) => a.indexOf(e) !== i)
-
+            console.log(duplicates);
             return new ctx.error('contain duplicate ingredients', duplicates)
         }
             
