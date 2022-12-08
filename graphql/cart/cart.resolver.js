@@ -256,18 +256,6 @@ const editCart = async function (parent, { id, amount, note }, ctx) {
     return result
 }
 
-const checkCart = async function (parent, { id }, ctx) {
-    try {
-        const userid = ctx.req.headers.userid
-        let result = await transactionsModel.find({ user_id: mongoose.Types.ObjectId(userid), "menu.recipe_id": mongoose.Types.ObjectId(id)})
-        if (result) {
-
-        }
-    } catch (error) {
-        
-    }
-}
-
 const order = async function (parent, { id }, ctx) {
     // dalam fungsi ini terdapat beberapa validasi terlebih dahulu seperti : validasi perubahan harga,stock/ingredient,credit
     let cart = await transactionsModel.collection.findOne({ _id: mongoose.Types.ObjectId(id) })
