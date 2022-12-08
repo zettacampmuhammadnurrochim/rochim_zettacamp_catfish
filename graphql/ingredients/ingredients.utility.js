@@ -4,6 +4,7 @@ const recipesModel = require('./../recipes/recipes.model')
 const checkIngredient = async (id) => {
     const result = await recipesModel.aggregate([{
         $match : {
+            "status" : "publish",
             "ingredients.ingredient_id" : mongoose.Types.ObjectId(id)
         }
     }])

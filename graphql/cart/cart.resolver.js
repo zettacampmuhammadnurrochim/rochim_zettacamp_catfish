@@ -269,6 +269,7 @@ const checkCart = async function (parent, { id }, ctx) {
 }
 
 const order = async function (parent, { id }, ctx) {
+    // dalam fungsi ini terdapat beberapa validasi terlebih dahulu seperti : validasi perubahan harga,stock/ingredient,credit
     let cart = await transactionsModel.collection.findOne({ _id: mongoose.Types.ObjectId(id) })
     await validatePublished(cart.menu)
     let newMenu = []
@@ -276,43 +277,29 @@ const order = async function (parent, { id }, ctx) {
 
     for(const menu of cart.menu){
         let dataMenu = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(menu.recipe_id) })
-        let menuPrice = dataMenu.price
-        // jika harga saat add to cart tidak sama dengan harga sekarang
+        let menuPrice = 0
+        // jika admin mengubah harga atau diskon maka akan terdeteksi sebalum cekout
+        // jika data menu terbaru memiliki discount maka menuPrice telah disesuaikan
+        dataMenu.disc ? menuPrice = (dataMenu.price * dataMenu.disc) / 100 : menuPrice = dataMenu.price
+        // jika harga pada Cart tidak sama dengan harga sekarang
         if (menuPrice != menu.price.pcs) {
             // terdapat kesalahan untuk pengambilan harga seharusnya mengguanakan konsep seperti data loader jauh lebih cepat
             // tapi kelibihannya dengan ini user bisa tau kalau ada perubahan harga dengan notifikasi
-
-            if (dataMenu.disc) {
-                // jika menu memiliki diskon maka dicocokan dengan harga di transaksi apa sama atau tidak
-                pricWithDiscNew = (menu.price.pcs * dataMenu.disc) / 100
-                priceWithoutDisc = (menu.price.pcs * 100) / dataMenu.disc
-                if (priceWithoutDisc != dataMenu.price) {
-                    // dicocokan harganya kalau tidak sama berarti ada perubahan di harga nya
-                    let total = pcs * menu.amount
-                    hasUpdatedMenu.push({
-                        _id: menu._id,
-                        price: {
-                            pcs: pricWithDiscNew,
-                            total: total
-                        }
-                    }) 
+            // tapi entah pantas di bilang kelebihan atau tidak , sepertinya cuma alasan karena terlanjur 
+            let total = menuPrice * menu.amount
+            hasUpdatedMenu.push({
+                _id: menu._id,
+                price: {
+                    pcs: menuPrice,
+                    total: total
                 }
-            }else{
-                let total = pcs * menu.amount
-                hasUpdatedMenu.push({
-                    _id: menu._id,
-                    price: {
-                        pcs: pcs,
-                        total: total
-                    }
-                }) 
-            }   
+            })   
         }else{
             let total = pcs * menu.amount
             newMenu.push({
                 ...menu,
                 price: {
-                    pcs: pcs,
+                    pcs: menuPrice,
                     total: total
                 }
             })
@@ -320,6 +307,7 @@ const order = async function (parent, { id }, ctx) {
     }
 
     if (hasUpdatedMenu.length) {
+        // bisa juga menggunakan array fileter sebetulnya
         for (const dataUpdate of hasUpdatedMenu){
             let idToUpdate = dataUpdate._id
             let pcs = dataUpdate.price.pcs
@@ -337,8 +325,8 @@ const order = async function (parent, { id }, ctx) {
         }
         return new ctx.error("there is a menu that has been updated by Admin, please check your order again")
     }
-    cart.menu = newMenu
 
+    cart.menu = newMenu
     const valCredit = await validateCredit(ctx.req.headers.userid, cart.total_price)
     if (!valCredit) {return new ctx.error("your credit is insufficient")}
 
