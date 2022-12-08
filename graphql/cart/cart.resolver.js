@@ -272,23 +272,20 @@ const order = async function (parent, { id }, ctx) {
     let cart = await transactionsModel.collection.findOne({ _id: mongoose.Types.ObjectId(id) })
     await validatePublished(cart.menu)
     let newMenu = []
-
-    hasUpdateByAdmin = []
+    let hasUpdatedMenu = []
 
     for(const menu of cart.menu){
         let dataMenu = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(menu.recipe_id) })
         let pcs = dataMenu.price
-        if (pcs != menu.price.pcs) {
-            hasUpdateByAdmin.push(true)
+        if (pcs != menu.price.pcs) {            
             let total = pcs * menu.amount
-            newMenu.push({
-                ...menu,
+            hasUpdatedMenu.push({
+                _id: menu._id,
                 price: {
                     pcs: pcs,
                     total: total
                 }
-            })
-            // return new ctx.error("there is a menu that has been updated by Admin, please check your order again")    
+            })    
         }else{
             let total = pcs * menu.amount
             newMenu.push({
@@ -301,6 +298,11 @@ const order = async function (parent, { id }, ctx) {
         }
     }
 
+    if (hasUpdatedMenu.length) {
+
+        
+        return new ctx.error("there is a menu that has been updated by Admin, please check your order again")
+    }
     cart.menu = newMenu
 
     const valCredit = await validateCredit(ctx.req.headers.userid, cart.total_price)

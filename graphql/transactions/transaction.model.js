@@ -1,7 +1,4 @@
-const {
-   Schema,
-   mongoose
-} = require('../../services/services')
+const mongoose = require('../../services/services')
 
 CollectionName = "transactions"
 const userSchema = new mongoose.Schema({
