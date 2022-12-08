@@ -299,8 +299,21 @@ const order = async function (parent, { id }, ctx) {
     }
 
     if (hasUpdatedMenu.length) {
-
-        
+        for (const dataUpdate of hasUpdatedMenu){
+            let idToUpdate = dataUpdate._id
+            let pcs = dataUpdate.price.pcs
+            let total = dataUpdate.price.total
+            await transactionsModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id), "menu._id": idToUpdate }, {
+                $set: {
+                    "menu.$.price.pcs": pcs,
+                    "menu.$.price.total": total,
+                }
+            },
+            {
+                new: true,
+            })
+            
+        }
         return new ctx.error("there is a menu that has been updated by Admin, please check your order again")
     }
     cart.menu = newMenu
