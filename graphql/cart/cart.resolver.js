@@ -273,43 +273,54 @@ const order = async function (parent, { id }, ctx) {
     await validatePublished(cart.menu)
     let newMenu = []
 
+    hasUpdateByAdmin = []
+
     for(const menu of cart.menu){
         let dataMenu = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(menu.recipe_id) })
         let pcs = dataMenu.price
-        let total = pcs * menu.amount
-        newMenu.push({
-            ...menu,
-            price: {
-                pcs: pcs,
-                total: total
-            }
-        })
+        if (pcs != menu.price.pcs) {
+            hasUpdateByAdmin.push(true)
+            let total = pcs * menu.amount
+            newMenu.push({
+                ...menu,
+                price: {
+                    pcs: pcs,
+                    total: total
+                }
+            })
+            // return new ctx.error("there is a menu that has been updated by Admin, please check your order again")    
+        }else{
+            let total = pcs * menu.amount
+            newMenu.push({
+                ...menu,
+                price: {
+                    pcs: pcs,
+                    total: total
+                }
+            })
+        }
     }
 
     cart.menu = newMenu
+
     const valCredit = await validateCredit(ctx.req.headers.userid, cart.total_price)
-    if (!valCredit) {
-        return new ctx.error("your credit is insufficient")
-    }
+    if (!valCredit) {return new ctx.error("your credit is insufficient")}
 
     let checkAvailable = await validateStockIngredient(cart.menu)
-
     for (const [ind, val] of checkAvailable.entries()) {
         val ? cart.menu[ind].status_recipe = 'outOfStock' : cart.menu[ind].status_recipe = 'available'
     }
     checkAvailable = checkAvailable.includes(true) // if result true mean that all recipe is not able to create
     let order_status = ''
-
     checkAvailable ? order_status = 'failed' : order_status = 'success'
     order_status == 'success' ? reduce = await reduceIngredientStock(cart.menu) : null
 
-    
-       let Payment =  await usersModel.collection.updateOne({ _id: mongoose.Types.ObjectId(ctx.req.headers.userid) },
-            {
-                $inc: {
-                    "credit": - cart.total_price
-                }
-            })
+    let Payment = await usersModel.collection.updateOne({ _id: mongoose.Types.ObjectId(ctx.req.headers.userid) },
+        {
+            $inc: {
+                "credit": - cart.total_price
+            }
+        })
     
     const result = await transactionsModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id) }, {
         $set: {
