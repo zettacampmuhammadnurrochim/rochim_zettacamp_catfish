@@ -276,16 +276,37 @@ const order = async function (parent, { id }, ctx) {
 
     for(const menu of cart.menu){
         let dataMenu = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(menu.recipe_id) })
-        let pcs = dataMenu.price
-        if (pcs != menu.price.pcs) {            
-            let total = pcs * menu.amount
-            hasUpdatedMenu.push({
-                _id: menu._id,
-                price: {
-                    pcs: pcs,
-                    total: total
+        let menuPrice = dataMenu.price
+        // jika harga saat add to cart tidak sama dengan harga sekarang
+        if (menuPrice != menu.price.pcs) {
+            // terdapat kesalahan untuk pengambilan harga seharusnya mengguanakan konsep seperti data loader jauh lebih cepat
+            // tapi kelibihannya dengan ini user bisa tau kalau ada perubahan harga dengan notifikasi
+
+            if (dataMenu.disc) {
+                // jika menu memiliki diskon maka dicocokan dengan harga di transaksi apa sama atau tidak
+                pricWithDiscNew = (menu.price.pcs * dataMenu.disc) / 100
+                priceWithoutDisc = (menu.price.pcs * 100) / dataMenu.disc
+                if (priceWithoutDisc != dataMenu.price) {
+                    // dicocokan harganya kalau tidak sama berarti ada perubahan di harga nya
+                    let total = pcs * menu.amount
+                    hasUpdatedMenu.push({
+                        _id: menu._id,
+                        price: {
+                            pcs: pricWithDiscNew,
+                            total: total
+                        }
+                    }) 
                 }
-            })    
+            }else{
+                let total = pcs * menu.amount
+                hasUpdatedMenu.push({
+                    _id: menu._id,
+                    price: {
+                        pcs: pcs,
+                        total: total
+                    }
+                }) 
+            }   
         }else{
             let total = pcs * menu.amount
             newMenu.push({
