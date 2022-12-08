@@ -258,13 +258,17 @@ const reqForgetPassword = async function (parent, {email}, ctx) {
         html: "<p>click this link to reset passworrd</p><a href='"+address+"'>click</a>", 
     };  
 
-    let info = await transporter.sendMail(mailOptions);
+    let info = await transporter.sendMail(mailOptions, (error,result) => {
+        if (error) {
+            return new ctx.error("failed to send email confirmation")
+        }else{
+            return {messageSent : result}
+        }
+    });
 
-    return {messageSent : info}
 }
 
 const cekUserToken = async function (parent, {token}, ctx) {
-    console.log(token);
     token = token.replace('Bearer ', '').replace(' ', '')
     let decode = jwt.decode(token, private);
     if (decode) {

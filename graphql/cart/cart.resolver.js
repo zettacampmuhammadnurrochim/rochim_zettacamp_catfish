@@ -219,21 +219,22 @@ const editCart = async function (parent, { id, amount, note }, ctx) {
     let userid = ctx.req.headers.userid
     let getTotalHarga = await transactionsModel.findOne({ "user_id": mongoose.Types.ObjectId(userid), "order_status": "pending" })
 
-    let { recipe_id, amountDeclared } = await (async function (data) {
+    let { recipe_id, amountDeclared, priceDeclare } = await (async function (data) {
         for (let cartItem of data) {
             if (cartItem._id.toString() == id) {
-                return { recipe_id: cartItem.recipe_id, amountDeclared: cartItem.amount }
+                return { recipe_id: cartItem.recipe_id, amountDeclared: cartItem.amount, priceDeclare : cartItem.price }
             }
         }
     })(getTotalHarga.menu)
     
     let totalHarga = getTotalHarga.total_price
-    let getPrice = await recipesModel.findOne({ _id: recipe_id }, { price: 1 })
+    // let getPrice = await recipesModel.findOne({ _id: recipe_id }, { price: 1 , disc : 1})
+
     let price = 0
     if (amountDeclared > amount) {
-        price = totalHarga - (getPrice.price * (amountDeclared - amount))
+        price = totalHarga - (priceDeclare.pcs * (amountDeclared - amount))
     } else if (amountDeclared < amount) {
-        price = totalHarga + (getPrice.price * (amount - amountDeclared))
+        price = totalHarga + (priceDeclare.pcs * (amount - amountDeclared))
     } else {
         price = totalHarga
     }
