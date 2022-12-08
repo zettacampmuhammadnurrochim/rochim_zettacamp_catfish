@@ -215,7 +215,7 @@ const clearCart = async function (parent, arggs, ctx) {
 }
 
 const editCart = async function (parent, { id, amount, note }, ctx) {
-
+// pada edit card data harga tetap mengikuti apa adanya di cart belum sinkronisasi dengan collection recipes
     let userid = ctx.req.headers.userid
     let getTotalHarga = await transactionsModel.findOne({ "user_id": mongoose.Types.ObjectId(userid), "order_status": "pending" })
 
@@ -271,6 +271,8 @@ const order = async function (parent, { id }, ctx) {
         dataMenu.disc ? menuPrice = (dataMenu.price * dataMenu.disc) / 100 : menuPrice = dataMenu.price
         // jika harga pada Cart tidak sama dengan harga sekarang
         if (menuPrice != menu.price.pcs) {
+            // sekali memasuki kondisi ini maka order akan digagalkan
+
             // terdapat kesalahan untuk pengambilan harga seharusnya mengguanakan konsep seperti data loader jauh lebih cepat
             // tapi kelibihannya dengan ini user bisa tau kalau ada perubahan harga dengan notifikasi
             // tapi entah pantas di bilang kelebihan atau tidak , sepertinya cuma alasan karena terlanjur 
