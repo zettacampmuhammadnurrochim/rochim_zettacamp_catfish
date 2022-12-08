@@ -4,7 +4,7 @@ const {
 } = require('../../services/services')
 
 CollectionName = "categories"
-const categoriesSchema = new Schema({
+const categoriesSchema = new mongoose.Schema({
     name: {
         type: String,
         unique: true,

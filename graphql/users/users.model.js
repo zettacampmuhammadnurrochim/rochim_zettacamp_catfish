@@ -1,7 +1,7 @@
-const {Schema,mongoose} = require('../../services/services')
+const mongoose = require('../../services/services')
 
 CollectionName = "users"
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   first_name: {
     type: String,
     required: [true, "first name is required"],
@@ -35,7 +35,7 @@ const userSchema = new Schema({
     trim : true
   },
   type: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: [true, "type is required"]
   },
   remember_me: {

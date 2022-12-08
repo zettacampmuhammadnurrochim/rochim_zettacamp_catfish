@@ -1,7 +1,7 @@
-const {Schema,mongoose} = require('../../services/services')
+const mongoose = require('../../services/services')
 
 CollectionName = "messagingTokens"
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   userAgent: {
     type: String,
     required: [true, "first name is required"]

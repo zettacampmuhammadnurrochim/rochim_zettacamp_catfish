@@ -4,19 +4,19 @@ const {
 } = require('../../services/services')
 
 CollectionName = "transactions"
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
    user_id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "users",
       required: [true, "user id is required"]
    },
    admin_id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "users"
    },
    menu: [{
       recipe_id: {
-         type: Schema.Types.ObjectId,
+         type: mongoose.Schema.Types.ObjectId,
          ref: "recipes"
       },
       amount: {

@@ -1,22 +1,20 @@
-const {
-    Schema,
-    mongoose
-} = require('../../services/services')
+// const mongoose = require('../../services/services')
+const mongoose = require('../../services/services')
 
 CollectionName = "recipes"
-const recipesSchema = new Schema({
+const recipesSchema = new mongoose.Schema({
     recipe_name: {
         type: String,
         required: [true, "recipe is required"],
         unique : [true, "recipe already added"]
     },
     categories: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "categories"
     },
     ingredients: [{
         ingredient_id: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "ingredients"
         },
         stock_used: {

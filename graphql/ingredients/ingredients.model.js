@@ -4,7 +4,7 @@ const {
 } = require('../../services/services')
 
 CollectionName = "ingredients"
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         unique: [true, "recipe name already used"],

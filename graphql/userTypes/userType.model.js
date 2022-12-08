@@ -1,7 +1,7 @@
-const {Schema,mongoose} = require('../../services/services')
+const mongoose = require('../../services/services')
 
 CollectionName = "userTypes"
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     role : {type : String, require : [true, "user type required"]},
     permission : [{
         page : {type : String, require : [true, 'page type required']},
