@@ -22,7 +22,9 @@ const getUsersLoader = async function (parent, arggs, ctx) {
 const getUserTransactionHistory = async function (parent, arggs, ctx) {
     try {
         const userid = ctx.req.headers.userid
+        let querySort = { $sort: {} }
         let aggregateQuery = []
+        
         let matchQuery = {$match : {$and : [
             {
             "user_id" : mongoose.Types.ObjectId(userid)
@@ -33,7 +35,9 @@ const getUserTransactionHistory = async function (parent, arggs, ctx) {
         ]} }
 
         aggregateQuery.push(matchQuery)
-        
+        querySort.$sort.createdAt = -1
+        aggregateQuery.push(querySort)
+
         if (arggs.paginator) {
             let total_items = 0
             if (arggs.match && aggregateQuery.length) {  
@@ -63,7 +67,7 @@ const getUserTransactionHistory = async function (parent, arggs, ctx) {
             }
         }
         let result = []
-        arggs.match || arggs.paginator ? result = await transactionsModel.aggregate(aggregateQuery) : result = await transactionsModel.collection.find({status : 'active'}).toArray()
+        arggs.match || arggs.paginator ? result = await transactionsModel.aggregate(aggregateQuery) : result = await transactionsModel.find({ status: 'active' }).sort({ createdAt : -1 })
         return {data : result, paginator : paginator}
     } catch (error) {
         return new ctx.error(error)
@@ -204,7 +208,10 @@ const getOneTransaction = async function (parent, arggs, ctx) {
 }
 
 const getBalance = async (parent, arggs, ctx) => {
+    let querySort = { $sort: {} }
     let aggregateQuery = []
+    querySort.$sort.createdAt = -1
+    aggregateQuery.push(querySort)
     if (arggs.paginator) {
             let total_items = 0
             if (arggs.match && aggregateQuery.length) {  
@@ -235,7 +242,7 @@ const getBalance = async (parent, arggs, ctx) => {
         }
 
     let result = []
-    arggs.paginator ? result = await transactionsModel.aggregate(aggregateQuery) : result = await transactionsModel.collection.find({ "order_status": "success" }).toArray()
+    arggs.paginator ? result = await transactionsModel.aggregate(aggregateQuery) : result = await transactionsModel.find({ "order_status": "success" }).sort({ createdAt : -1 })
 
     const dataBalance = await transactionsModel.find({"order_status" : "success"}).select("total_price")
     balance = 0

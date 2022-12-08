@@ -78,7 +78,7 @@ const GetAllIngredients = async function (parent, arggs, ctx) {
             }
         }
         let result = []
-        arggs.match || arggs.paginator ? result = await ingredientsModel.aggregate(aggregateQuery) : result = await ingredientsModel.collection.find().toArray()
+        arggs.match || arggs.paginator ? result = await ingredientsModel.aggregate(aggregateQuery) : result = await ingredientsModel.find().sort({ createdAt : -1 })
         return {data : result, paginator : paginator}
     } catch (error) {
         return new ctx.error(error)

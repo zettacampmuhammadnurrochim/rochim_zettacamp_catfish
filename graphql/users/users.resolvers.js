@@ -1,3 +1,9 @@
+const jwt = require('jsonwebtoken')
+const fs = require('fs');
+const path = require('path')
+let private = fs.readFileSync(path.join(__dirname, '../../private.key'))
+
+
 const userModel = require('./users.model')
 const messagingTokenModel = require('./messagingToken.model')
 const mongoose = require('../../services/services')
@@ -121,8 +127,7 @@ const loginUser = async function (parent, {email, password}, ctx, info) {
         const exist = await userModel.exists({email: email, status : 'active'})
         if (!exist) return new ctx.error("your email or password didnt match with all data")
         let Object_id = mongoose.Types.ObjectId(exist._id)
-        
-        const findUser = await userModel.aggregate([
+        let findUser = await userModel.aggregate([
         {
             $match : {
                 _id : mongoose.Types.ObjectId(Object_id),
@@ -148,7 +153,6 @@ const loginUser = async function (parent, {email, password}, ctx, info) {
             const result = await comparePassword(password, hashed)
             if (result) {
                 let token = generateToken('1h')
-                console.log(token);
                 return {
                     token : token , 
                     ...findUser[0]
@@ -222,11 +226,11 @@ const reqForgetPassword = async function (parent, {email}, ctx) {
     let find = await userModel.collection.findOne({email : email})
     if (!find) {return new ctx.error('email not registered before')}
     else{
-        let token = generateToken()
+        let token = generateToken("30m")
         let update = await userModel.updateOne({email : email},{
             tokenFP : token
         })
-        address = `${process.env.DOMAIN}/PasswordReset/${token}`
+        address = `http://${process.env.DOMAIN}/PasswordReset/${token}`
     }
 
     // let transporter = nodemailer.createTransport({
@@ -260,12 +264,19 @@ const reqForgetPassword = async function (parent, {email}, ctx) {
 }
 
 const cekUserToken = async function (parent, {token}, ctx) {
-    result = await userModel.count({token : token})
-    return result
+    console.log(token);
+    token = token.replace('Bearer ', '').replace(' ', '')
+    let decode = jwt.decode(token, private);
+    if (decode) {
+        result = await userModel.count({ tokenFP : token})
+        return result
+    }else{
+        return new ctx.error("link expired")
+    }
 }
 
 const updatePassword = async function (parent, {token,pass}, ctx) {
-    result = await userModel.updateOne({token : token},{
+    result = await userModel.updateOne({ tokenFP : token},{
         password: await bcrypt.hash(pass, 10),
     })
     return result

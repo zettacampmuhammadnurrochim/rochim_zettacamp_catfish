@@ -6,9 +6,9 @@ const bcrypt = require("bcrypt");
 
 const generateToken = (expires)=> {
     let expiresIn = expires || '1h'
-    // let token = jwt.sign({foo: 'rochim'}, public, 
-    // {expiresIn: expiresIn})
-    let token = jwt.sign({foo: 'rochim'}, public)
+    let token = jwt.sign({foo: 'rochim'}, public, 
+    {expiresIn: expiresIn})
+    // let token = jwt.sign({foo: 'rochim'}, public)
     return token;
 }
 
@@ -23,7 +23,7 @@ const remember_me = (length)=> {
 }
 
 const comparePassword = (plaintextPassword, hash) => {
-    const result = bcrypt.compare(plaintextPassword, hash);
+    const result = bcrypt.compareSync(plaintextPassword, hash);
     return result;
 }
 

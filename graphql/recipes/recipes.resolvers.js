@@ -143,7 +143,6 @@ const createRecipe = async function (parent, arggs, ctx) {
         if (ingredient_id.length !== uniqueIngredients.size) {
 
             let duplicates = ingredient_id.filter((e, i, a) => a.indexOf(e) !== i)
-            console.log(duplicates);
             return new ctx.error('contain duplicate ingredients', duplicates)
         }
             
