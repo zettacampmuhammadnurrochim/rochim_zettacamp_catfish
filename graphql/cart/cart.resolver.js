@@ -269,7 +269,7 @@ const order = async function (parent, { id }, ctx) {
         // jika admin mengubah harga atau diskon maka akan terdeteksi sebalum cekout
         // jika data menu terbaru memiliki discount maka menuPrice telah disesuaikan
         dataMenu.disc ? menuPrice = (dataMenu.price * dataMenu.disc) / 100 : menuPrice = dataMenu.price
-        // jika harga pada Cart tidak sama dengan harga sekarang
+        // jika harga pada Cart tidak sama dengan harga sekarang (validasi harga)
         if (menuPrice != menu.price.pcs) {
             // sekali memasuki kondisi ini maka order akan digagalkan
 
