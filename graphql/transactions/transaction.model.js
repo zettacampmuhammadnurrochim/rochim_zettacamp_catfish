@@ -26,9 +26,11 @@ const userSchema = new mongoose.Schema({
       },
       status_recipe: {
          type: String,
-         enum: ['outOfStock','available']
+         enum: ['pending','outOfStock','available']
       },
       price : {
+         hasDisc : {type : Number},
+         realPrice : {type : Number},
          pcs : {type : Number},
          total : {type : Number},
       }

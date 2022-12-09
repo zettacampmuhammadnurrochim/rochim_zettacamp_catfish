@@ -15,6 +15,7 @@ const booksTypeDefs = gql`
     }
 
     enum status_recipe {
+        pending
         outOfStock
         available
     }
@@ -32,6 +33,8 @@ const booksTypeDefs = gql`
     }
 
     type transaction_menuPrice{
+        hasDisc : Int
+        realPrice : Int
         pcs : Int
         total : Int
     }

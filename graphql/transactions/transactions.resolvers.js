@@ -2,7 +2,7 @@
 const transactionsModel = require('./transaction.model')
 const mongoose = require('../../services/services')
 const {GraphQLScalarType,Kind} = require('graphql')
-const {validateStockIngredient,reduceIngredientStock} = require('./transaction.utility')
+const {mainValidate,reduceIngredientStock} = require('./transaction.utility')
 
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 const getRecipesLoader = async function (parent, arggs, ctx) {
@@ -266,7 +266,7 @@ const createTransaction = async function (parent, {type,data}, ctx) {
                 note : recipe.note
             })
         }
-        let checkAvailable = await validateStockIngredient(menu)
+        let checkAvailable = await mainValidate(menu)
         for(const [ind,val] of checkAvailable.entries()){
             val ? menu[ind].status_recipe = 'outOfStock' : menu[ind].status_recipe = 'available' 
         }
