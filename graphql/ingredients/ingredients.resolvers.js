@@ -1,6 +1,6 @@
 const ingredientsModel = require('./ingredients.model')
 const mongoose = require('../../services/services')
-const {checkIngredient} = require('./ingredients.utility')
+const { checkIngredient, checkIngredientIsUsed, checkMenuUsed } = require('./ingredients.utility')
 const { toInteger } = require('lodash')
 /////////////////////////////////////////////////////loader function////////////////////////////////////////////////////
 
@@ -159,7 +159,12 @@ const ingredientssResolvers = {
         createIngredient,
         updateIngredient,
         deleteIngredient
-    }
+    },
+
+    ingredients : {
+        isUsed : checkIngredientIsUsed, 
+        menuUsing : checkMenuUsed 
+    },
 }
 
 module.exports = ingredientssResolvers

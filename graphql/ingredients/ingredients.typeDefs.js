@@ -10,6 +10,8 @@ const booksTypeDefs = gql`
         deletedAt : Date
         createdAt : Date
         updatedAt : Date
+        isUsed : Boolean
+        menuUsing : String
     }
 
     type ingredientsGetAll {
