@@ -323,7 +323,7 @@ const order = async function (parent, { id }, ctx) {
             let idToUpdate = dataUpdate._id
             let pcs = dataUpdate.price.pcs
             let total = dataUpdate.price.total
-            console.log(totalAll);
+            
             await transactionsModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id), "menu._id": idToUpdate }, {
                 $set: {
                     "menu.$.price.pcs": pcs,
@@ -341,16 +341,18 @@ const order = async function (parent, { id }, ctx) {
 
     cart.menu = newMenu
     await validateCredit(ctx.req.headers.userid, totalAll)
-    let { ableToMake,ingredientSufficent} = await mainValidate(cart.menu)
+    let { isCanContinue, menuAbleToMake} = await mainValidate(cart.menu)
     // write status_recipe in transaction , compare by index
-    if (ableToMake) {
-        for (const [ind, val] of ingredientSufficent.entries()) {
+    return 0
+    if (isCanContinue) {
+        
+        for (const [ind, val] of menuAbleToMake.entries()) {
             val ? cart.menu[ind].status_recipe = 'available' : cart.menu[ind].status_recipe = 'outOfStock'
         }
 
-        ingredientSufficent = ingredientSufficent.includes(false)
+        menuAbleToMake = menuAbleToMake.includes(false)
         let order_status = ''
-        ingredientSufficent ? order_status = 'failed' : order_status = 'success'
+        menuAbleToMake ? order_status = 'failed' : order_status = 'success'
         order_status == 'success' ? reduce = await reduceIngredientStock(cart.menu) : null
 
         let Payment = await usersModel.collection.updateOne({ _id: mongoose.Types.ObjectId(ctx.req.headers.userid) },

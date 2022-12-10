@@ -1,7 +1,7 @@
 const recipesModel = require('./recipes.model')
 const transactionsModel = require('./../transactions/transaction.model')
 const mongoose = require('../../services/services')
-const {getAvailable} = require('./recipes.utility')
+const { getAvailable, cekDuplicateIngredients } = require('./recipes.utility')
 const { sendMessages } = require('./../../firebase/firebase.utility')
 
 const recipesAvailable = async function (parent, arggs, ctx) {
@@ -141,11 +141,9 @@ const createRecipe = async function (parent, arggs, ctx) {
 
         uniqueIngredients = new Set(ingredient_id)
         if (ingredient_id.length !== uniqueIngredients.size) {
-
             let duplicates = ingredient_id.filter((e, i, a) => a.indexOf(e) !== i)
             return new ctx.error('contain duplicate ingredients', duplicates)
         }
-            
 
         let inputRecipe = new recipesModel({
             recipe_name: recipe_name.toLowerCase(), 
@@ -179,15 +177,12 @@ const updateStatusRecipe = async function (parent, {id,status}, ctx) {
 
 const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
     try {
-        
-        
         // just allow 3 special over
-
         let checklength = await recipesModel.find({ specialOver: true }).sort({ "updatedAt": 1})
         let ids = []
         for(const menu of checklength){
             ids.push(menu._id.toString())
-            if (menu._id.toString() == id) {
+            if (menu._id.toString() == id && disc == 0) {
                 await recipesModel.updateOne({ _id: mongoose.Types.ObjectId(id) }, {
                     specialOver: false,
                     disc: 0
@@ -256,6 +251,7 @@ const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
     }
 }
 
+// can handle 3 type of update, but not relevan, not used in application
 const updateRecipe = async function (parent, {id,data}, ctx) {
     try {
         let query = []
@@ -346,34 +342,14 @@ const updateRecipe = async function (parent, {id,data}, ctx) {
     }
 }
 
-const updateRecipePull = async function(parent, {id,data}, ctx){
-    const result = recipesModel.aggregate([
-        {        
-            $pull : { 
-                "ingredients.ingredient_id" : mongoose.Types.ObjectId(data.ingredient_id) 
-            }
-        }
-    ])
-    return result
-}
-
-const updateRecipePush = async function(parent, {id,data}, ctx){
-    const result = recipesModel.aggregate([
-        {        
-            $push : { 
-                "ingredients" : data  
-            }
-        }
-    ])
-    return result
-}
-
 const updateRecipeMain = async function(parent, {id,data}, ctx){
     try {
         let {recipe_name, ingredients, price, description, image, status} = data
+        await cekDuplicateIngredients(ingredients)
         ingredients = ingredients.map(e => {
             return {ingredient_id : mongoose.Types.ObjectId(e.ingredient_id), stock_used : e.stock_used}
         })
+
         let inputRecipe = {
             recipe_name : recipe_name, 
             ingredients : ingredients,
@@ -405,159 +381,6 @@ const deleteRecipe = async function (parent, {id}, ctx) {
     } catch (error) {
         return new ctx.error(error)
     }
-}
-
-// ///////////////////////////////////////////////////////Cart////////////////////////////////////////////////////////
-const addToCart = async function (parent, {id,amount}, ctx) {
-    const userid = ctx.req.headers.userid
-    const checkAvailable =  await transactionsModel.aggregate([
-        {
-            $match : {
-                $and : [
-                    {
-                        "user_id" : mongoose.Types.ObjectId(userid)
-                    },
-                    {
-                        "order_status" : "pending"
-                    }
-                ]
-            }
-        }
-    ])
-
-    
-    let result = []
-    if (!checkAvailable.length) {
-        let getPrice = await recipesModel.findOne({_id : mongoose.Types.ObjectId(id)}, {price : 1})
-        const price = getPrice.price * amount
-        let values = {
-            "user_id" : mongoose.Types.ObjectId(userid),
-            "menu" : [{
-                "recipe_id" : mongoose.Types.ObjectId(id),
-                "amount" : amount,
-                "_id" : mongoose.Types.ObjectId()
-            }],
-            "price" : price,
-            "order_status" : "pending",
-            "status" : "active",
-            "createdAt" : new Date()
-        }
-        result = await transactionsModel.collection.insertOne(values)
-        if (result.acknowledged) {
-            result = values
-        }else{
-            return new ctx.error("cant add cart")
-        }
-    }
-    else
-    {
-        let totalHarga = checkAvailable[0].price
-        let getPrice = await recipesModel.findOne({_id : mongoose.Types.ObjectId(id)}, {price : 1})
-        const price = totalHarga + (getPrice.price * amount)
-            result = await transactionsModel.findOneAndUpdate(
-            {user_id : mongoose.Types.ObjectId(userid), "order_status" : "pending"},
-            {
-                $push : {
-                    "menu" : {
-                        "recipe_id" : mongoose.Types.ObjectId(id),
-                        "amount" : amount
-                    }
-                },
-                $set : {
-                    price : price
-                }
-            }
-            , 
-            {
-                new: true,
-            }
-        )
-
-        
-    }
-    return result
-}
-
-const reduceCart = async function (parent, {id}, ctx) {
-    // id yang dipakai untuk reduce adalah id unik di setiap menu
-    const userid = ctx.req.headers.userid
-    
-    const checkAvailable =  await transactionsModel.findOne({
-        "user_id" : mongoose.Types.ObjectId(userid),
-        "order_status" : "pending",
-    })
-    let result = {}
-    if (checkAvailable.menu.length <= 1) {
-        result = await transactionsModel.findOneAndDelete({user_id : mongoose.Types.ObjectId(userid), "order_status" : "pending"})
-    }else{
-        const cekRow =  await transactionsModel.findOne({
-            "user_id" : mongoose.Types.ObjectId(userid),
-            "order_status" : "pending",
-            "menu._id" : mongoose.Types.ObjectId(id)
-        })
-        let idRecipe = ""
-        let getAmountAdded = 0
-        for(const item of cekRow.menu){
-            if (item._id.toString() == id) {
-                idRecipe = item.recipe_id
-                getAmountAdded = item.amount
-            }
-        }
-
-        let getPrice = await recipesModel.findOne({_id : idRecipe},{price : 1})
-        const price = getPrice.price * getAmountAdded
-
-        result = await transactionsModel.findOneAndUpdate(
-            {user_id : mongoose.Types.ObjectId(userid), "order_status" : "pending"},
-            {
-                $pull : {
-                    "menu" : {"_id" : mongoose.Types.ObjectId(id)}
-                },
-                $inc : {
-                    "price" : - price
-                }
-            }
-            , 
-            {
-                new: true,
-            }
-        )
-    }
-     
-    
-    return result
-}
-
-const updateCartMain = async function(parent, {id, data}, ctx) {
-    let {menu} = data
-    let menuMap = menu.map((e) => {
-        return {
-            "recipe_id" : mongoose.Types.ObjectId(e.recipe_id),
-            "amount" : e.amount,
-            "note" : e.note,
-            "_id" : mongoose.Types.ObjectId()
-        }
-    })
-
-
-    let price = 0 
-    for(const item of menu){
-        let getRecipe = await recipesModel.collection.findOne({_id : mongoose.Types.ObjectId(item.recipe_id)})
-        price = price + (getRecipe.price * item.amount) 
-    }
-
-    let values = {
-       "menu" : menuMap,
-        "price" : price,
-        "order_status" : "pending"
-    }
-
-    const result = await transactionsModel.updateOne({_id : mongoose.Types.ObjectId(id)},values)
-    return result
-}
-
-const editCart = async function(parent, {id}, ctx) {
-    let 
 }
 
 const RecipesResolvers = {

@@ -35,9 +35,12 @@ const validatePublishedIngredients = (ingredients) =>{
 }
 
 const validateIngredients = (uniqueIngredients,menuOrdered) =>{
-    let ableToMake = []
-    let inggredientInsufficent = []
+    let menuAbleToMake = []
+    let menuDisableToMakeName = []
+    let menuWithIngredients = []
     for (const menu of menuOrdered) {
+        let inggredientInsufficent = []
+        let isIngredientSufficent = []
         let ingredients = menu.ingredients
         for (const ingredient of ingredients) {
             let amount = menu.amount
@@ -46,17 +49,19 @@ const validateIngredients = (uniqueIngredients,menuOrdered) =>{
                     if (uingredient.stock >= ingredient.stock_used * amount) {
                         //fungsi yang sangat penting
                         uniqueIngredients[index].stock = uniqueIngredients[index].stock - (ingredient.stock_used * amount)
-                        ableToMake.push(true)
+                        isIngredientSufficent.push(true)
                     } else {
-                        ableToMake.push(false)
+                        isIngredientSufficent.push(false)
                         inggredientInsufficent.push(uingredient.name)
                     }
                 }
             }
         }
+        menuWithIngredients.push({ [menu.recipe_name]: isIngredientSufficent })
+        !isIngredientSufficent.includes(false) ? null : menuDisableToMakeName.push(menu.recipe_name)
+        !isIngredientSufficent.includes(false) ? menuAbleToMake.push(true) : menuAbleToMake.push(false)
     }
-
-    return { inggredientInsufficent, ableToMake }
+    return { menuWithIngredients, menuAbleToMake, menuDisableToMakeName }
 }
 
 const mainValidate = async (Recipes) => {
@@ -77,7 +82,7 @@ const mainValidate = async (Recipes) => {
     // oke sekarang sudah punya ingredient + stock secara unique
     let { recipeNameUnpublish, isPublished: isPublishedMenu  } = checkMenuPublish(menuOrdered)
     let { ingredientsNameUnpublish, isPublished } = validatePublishedIngredients(uniqueIngredients)
-    let { inggredientInsufficent, ableToMake } = validateIngredients(uniqueIngredients,menuOrdered)
+    let { menuWithIngredients, menuAbleToMake, menuDisableToMakeName } = validateIngredients(uniqueIngredients,menuOrdered)
 
     if (recipeNameUnpublish.length) {
         throw new ApolloError(`recipes name are unpublish ${recipeNameUnpublish}`)
@@ -85,12 +90,12 @@ const mainValidate = async (Recipes) => {
     if (ingredientsNameUnpublish.length) {
         throw new ApolloError(`ingredients to make recipe are unpublish ${ingredientsNameUnpublish}`)
     }
-    if (inggredientInsufficent.length) {
-        throw new ApolloError(`ingredients to make recipe are insufficent ${inggredientInsufficent}`)
+    if (menuAbleToMake.includes(false)) {
+        throw new ApolloError(`ingredients insufficent to make "${menuDisableToMakeName}"`)
     }
 
-    ableToMakeMerged = isPublishedMenu.concat(isPublished, ableToMake); 
-    return { ableToMake: !ableToMakeMerged.includes(false), ingredientSufficent : ableToMake }
+    ableToMakeMerged = isPublishedMenu.concat(isPublished, menuAbleToMake); 
+    return { isCanContinue: !ableToMakeMerged.includes(false), menuAbleToMake : menuAbleToMake }
 }
 
 const reduceIngredientStock = async (Recipes) => {
