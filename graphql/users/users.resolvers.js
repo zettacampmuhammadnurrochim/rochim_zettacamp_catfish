@@ -202,11 +202,14 @@ const deleteUser = async function (parent, {id}, ctx) {
 const saveTokenFCM = async function (parent, {token}, ctx) {
     try {
         const ua = ctx.req.headers['user-agent']
-
-        const result = await messagingTokenModel.create({
-            "userAgent" : ua,
-            token : token
-        })
+        const checkIfExist = await messagingTokenModel.findOne({token : token})
+        const result = {}
+        if (!checkIfExist) {
+            result = await messagingTokenModel.create({
+                "userAgent" : ua,
+                token : token
+            })
+        }
         return {result : result}
     } catch (error) {
         return new ctx.error(error)

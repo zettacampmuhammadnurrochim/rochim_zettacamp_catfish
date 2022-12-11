@@ -166,10 +166,16 @@ const createRecipe = async function (parent, arggs, ctx) {
 
 const updateStatusRecipe = async function (parent, {id,status}, ctx) {
     try {
-        let result = recipesModel.updateOne({_id : mongoose.Types.ObjectId(id)},{
-            status : status
-        })
-        return result   
+        // check if recipe is highlighted menu ?
+        let check = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(id) }).select({highlight : 1})
+        if (!check.highlight) {
+            let result = await recipesModel.updateOne({_id : mongoose.Types.ObjectId(id)},{
+                status : status
+            })
+            return result   
+        }else{
+            return new ctx.error("cant make unpublish cause is highlighted menu")
+        }
     } catch (error) {
         return new ctx.error(error)
     }
@@ -228,23 +234,30 @@ const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
 
 const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
     try {
-
         let checklength = await recipesModel.find({ highlight: true }).sort({ "updatedAt": 1 })
+        
         if (checklength.length) {
             for (let index = 0; index < checklength.length; index++) {
-                updateTofalse = await recipesModel.updateOne({ _id: checklength[index]._id }, {
-                    highlight: false
-                })
+                if (id != checklength[index]._id.toString()) {   
+                    updateTofalse = await recipesModel.updateOne({ _id: checklength[index]._id }, {
+                        highlight: false
+                    })
+                }
             }
         }
 
-        let result = await recipesModel.findOneAndUpdate({_id : mongoose.Types.ObjectId(id)},{
-            highlight : highlight
-        },{
-            new : true
-        })
+        console.log(checklength.length >= 1 && highlight == false);
+        if (checklength.length >= 1 && highlight == false) {
+            return new ctx.error('cant remove highlight')
+        }else{
+            let result = await recipesModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id) }, {
+                highlight: true
+            }, {
+                new: true
+            })
 
-        return result
+            return result
+        }
         
     } catch (error) {
         return new ctx.error(error)
