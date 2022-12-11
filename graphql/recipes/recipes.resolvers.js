@@ -246,7 +246,6 @@ const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
             }
         }
 
-        console.log(checklength.length >= 1 && highlight == false);
         if (checklength.length >= 1 && highlight == false) {
             return new ctx.error('cant remove highlight')
         }else{
