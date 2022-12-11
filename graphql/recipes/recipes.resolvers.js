@@ -186,6 +186,7 @@ const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
         // just allow 3 special over
         let checklength = await recipesModel.find({ specialOver: true }).sort({ "updatedAt": 1})
         let ids = []
+        
         for(const menu of checklength){
             ids.push(menu._id.toString())
             if (menu._id.toString() == id && disc == 0) {
@@ -214,19 +215,23 @@ const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
         
         !specialOver ? disc = 0 : ''
         disc == 0 ? specialOver = false : specialOver = true 
-        let result = await recipesModel.findOneAndUpdate({_id : mongoose.Types.ObjectId(id)},{
-            specialOver : specialOver,
-            disc : disc 
-        },{
-            new : true
-        })
-        let isSent = ""
-
-        if (specialOver) {
-            isSent = await sendMessages(result)
-        }
-
-        return { ...result._doc, sentReport : isSent }        
+        let getRecipe = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(id) }).select({ ingredients: 1 })
+        let cekAvailabe = await getAvailable(getRecipe.ingredients)
+        if (cekAvailabe) {
+            let result = await recipesModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id) }, {
+                specialOver: specialOver,
+                disc: disc
+            }, {
+                new: true
+            })
+            let isSent = ""
+            if (specialOver) {
+                isSent = await sendMessages(result)
+            }
+            return { ...result._doc, sentReport: isSent }
+        }else{
+            return new ctx.error("cant set to special offers, out of stock")
+        }    
     } catch (error) {
         return new ctx.error(error)
     }
@@ -249,13 +254,19 @@ const updateHighlightRecipe = async function (parent, {id,highlight}, ctx) {
         if (checklength.length >= 1 && highlight == false) {
             return new ctx.error('cant remove highlight')
         }else{
-            let result = await recipesModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id) }, {
-                highlight: true
-            }, {
-                new: true
-            })
+            let getRecipe = await recipesModel.findOne({ _id: mongoose.Types.ObjectId(id) }).select({ ingredients: 1 })
+            let cekAvailabe = await getAvailable(getRecipe.ingredients)
+            if (cekAvailabe) {
+                let result = await recipesModel.findOneAndUpdate({ _id: mongoose.Types.ObjectId(id) }, {
+                    highlight: true
+                }, {
+                    new: true
+                })
+                return result
+            }else{
+                return new ctx.error("cant set highlight menu")
+            }
 
-            return result
         }
         
     } catch (error) {
