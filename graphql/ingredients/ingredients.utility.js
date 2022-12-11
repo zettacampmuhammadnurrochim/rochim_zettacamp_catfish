@@ -12,9 +12,10 @@ const checkIngredient = async (id) => {
 const checkIngredientIsUsed = async (parent, arggs, ctx) => {
     const result = await recipesModel.aggregate([{
         $match : {
-            "ingredients.ingredient_id": mongoose.Types.ObjectId(parent)
+            "ingredients.ingredient_id": mongoose.Types.ObjectId(parent._id)
         }
     }])
+    
     if (result.length) return true
     return false
 }
