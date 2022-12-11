@@ -91,7 +91,7 @@ const mainValidate = async (Recipes) => {
         throw new ApolloError(`ingredients to make recipe are unpublish ${ingredientsNameUnpublish}`)
     }
     if (menuAbleToMake.includes(false)) {
-        throw new ApolloError(`ingredients insufficent to make "${menuDisableToMakeName}"`)
+        throw new ApolloError(`ingredients insufficent or orders over availability to make "${menuDisableToMakeName}"`)
     }
 
     ableToMakeMerged = isPublishedMenu.concat(isPublished, menuAbleToMake); 
