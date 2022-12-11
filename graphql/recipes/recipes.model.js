@@ -1,12 +1,10 @@
 const mongoose = require('../../services/services')
-// const mongoose = require('../../services/services')
 
 CollectionName = "recipes"
 const recipesSchema = new mongoose.Schema({
     recipe_name: {
         type: String,
-        required: [true, "recipe is required"],
-        unique : [true, "recipe already added"]
+        required: [true, "recipe is required"]
     },
     categories: {
         type: mongoose.Schema.Types.ObjectId,

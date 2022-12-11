@@ -343,7 +343,7 @@ const order = async function (parent, { id }, ctx) {
     await validateCredit(ctx.req.headers.userid, totalAll)
     let { isCanContinue, menuAbleToMake} = await mainValidate(cart.menu)
     // write status_recipe in transaction , compare by index
-    return 0
+    
     if (isCanContinue) {
         
         for (const [ind, val] of menuAbleToMake.entries()) {

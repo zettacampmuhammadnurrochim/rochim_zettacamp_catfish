@@ -223,7 +223,7 @@ const updateSpecialOver = async function (parent, {id,specialOver,disc}, ctx) {
         let isSent = ""
 
         if (specialOver) {
-            isSent = sendMessages(result)
+            isSent = await sendMessages(result)
         }
 
         return { ...result._doc, sentReport : isSent }        

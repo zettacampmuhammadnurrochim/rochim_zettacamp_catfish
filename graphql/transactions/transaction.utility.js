@@ -14,7 +14,7 @@ const checkMenuPublish = (Recipes) =>{
             isPublished.push(true) 
         }else{
             isPublished.push(false) 
-            recipeNameUnpublish.push(recipe.name)
+            recipeNameUnpublish.push(recipe.recipe_name)
         }
     }
     return {recipeNameUnpublish, isPublished}
@@ -85,7 +85,8 @@ const mainValidate = async (Recipes) => {
     let { menuWithIngredients, menuAbleToMake, menuDisableToMakeName } = validateIngredients(uniqueIngredients,menuOrdered)
 
     if (recipeNameUnpublish.length) {
-        throw new ApolloError(`recipes name are unpublish ${recipeNameUnpublish}`)
+        console.log(recipeNameUnpublish);
+        throw new ApolloError(`${recipeNameUnpublish} unpublished `)
     }
     if (ingredientsNameUnpublish.length) {
         throw new ApolloError(`ingredients to make recipe are unpublish ${ingredientsNameUnpublish}`)

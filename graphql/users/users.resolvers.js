@@ -204,7 +204,7 @@ const saveTokenFCM = async function (parent, {token}, ctx) {
         const ua = ctx.req.headers['user-agent']
         const checkIfExist = await messagingTokenModel.findOne({token : token})
         const result = {}
-        if (!checkIfExist) {
+        if (!checkIfExist || checkIfExist == null) {
             result = await messagingTokenModel.create({
                 "userAgent" : ua,
                 token : token
