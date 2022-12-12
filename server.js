@@ -44,8 +44,8 @@ async function startApolloServer(typeDefs, resolvers){
         typeDefs, 
         resolvers
     })
-    // const middlewares = [auth_middleware, shield(userRole_middleware)]
-    const middlewares = [auth_middleware]
+    const middlewares = [auth_middleware, shield(userRole_middleware)]
+    // const middlewares = [auth_middleware]
 
     schemaWithMiddleware = applyMiddleware(schema, ...middlewares)
 
