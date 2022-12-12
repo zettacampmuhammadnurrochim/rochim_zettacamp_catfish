@@ -12,7 +12,8 @@ const checkIngredient = async (id) => {
 const checkIngredientIsUsed = async (parent, arggs, ctx) => {
     const result = await recipesModel.aggregate([{
         $match : {
-            "ingredients.ingredient_id": mongoose.Types.ObjectId(parent._id)
+            "ingredients.ingredient_id": mongoose.Types.ObjectId(parent._id),
+            "status": "publish"
         }
     }])
     
@@ -23,7 +24,7 @@ const checkIngredientIsUsed = async (parent, arggs, ctx) => {
 const checkMenuUsed = async (parent, arggs, ctx) => {
     const result = await recipesModel.aggregate([{
         $match : {
-            "ingredients.ingredient_id" : parent._id
+            "ingredients.ingredient_id" : parent._id ,"status" : "publish"
         }
     }])
     menuUsing = []
