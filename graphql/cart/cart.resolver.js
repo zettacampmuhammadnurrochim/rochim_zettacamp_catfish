@@ -69,7 +69,8 @@ const addToCart = async function (parent, { id, amount, note }, ctx) {
             "createdAt": new Date()
         }
         result = await transactionsModel.collection.insertOne(values)
-        if (result.acknowledged) {
+        if (result) {
+            console.log(result);
             result = values
         } else {
             return new ctx.error("cant add cart")

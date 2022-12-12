@@ -102,7 +102,7 @@ const createUser = async function (parent, arggs, ctx) {
             first_name : arggs.data.first_name,
             last_name : arggs.data.last_name,
             email : arggs.data.email,
-            credit : 200000,
+            credit : 50000,
             type: arggs.data.type ? mongoose.Types.ObjectId(arggs.data.type) : mongoose.Types.ObjectId("6371dac209cbcd48c33d4936"),
             password : await bcrypt.hash(arggs.data.password, 10),
             remember_me : remember_token,
