@@ -334,7 +334,6 @@ const order = async function (parent, { id }, ctx) {
             {
                 new: true,
             })
-            
         }
         return new ctx.error("menu price was updated by admin, please check your order again")
     }

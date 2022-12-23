@@ -7,7 +7,7 @@ const { applyMiddleware } = require('graphql-middleware')
 const {shield} = require('graphql-shield')
 require('dotenv').config()
 const { sendMessages } = require('./firebase/firebase.utility')
-app.post('/sendMessages', sendMessages)
+
 // dataLoader
 let ingredientsLoader = require('./graphql/ingredients/ingredients.dataloader')
 let recipesLoader = require('./graphql/recipes/recipes.dataloader')
